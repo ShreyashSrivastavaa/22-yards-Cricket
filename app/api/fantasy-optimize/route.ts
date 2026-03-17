@@ -48,8 +48,8 @@ export async function POST(request: NextRequest) {
                 differentials
             },
             stats: {
-                totalPointsProjected: (optimizedTeam.length * 45), // Mock projection
-                budgetUsed: optimizedTeam.reduce((sum: number, p: any) => sum + (p.credits || 9), 0)
+                totalPointsProjected: (optimizedTeam.players.length * 45), // Mock projection
+                budgetUsed: optimizedTeam.players.reduce((sum: number, p: any) => sum + (p.credits || 9), 0)
             },
             source: "AI Fantasy Optimizer v2.4"
         })
