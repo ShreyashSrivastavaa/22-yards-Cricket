@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -593,31 +593,434 @@
 
     <!-- LANDING VIEW -->
     <main id="landing-view" class="app-view" style="display: block; padding-top: 0;">
-        <section class="hero" style="padding-top: 150px;">
-            <div class="hero-content reveal">
-                <div class="eyebrow">— IPL 2026 Intelligence</div>
-                <h1>SCOUT SMARTER.<br>WIN THE <span>PITCH.</span></h1>
-                <p style="max-width: 480px; margin-bottom: 40px; font-size: 18px; color: var(--warm-gray);">
-                    Professional-grade player scouting and squad optimization for IPL 2026.</p>
-                <div style="display: flex; gap: 20px;">
-                    <a href="#/players" class="btn btn-dark">Enter Database</a>
-                    <a href="#/builder" class="btn btn-ghost">Squad Builder</a>
+
+        <!-- SECTION 2: HERO -->
+        <section class="hero" style="min-height: 100vh; padding-top: 150px; position: relative; overflow: hidden;">
+            <div class="watermark display"
+                style="position: absolute; font-size: 30vw; top: 10%; left: -5%; opacity: 0.1; transform: rotate(-5deg); z-index: 0; pointer-events: none; color: var(--gold);">
+                22 YARDS</div>
+
+            <div class="hero-content reveal" style="position: relative; z-index: 10;">
+                <div class="eyebrow mono" style="color: var(--gold);">â€” IPL 2026 INTELLIGENCE PLATFORM</div>
+                <h1 class="display" style="font-size: clamp(80px, 12vw, 140px); margin-bottom: 20px;">
+                    SCOUT<br>SMARTER.<br>WIN<br><span style="color: var(--gold);">THE PITCH.</span></h1>
+                <p
+                    style="max-width: 480px; margin-bottom: 40px; font-size: 18px; color: var(--warm-gray); line-height: 1.6;">
+                    22 Yards Cricket gives IPL franchises, coaches and scouts a complete data-driven intelligence system
+                    â€”
+                    covering every player metric, match situation, and squad decision for IPL 2026.
+                </p>
+                <div style="display: flex; gap: 20px; margin-bottom: 60px;">
+                    <a href="#/builder" class="btn btn-dark">BUILD YOUR PLAYING 12</a>
+                    <a href="#/players" class="btn btn-ghost">EXPLORE THE PLATFORM</a>
+                </div>
+
+                <div class="mono"
+                    style="border-top: 1px solid var(--border); padding-top: 20px; font-size: 11px; display: flex; gap: 20px; flex-wrap: wrap;">
+                    <span>180+ Metrics Per Player</span>
+                    <span style="color: var(--gold);">|</span>
+                    <span>12 Overseas Slot Optimizer</span>
+                    <span style="color: var(--gold);">|</span>
+                    <span>10 IPL Teams</span>
+                    <span style="color: var(--gold);">|</span>
+                    <span>2026 Season Ready</span>
+                </div>
+            </div>
+
+            <div class="hero-visual reveal"
+                style="position: relative; z-index: 10; display: flex; justify-content: center; align-items: center; padding-top: 50px;">
+                <div class="scouting-card-stack" style="position: relative;">
+                    <!-- Card 3 (Back) -->
+                    <div
+                        style="position: absolute; top: -20px; left: -20px; width: 100%; height: 100%; background: var(--parchment); border: 1px solid var(--border); z-index: 1; transform: rotate(-6deg); opacity: 0.5;">
+                    </div>
+                    <!-- Card 2 (Middle) -->
+                    <div
+                        style="position: absolute; top: -10px; left: -10px; width: 100%; height: 100%; background: var(--cream-card); border: 1px solid var(--border); z-index: 2; transform: rotate(-3deg); opacity: 0.8;">
+                    </div>
+
+                    <!-- Main Card -->
+                    <div class="scouting-card pulse-border"
+                        style="position: relative; z-index: 3; background: white; border: 1px solid var(--gold); padding: 30px; width: 350px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+                        <div style="border-bottom: 2px solid var(--ink); padding-bottom: 15px; margin-bottom: 20px;">
+                            <div class="display" style="font-size: 48px; line-height: 1;">R. PATEL</div>
+                            <div class="mono" style="font-size: 10px; color: var(--warm-gray);">RIGHT-HAND BAT /
+                                OFF-SPIN
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px;">
+                            <div>
+                                <div class="mono" style="font-size: 9px; color: var(--warm-gray);">SR</div>
+                                <div class="display" style="font-size: 24px;">162.4</div>
+                            </div>
+                            <div>
+                                <div class="mono" style="font-size: 9px; color: var(--warm-gray);">AVG</div>
+                                <div class="display" style="font-size: 24px;">41.8</div>
+                            </div>
+                            <div>
+                                <div class="mono" style="font-size: 9px; color: var(--warm-gray);">PP SR</div>
+                                <div class="display" style="font-size: 24px;">178.2</div>
+                            </div>
+                            <div>
+                                <div class="mono" style="font-size: 9px; color: var(--warm-gray);">DEATH SR</div>
+                                <div class="display" style="font-size: 24px;">194.0</div>
+                            </div>
+                            <div>
+                                <div class="mono" style="font-size: 9px; color: var(--warm-gray);">DOT%</div>
+                                <div class="display" style="font-size: 24px;">18.3%</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <div class="phase-row">
+                                <div class="lbl mono"
+                                    style="font-size: 9px; display: flex; justify-content: space-between;">PHASE: PP
+                                    <span>178</span>
+                                </div>
+                                <div class="bar-track" style="height:4px; background:#eee;">
+                                    <div class="bar-fill" style="width: 85%; height:100%; background:var(--gold);">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="phase-row" style="margin-top: 10px;">
+                                <div class="lbl mono"
+                                    style="font-size: 9px; display: flex; justify-content: space-between;">PHASE: MID
+                                    <span>141</span>
+                                </div>
+                                <div class="bar-track" style="height:4px; background:#eee;">
+                                    <div class="bar-fill" style="width: 65%; height:100%; background:var(--gold);">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="phase-row" style="margin-top: 10px;">
+                                <div class="lbl mono"
+                                    style="font-size: 9px; display: flex; justify-content: space-between;">PHASE: DTH
+                                    <span>194</span>
+                                </div>
+                                <div class="bar-track" style="height:4px; background:#eee;">
+                                    <div class="bar-fill" style="width: 95%; height:100%; background:var(--gold);">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background: var(--ink); color: white; padding: 15px;">
+                            <div class="mono" style="font-size: 10px; color: var(--gold); margin-bottom: 5px;">SCOUT
+                                VERDICT: 8.4/10</div>
+                            <div class="mono" style="font-size: 11px;">AUCTION CEILING: â‚¹14.5 CR</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <!-- SECTION 3: TICKER STRIP -->
         <div class="ticker-wrap">
             <div class="ticker"></div>
         </div>
 
-        <section id="franchise-hub" class="reveal" style="padding: 100px 5%; border-top: 1px solid var(--border);">
-            <div class="eyebrow mono">— Strategic Hub</div>
-            <h2 class="display" style="font-size: 60px; margin-bottom: 20px;">Franchise Intelligence</h2>
-            <p class="mono" style="max-width: 600px; margin-bottom: 50px; opacity: 0.7;">Select a franchise to view
-                their confirmed 2026 roster, auction spend analytics, and scouting gaps.</p>
+        <!-- SECTION 4: HOW IT WORKS -->
+        <section class="reveal" style="background: var(--ink); color: white; padding: 120px 5%;">
+            <div style="text-align: center; margin-bottom: 80px;">
+                <h2 class="display" style="font-size: clamp(48px, 8vw, 80px); color: white;">FROM RAW DATA TO
+                    MATCH-WINNING
+                    DECISIONS</h2>
+            </div>
+            <div class="grid" style="grid-template-columns: repeat(3, 1fr); gap: 40px;">
+                <div style="border-top: 2px solid var(--gold); padding-top: 30px;">
+                    <div class="mono" style="color: var(--gold); margin-bottom: 15px;">01</div>
+                    <h3 class="display" style="font-size: 32px; margin-bottom: 15px; color: white;">Input Squad Pool
+                    </h3>
+                    <p class="mono" style="font-size: 11px; opacity: 0.7; line-height: 1.6;">Access the complete
+                        database of
+                        500+ potential IPL 2026 auction targets and retained players, constantly updated with domestic
+                        and
+                        international form.</p>
+                </div>
+                <div style="border-top: 2px solid var(--gold); padding-top: 30px;">
+                    <div class="mono" style="color: var(--gold); margin-bottom: 15px;">02</div>
+                    <h3 class="display" style="font-size: 32px; margin-bottom: 15px; color: white;">Analyse Every Metric
+                    </h3>
+                    <p class="mono" style="font-size: 11px; opacity: 0.7; line-height: 1.6;">Go beyond basic averages.
+                        Evaluate entry-point impact, phase-specific strike rates, and matchup advantages against
+                        specific
+                        bowling types.</p>
+                </div>
+                <div style="border-top: 2px solid var(--gold); padding-top: 30px;">
+                    <div class="mono" style="color: var(--gold); margin-bottom: 15px;">03</div>
+                    <h3 class="display" style="font-size: 32px; margin-bottom: 15px; color: white;">Build Playing 12
+                    </h3>
+                    <p class="mono" style="font-size: 11px; opacity: 0.7; line-height: 1.6;">Construct your ideal XI
+                        plus
+                        Impact Player. Automatically validate overseas limits, role balancing, and aggregate
+                        intelligence
+                        scores.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: METRICS SHOWCASE -->
+        <section class="reveal" style="padding: 120px 5%; background: var(--parchment); overflow: hidden;">
+            <div class="grid" style="grid-template-columns: 1fr 2fr; gap: 80px; align-items: start;">
+                <div style="position: sticky; top: 120px;">
+                    <div class="eyebrow mono" style="color: var(--ink);">â€” THE INTELLIGENCE MATRIX</div>
+                    <h2 class="display" style="font-size: 64px; margin-bottom: 30px;">6 DIMENSIONS OF ANALYSIS</h2>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <div class="mono"
+                            style="padding: 15px 20px; background: var(--ink); color: var(--gold); border: 1px solid var(--ink);">
+                            BATTING PHASES</div>
+                        <div class="mono"
+                            style="padding: 15px 20px; background: transparent; color: var(--ink); border: 1px solid var(--border);">
+                            BOWLING BREAKDOWN</div>
+                        <div class="mono"
+                            style="padding: 15px 20px; background: transparent; color: var(--ink); border: 1px solid var(--border);">
+                            FIELDING & FITNESS</div>
+                        <div class="mono"
+                            style="padding: 15px 20px; background: transparent; color: var(--ink); border: 1px solid var(--border);">
+                            SITUATIONAL CONTEXT</div>
+                        <div class="mono"
+                            style="padding: 15px 20px; background: transparent; color: var(--ink); border: 1px solid var(--border);">
+                            PLAYER FORM</div>
+                        <div class="mono"
+                            style="padding: 15px 20px; background: transparent; color: var(--ink); border: 1px solid var(--border);">
+                            ADVANCED ANALYTICS</div>
+                    </div>
+                </div>
+                <div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div style="background: white; border: 1px solid var(--border); padding: 40px;">
+                            <div class="display" style="font-size: 48px; margin-bottom: 10px; color: var(--gold);">PP SR
+                                IMPACT</div>
+                            <p class="mono" style="font-size: 10px; color: var(--warm-gray);">Measures boundary
+                                percentage
+                                and strike-rate acceleration specifically against the new ball within the powerplay
+                                restrictions.</p>
+                        </div>
+                        <div style="background: white; border: 1px solid var(--border); padding: 40px;">
+                            <div class="display" style="font-size: 48px; margin-bottom: 10px; color: var(--gold);">DEATH
+                                YORKER %</div>
+                            <p class="mono" style="font-size: 10px; color: var(--warm-gray);">Execution rate of yorkers
+                                successfully landed in overs 16-20, factoring in margin of error and boundary
+                                prevention.
+                            </p>
+                        </div>
+                        <div style="background: white; border: 1px solid var(--border); padding: 40px;">
+                            <div class="display" style="font-size: 48px; margin-bottom: 10px; color: var(--gold);">ENTRY
+                                POINT AVG</div>
+                            <p class="mono" style="font-size: 10px; color: var(--warm-gray);">Batter average when
+                                arriving
+                                at the crease specifically between overs 7-11 against heavily deployed spin attacks.</p>
+                        </div>
+                        <div style="background: white; border: 1px solid var(--border); padding: 40px;">
+                            <div class="display" style="font-size: 48px; margin-bottom: 10px; color: var(--gold);">TRUE
+                                VALUE RATIO</div>
+                            <p class="mono" style="font-size: 10px; color: var(--warm-gray);">Proprietary metric
+                                isolating a
+                                player's auction price per Win Probability Added (WPA) over a 3-year baseline.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: PLAYING 12 BUILDER FEATURE -->
+        <section class="reveal" style="padding: 0; display: flex;">
+            <div style="flex: 1; background: var(--ink); padding: 120px 5%; color: white;">
+                <div class="eyebrow mono" style="color: var(--gold);">â€” SQUAD OPTIMIZATION ENGINE</div>
+                <h2 class="display" style="font-size: 64px; margin-bottom: 40px; color: white;">THE PERFECT<br>PLAYING
+                    12
+                </h2>
+                <p class="mono"
+                    style="font-size: 12px; opacity: 0.8; margin-bottom: 40px; line-height: 1.6; max-width: 400px;">
+                    Ensure regulatory compliance and tactical balance instantly. The engine validates overseas limits,
+                    required batting depth, specialist roles, and calculates your cumulative intelligence score.
+                </p>
+                <div style="display: flex; flex-direction: column; gap: 15px; max-width: 350px;">
+                    <div
+                        style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+                        <span class="mono" style="font-size: 11px;">Max 4 Overseas</span>
+                        <span class="mono" style="color: #4CAF50;">â— VALID</span>
+                    </div>
+                    <div
+                        style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+                        <span class="mono" style="font-size: 11px;">Min 5 Bowling Options</span>
+                        <span class="mono" style="color: #4CAF50;">â— VALID</span>
+                    </div>
+                    <div
+                        style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+                        <span class="mono" style="font-size: 11px;">Specialist Wicketkeeper</span>
+                        <span class="mono" style="color: #F44336;">â—‹ MISSING</span>
+                    </div>
+                </div>
+            </div>
+            <div
+                style="flex: 1; background: var(--cream-card); padding: 120px 5%; display: flex; align-items: center; justify-content: center;">
+                <div
+                    style="background: white; border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.05); width: 100%; max-width: 500px; padding: 30px;">
+                    <div class="display"
+                        style="font-size: 32px; border-bottom: 2px solid var(--ink); padding-bottom: 15px; margin-bottom: 20px;">
+                        PROJECTED LINEUP</div>
+                    <div
+                        style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border);">
+                        <div class="mono" style="font-size: 11px;">1. OPENER</div>
+                        <div style="font-weight: 700;">Y. Jaiswal</div>
+                    </div>
+                    <div
+                        style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border);">
+                        <div class="mono" style="font-size: 11px;">2. OPENER</div>
+                        <div style="font-weight: 700;">J. Buttler <span
+                                style="color: var(--gold); font-size: 10px;">â­</span></div>
+                    </div>
+                    <div
+                        style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border);">
+                        <div class="mono" style="font-size: 11px;">3. NO. 3</div>
+                        <div style="font-weight: 700;">S. Samson</div>
+                    </div>
+                    <div
+                        style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed var(--gold); background: var(--parchment); margin-top: 10px;">
+                        <div class="mono" style="font-size: 11px; padding-left: 10px;">IMPACT SUB</div>
+                        <div style="font-weight: 700; padding-right: 10px;">R. Parag</div>
+                    </div>
+                    <a href="#/builder" class="btn btn-dark" style="width: 100%; margin-top: 20px;">ACCESS SQUAD
+                        BUILDER</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 7: FRANCHISE HUB -->
+        <section id="franchise-hub" class="reveal"
+            style="padding: 120px 5%; border-top: 1px solid var(--border); background: var(--parchment);">
+            <div class="eyebrow mono">â€” Strategic Hub</div>
+            <h2 class="display" style="font-size: 64px; margin-bottom: 20px;">Franchise Intelligence</h2>
+            <p class="mono" style="max-width: 600px; margin-bottom: 50px; opacity: 0.7; line-height: 1.6;">Select a
+                franchise to view their confirmed 2026 roster, auction spend analytics, and critical scouting gaps
+                identified by our models.</p>
             <div id="team-grid" class="grid" style="grid-template-columns: repeat(5, 1fr); gap: 20px;"></div>
         </section>
-    </main>
 
+        <!-- SECTION 8: PRICING -->
+        <section class="reveal" style="padding: 120px 5%; background: white;">
+            <div style="text-align: center; margin-bottom: 80px;">
+                <h2 class="display" style="font-size: 64px;">PLATFORM ACCESS</h2>
+                <p class="mono" style="margin-top: 15px; color: var(--warm-gray);">Licensed for professional scouting
+                    departments and analysts.</p>
+            </div>
+            <div class="grid" style="grid-template-columns: repeat(3, 1fr); gap: 30px; align-items: end;">
+                <!-- Scout Tier -->
+                <div style="border: 1px solid var(--border); padding: 40px; background: var(--parchment);">
+                    <div class="mono" style="margin-bottom: 20px; font-weight: 700;">SCOUT TIER</div>
+                    <div class="display" style="font-size: 48px; margin-bottom: 10px;">â‚¹2,99,000</div>
+                    <div class="mono" style="font-size: 10px; color: var(--warm-gray); margin-bottom: 30px;">PER SEASON
+                    </div>
+                    <ul class="mono"
+                        style="list-style: none; padding: 0; font-size: 11px; line-height: 2.5; margin-bottom: 40px; color: var(--ink);">
+                        <li style="border-bottom: 1px solid var(--border);">âœ“ Full Player Database</li>
+                        <li style="border-bottom: 1px solid var(--border);">âœ“ Basic Phase Analytics</li>
+                        <li style="border-bottom: 1px solid var(--border);">âœ“ Playing 12 Builder</li>
+                        <li style="border-bottom: 1px solid var(--border); opacity: 0.3;">âœ— Venue Matchup Engine</li>
+                    </ul>
+                    <a href="#/register" class="btn btn-ghost" style="width: 100%;">REQUEST ACCESS</a>
+                </div>
+
+                <!-- Franchise Tier -->
+                <div
+                    style="border: 2px solid var(--gold); padding: 50px 40px; background: var(--ink); color: white; position: relative; transform: translateY(-20px);">
+                    <div style="position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%); background: var(--gold); color: var(--ink); padding: 5px 15px; font-weight: 700;"
+                        class="mono">MOST STRATEGIC</div>
+                    <div class="mono" style="margin-bottom: 20px; font-weight: 700; color: var(--gold);">FRANCHISE TIER
+                    </div>
+                    <div class="display" style="font-size: 56px; margin-bottom: 10px; color: white;">â‚¹9,99,000</div>
+                    <div class="mono" style="font-size: 10px; opacity: 0.6; margin-bottom: 30px;">PER SEASON (UP TO 5
+                        SEATS)
+                    </div>
+                    <ul class="mono"
+                        style="list-style: none; padding: 0; font-size: 11px; line-height: 2.5; margin-bottom: 40px; color: white;">
+                        <li style="border-bottom: 1px solid rgba(255,255,255,0.1);">âœ“ Everything in Scout</li>
+                        <li style="border-bottom: 1px solid rgba(255,255,255,0.1);">âœ“ Advanced Analytics Matrix</li>
+                        <li style="border-bottom: 1px solid rgba(255,255,255,0.1);">âœ“ Venue Matchup Engine</li>
+                        <li style="border-bottom: 1px solid rgba(255,255,255,0.1);">âœ“ CSV/PDF Data Exports</li>
+                        <li style="border-bottom: 1px solid rgba(255,255,255,0.1);">âœ“ Private Slack Support</li>
+                    </ul>
+                    <a href="#/register" class="btn btn-gold" style="width: 100%;">REQUEST ACCESS</a>
+                </div>
+
+                <!-- Custom Tier -->
+                <div style="border: 1px solid var(--border); padding: 40px; background: var(--parchment);">
+                    <div class="mono" style="margin-bottom: 20px; font-weight: 700;">COMMAND TIER</div>
+                    <div class="display" style="font-size: 48px; margin-bottom: 10px;">CUSTOM</div>
+                    <div class="mono" style="font-size: 10px; color: var(--warm-gray); margin-bottom: 30px;">ENTERPRISE
+                    </div>
+                    <ul class="mono"
+                        style="list-style: none; padding: 0; font-size: 11px; line-height: 2.5; margin-bottom: 40px; color: var(--ink);">
+                        <li style="border-bottom: 1px solid var(--border);">âœ“ Unlimited Seats</li>
+                        <li style="border-bottom: 1px solid var(--border);">âœ“ White-label Reports</li>
+                        <li style="border-bottom: 1px solid var(--border);">âœ“ API Access Integration</li>
+                        <li style="border-bottom: 1px solid var(--border);">âœ“ Dedicated Analyst</li>
+                    </ul>
+                    <a href="mailto:support@22yards.com" class="btn btn-ghost" style="width: 100%;">CONTACT SALES</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 9: FINAL CTA -->
+        <section class="reveal"
+            style="text-align: center; padding: 150px 5%; background: var(--ink); color: white; position: relative;">
+            <h2 class="display"
+                style="font-size: clamp(60px, 10vw, 120px); margin-bottom: 40px; color: white; line-height: 0.9;">THE
+                PITCH
+                IS 22 YARDS.<br><span style="color: var(--gold);">YOUR EDGE STARTS HERE.</span></h2>
+            <div style="display: flex; gap: 20px; justify-content: center;">
+                <a href="#/register" class="btn btn-gold">GET ACCESS</a>
+                <a href="#/players" class="btn" style="color: white; border: 1px solid rgba(255,255,255,0.5);">DOWNLOAD
+                    SAMPLE REPORT</a>
+            </div>
+        </section>
+
+        <!-- SECTION 10: FOOTER -->
+        <footer style="background: white; border-top: 1px solid var(--border); padding: 80px 5%; color: var(--ink);">
+            <div class="grid" style="grid-template-columns: 2fr 1fr 1fr 2fr; gap: 40px;">
+                <div>
+                    <a href="#/" class="logo" style="margin-bottom: 20px; display: inline-flex;"><span>22
+                            <em>YARDS</em></span><span style="letter-spacing: 0.1em; opacity: 0.5;">CRICKET</span></a>
+                    <p class="mono" style="font-size: 11px; opacity: 0.6; line-height: 1.6; max-width: 250px;">The
+                        definitive intelligence layer for professional T20 cricket scouting and franchise optimization.
+                    </p>
+                </div>
+                <div>
+                    <div class="mono" style="font-weight: 700; margin-bottom: 20px;">PLATFORM</div>
+                    <ul class="mono" style="list-style: none; font-size: 11px; line-height: 2.5; opacity: 0.7;">
+                        <li><a href="#/players" style="color: inherit; text-decoration: none;">Database</a></li>
+                        <li><a href="#/builder" style="color: inherit; text-decoration: none;">Playing 12 Builder</a>
+                        </li>
+                        <li><a href="#/pricing" style="color: inherit; text-decoration: none;">Pricing</a></li>
+                        <li><a href="#/login" style="color: inherit; text-decoration: none;">Scout Login</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="mono" style="font-weight: 700; margin-bottom: 20px;">COMPANY</div>
+                    <ul class="mono" style="list-style: none; font-size: 11px; line-height: 2.5; opacity: 0.7;">
+                        <li>About Us</li>
+                        <li>Methodology</li>
+                        <li>Careers</li>
+                        <li>Contact</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="mono" style="font-weight: 700; margin-bottom: 20px;">DISCLAIMER</div>
+                    <p class="mono" style="font-size: 10px; opacity: 0.5; line-height: 1.6;">
+                        Data provided by 22 Yards Cricket is for analytical purposes only. We are not officially
+                        affiliated
+                        with the IPL, BCCI, or any participating franchise. All player valuations are proprietary
+                        algorithmic estimations and do not represent guaranteed auction values.
+                    </p>
+                    <div class="mono" style="font-size: 10px; opacity: 0.5; margin-top: 20px;">
+                        Â© 2026 22 YARDS INTELLIGENCE. ALL RIGHTS RESERVED.
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
     <!-- DATABASE VIEW -->
     <main id="database-view" class="app-view">
         <div id="filter-bar"></div>
@@ -655,31 +1058,37 @@
     <!-- AUTH VIEW -->
     <main id="auth-view" class="app-view">
         <section style="max-width: 400px; margin: 0 auto; padding-top: 150px; text-align: center;">
-            <div id="login-form">
-                <h1 class="display">Access Intel</h1>
+            <div id="login-form"
+                style="background: white; border: 1px solid var(--border); padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                <h1 class="display" style="font-size: 40px; margin-bottom: 30px;">ENTER THE VAULT</h1>
+                <div id="login-error" class="mono"
+                    style="color: red; font-size: 10px; margin-bottom: 10px; display: none;"></div>
                 <input type="email" id="login-username" placeholder="Email Address"
-                    style="width:100%; padding:15px; margin-bottom:15px; background:white; border:1px solid var(--border); font-family:'DM Mono'; font-size:12px;" />
+                    style="width:100%; padding:15px; margin-bottom:15px; background:var(--parchment); border:1px solid var(--border); font-family:'DM Mono'; font-size:12px; outline:none;" />
                 <input type="password" id="login-password" placeholder="Passcode"
-                    style="width:100%; padding:15px; margin-bottom:20px; background:white; border:1px solid var(--border); font-family:'DM Mono'; font-size:12px;" />
-                <button class="btn btn-dark" style="width:100%; margin-bottom: 20px;"
-                    onclick="App.handleLogin()">Authenticate</button>
+                    style="width:100%; padding:15px; margin-bottom:20px; background:var(--parchment); border:1px solid var(--border); font-family:'DM Mono'; font-size:12px; outline:none;" />
+                <button class="btn btn-dark" style="width:100%; margin-bottom: 20px;" onclick="App.handleLogin()">SIGN
+                    IN</button>
                 <div class="mono" style="font-size:11px; cursor:pointer; color:var(--warm-gray); transition:0.3s;"
                     onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--warm-gray)'"
-                    onclick="App.renderAuth(true)">New Scout? Request Access</div>
+                    onclick="App.renderAuth(true)">New scout? REQUEST ACCESS &rarr;</div>
             </div>
-            <div id="register-form" style="display: none;">
-                <h1 class="display">Request Access</h1>
-                <input type="text" id="reg-username" placeholder="Scout Callsign (Username)"
-                    style="width:100%; padding:15px; margin-bottom:15px; background:white; border:1px solid var(--border); font-family:'DM Mono'; font-size:12px;" />
+            <div id="register-form"
+                style="display: none; background: white; border: 1px solid var(--border); padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                <h1 class="display" style="font-size: 36px; margin-bottom: 30px;">JOIN THE INTELLIGENCE LAYER</h1>
+                <div id="register-error" class="mono"
+                    style="color: red; font-size: 10px; margin-bottom: 10px; display: none;"></div>
+                <input type="text" id="reg-username" placeholder="Username"
+                    style="width:100%; padding:15px; margin-bottom:15px; background:var(--parchment); border:1px solid var(--border); font-family:'DM Mono'; font-size:12px; outline:none;" />
                 <input type="email" id="reg-email" placeholder="Secure Email"
-                    style="width:100%; padding:15px; margin-bottom:15px; background:white; border:1px solid var(--border); font-family:'DM Mono'; font-size:12px;" />
+                    style="width:100%; padding:15px; margin-bottom:15px; background:var(--parchment); border:1px solid var(--border); font-family:'DM Mono'; font-size:12px; outline:none;" />
                 <input type="password" id="reg-password" placeholder="New Passcode"
-                    style="width:100%; padding:15px; margin-bottom:20px; background:white; border:1px solid var(--border); font-family:'DM Mono'; font-size:12px;" />
+                    style="width:100%; padding:15px; margin-bottom:20px; background:var(--parchment); border:1px solid var(--border); font-family:'DM Mono'; font-size:12px; outline:none;" />
                 <button class="btn btn-dark" style="width:100%; margin-bottom: 20px;"
-                    onclick="App.handleRegister()">Submit Request</button>
+                    onclick="App.handleRegister()">CREATE ACCOUNT</button>
                 <div class="mono" style="font-size:11px; cursor:pointer; color:var(--warm-gray); transition:0.3s;"
                     onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--warm-gray)'"
-                    onclick="App.renderAuth(false)">Back to Authentication</div>
+                    onclick="App.renderAuth(false)">Already a scout? SIGN IN &rarr;</div>
             </div>
         </section>
     </main>

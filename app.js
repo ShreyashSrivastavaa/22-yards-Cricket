@@ -32,12 +32,18 @@ const App = {
         }
     },
 
-    init() {
+    async init() {
         if (typeof players === 'undefined') {
             console.error('CRITICAL: players variable is undefined. Check if players.js is loading correctly.');
         }
         this.state.players = typeof players !== 'undefined' ? players : [];
         window.addEventListener('hashchange', () => this.handleRoute());
+
+        const { data: { session } } = await _supabase.auth.getSession();
+        if (session) {
+            const username = session.user.user_metadata?.username || session.user.email;
+            this.state.user = { username };
+        }
 
         // Supabase Auth Listener
         _supabase.auth.onAuthStateChange((event, session) => {
@@ -573,25 +579,31 @@ const App = {
     },
 
     updateAuthNav() {
-        const container = document.getElementById('nav-auth-btn');
+        const container = document.querySelector('.nav-actions') || document.getElementById('nav-auth-btn');
         if (!container) return;
 
         if (this.state.user) {
             container.innerHTML = `
-                <div style="display:flex; align-items:center; gap:15px;">
-                    <span class="mono" style="font-size:10px;">${this.state.user.username}</span>
-                    <button onclick="App.logout()" class="btn btn-ghost" style="padding: 8px 15px; font-size:10px;">Logout</button>
+                <div style="position: relative; display: inline-block;">
+                    <div style="color: var(--gold); font-family: 'DM Mono'; font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 5px;" onclick="document.getElementById('auth-dropdown').style.display = document.getElementById('auth-dropdown').style.display === 'block' ? 'none' : 'block'">
+                        ${this.state.user.username} ▼
+                    </div>
+                    <div id="auth-dropdown" style="display: none; position: absolute; top: 100%; right: 0; background: white; border: 1px solid var(--border); box-shadow: 0 10px 20px rgba(0,0,0,0.1); padding: 10px 0; min-width: 150px; text-align: left; margin-top: 10px;">
+                        <a href="#/profile" style="display: block; padding: 10px 20px; color: var(--ink); text-decoration: none; font-family: 'DM Mono'; font-size: 10px;">MY PROFILE</a>
+                        <a href="#" onclick="App.logout(); return false;" style="display: block; padding: 10px 20px; color: var(--cricket-red); text-decoration: none; font-family: 'DM Mono'; font-size: 10px;">SIGN OUT</a>
+                    </div>
                 </div>
             `;
         } else {
-            container.innerHTML = `<a href="#/login" class="btn btn-dark">Access</a>`;
+            container.innerHTML = `<a href="#/login" class="btn btn-dark" style="color: var(--parchment);">ACCESS</a>`;
         }
     },
 
     async handleLogin() {
-        // In the UI "login-username" might be an email now since Supabase requires email.
         const email = document.getElementById('login-username').value;
         const password = document.getElementById('login-password').value;
+        const errDiv = document.getElementById('login-error');
+        errDiv.style.display = 'none';
 
         const { data, error } = await _supabase.auth.signInWithPassword({
             email: email,
@@ -599,9 +611,9 @@ const App = {
         });
 
         if (error) {
-            alert(error.message || 'Login failed');
+            errDiv.textContent = error.message || 'Authentication Failed';
+            errDiv.style.display = 'block';
         } else {
-            alert('Welcome to the Intelligence Layer.');
             window.location.hash = '#/';
         }
     },
@@ -610,6 +622,8 @@ const App = {
         const username = document.getElementById('reg-username').value;
         const email = document.getElementById('reg-email').value;
         const password = document.getElementById('reg-password').value;
+        const errDiv = document.getElementById('register-error');
+        errDiv.style.display = 'none';
 
         const { data, error } = await _supabase.auth.signUp({
             email: email,
@@ -618,10 +632,13 @@ const App = {
         });
 
         if (error) {
-            alert(error.message || 'Registration failed');
+            errDiv.textContent = error.message || 'Registration Failed';
+            errDiv.style.display = 'block';
         } else {
-            alert('Account created! Check your email to confirm (if email confirmation is ON).');
-            window.location.hash = '#/login';
+            errDiv.style.color = '#4CAF50';
+            errDiv.textContent = 'Check your email to confirm your account';
+            errDiv.style.display = 'block';
+            setTimeout(() => window.location.hash = '#/login', 2000);
         }
     },
 
