@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { supabase } from "@/lib/supabase"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -15,6 +15,8 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const router = useRouter()
+    const searchParams = useSearchParams()
+    const message = searchParams.get('message')
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -56,6 +58,19 @@ export default function LoginPage() {
                 </CardHeader>
                 <CardContent className="pt-10 p-10">
                     <form onSubmit={handleLogin} className="space-y-8">
+                        {message && (
+                            <p style={{
+                                color: '#C9A84C',
+                                fontFamily: 'var(--font-dm-mono)',
+                                fontSize: '13px',
+                                marginBottom: '1rem',
+                                textAlign: 'center',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.1em'
+                            }}>
+                                {message}
+                            </p>
+                        )}
                         {error && (
                             <div className="p-4 bg-[rgba(192,57,43,0.1)] border border-[rgba(192,57,43,0.3)] text-[#C0392B] text-[10px] font-mono uppercase tracking-widest flex items-center gap-3">
                                 <ShieldAlert className="h-4 w-4" />

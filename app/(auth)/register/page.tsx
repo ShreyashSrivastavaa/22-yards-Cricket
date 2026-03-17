@@ -11,6 +11,7 @@ import { UserPlus, Mail, Lock, Loader2, ShieldAlert, CheckCircle2 } from "lucide
 
 export default function RegisterPage() {
     const [email, setEmail] = useState("")
+    const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
@@ -27,7 +28,8 @@ export default function RegisterPage() {
                 email,
                 password,
                 options: {
-                    emailRedirectTo: `${window.location.origin}/dashboard`
+                    data: { username },
+                    emailRedirectTo: `${window.location.origin}/auth/callback`
                 }
             })
 
@@ -92,6 +94,22 @@ export default function RegisterPage() {
                                 {error}
                             </div>
                         )}
+
+                        <div className="space-y-3">
+                            <Label htmlFor="username" className="text-[10px] font-mono uppercase tracking-[0.3em] text-[rgba(245,240,232,0.45)]">Registry Codename [Username]</Label>
+                            <div className="relative group">
+                                <UserPlus className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[rgba(245,240,232,0.2)] group-focus-within:text-[#C9A84C] transition-colors" />
+                                <Input
+                                    id="username"
+                                    type="text"
+                                    placeholder="Scout_Alpha"
+                                    className="pl-10 h-14 bg-[#0A0A0A] border-[rgba(245,240,232,0.08)] rounded-none focus-visible:ring-[#C9A84C] text-[#F5F0E8] font-mono text-sm placeholder:text-[rgba(245,240,232,0.1)] transition-all"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    required
+                                />
+                            </div>
+                        </div>
 
                         <div className="space-y-3">
                             <Label htmlFor="email" className="text-[10px] font-mono uppercase tracking-[0.3em] text-[rgba(245,240,232,0.45)]">Desired Analytical Node [Email]</Label>
