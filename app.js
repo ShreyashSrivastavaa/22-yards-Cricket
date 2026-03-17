@@ -74,6 +74,15 @@ const App = {
             a.classList.toggle('active', a.getAttribute('href') === hash);
         });
 
+        // Auth Gate
+        const publicRoutes = ['#/', '', '#/login', '#/register'];
+        const isPublicRoute = publicRoutes.includes(hash);
+
+        if (!isPublicRoute && !this.state.user) {
+            window.location.hash = '#/register';
+            return;
+        }
+
         if (hash === '#/' || hash === '') {
             this.renderLanding();
         } else if (hash.startsWith('#/players')) {
@@ -82,11 +91,6 @@ const App = {
             const id = hash.split('/player/')[1];
             this.renderPlayerProfile(id);
         } else if (hash === '#/builder') {
-            if (!this.state.user) {
-                alert('Sign in to access the Playing 12 Builder');
-                window.location.hash = '#/login';
-                return;
-            }
             this.renderBuilder();
         } else if (hash.startsWith('#/team/')) {
             const team = hash.split('/team/')[1];
