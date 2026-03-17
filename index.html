@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            console.error('GLOBAL ERROR:', msg, 'at', url, 'line', lineNo);
+            const overlay = document.createElement('div');
+            overlay.style = 'position:fixed; top:0; left:0; width:100%; padding:20px; background:red; color:white; z-index:10000; font-family:monospace;';
+            overlay.innerHTML = '<strong>A critical error occurred:</strong><br>' + msg + '<br>Check the console for details.';
+            document.body.appendChild(overlay);
+            return false;
+        };
+    </script>
+    <title>22 Yards Cricket | The Intelligence Layer for IPL Scouting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        /* BRAND COLORS */
+        :root {
+            --parchment: #F5F0E8;
+            --ink: #0D0D0D;
+            --gold: #C9A84C;
+            --cricket-red: #8B1A1A;
+            --cream-card: #FDFAF5;
+            --warm-gray: #6B6560;
+            --border: rgba(13, 13, 13, 0.1);
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* RESET & BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--parchment);
+            color: var(--ink);
+            font-family: 'DM Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1,
+        h2,
+        h3,
+        .display {
+            font-family: 'Bebas Neue', sans-serif;
+            text-transform: uppercase;
+            line-height: 0.92;
+        }
+
+        .mono {
+            font-family: 'DM Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 12px;
+        }
+
+        section {
+            padding: 100px 5%;
+            position: relative;
+        }
+
+        .grid {
+            display: grid;
+            gap: 40px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            font-family: 'DM Mono';
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: var(--transition);
+            border-radius: 2px;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .btn-dark {
+            background: var(--ink);
+            color: var(--gold);
+            border: 1px solid var(--ink);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--ink);
+            border: 1px solid var(--ink);
+        }
+
+        .btn-gold {
+            background: var(--gold);
+            color: var(--ink);
+            border: 1px solid var(--gold);
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            background: rgba(245, 240, 232, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+        }
+
+        .logo span:first-child {
+            font-family: 'Bebas Neue';
+            font-size: 32px;
+            color: var(--ink);
+        }
+
+        .logo span:last-child {
+            font-family: 'DM Mono';
+            font-size: 10px;
+            color: var(--ink);
+            letter-spacing: 0.3em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--warm-gray);
+        }
+
+        /* VIEWS */
+        .app-view {
+            display: none;
+            padding-top: 100px;
+            min-height: 100vh;
+        }
+
+        /* DATABASE VIEW */
+        #filter-bar {
+            padding: 30px 5%;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            display: grid;
+            gap: 20px;
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-controls select,
+        .filter-controls input {
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            background: var(--parchment);
+            outline: none;
+            font-size: 13px;
+        }
+
+        .filter-controls input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th {
+            text-align: left;
+            padding: 20px;
+            font-family: 'DM Mono';
+            font-size: 11px;
+            border-bottom: 2px solid var(--ink);
+            color: var(--warm-gray);
+        }
+
+        td {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            font-size: 15px;
+        }
+
+        tr:hover td {
+            background: var(--cream-card);
+        }
+
+        .badge-ovs {
+            background: var(--gold);
+            color: var(--ink);
+            font-size: 9px;
+            padding: 2px 6px;
+            font-weight: 800;
+            vertical-align: middle;
+        }
+
+        /* PROFILE VIEW */
+        .profile-page {
+            animation: slide-up 0.5s ease-out;
+        }
+
+        @keyframes slide-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .phase-bars {
+            margin-top: 10px;
+        }
+
+        .phase-row {
+            margin-bottom: 20px;
+        }
+
+        .phase-row .lbl {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            margin-bottom: 6px;
+            color: var(--warm-gray);
+        }
+
+        .bar-track {
+            height: 6px;
+            background: #eee;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: var(--gold);
+            border-radius: 3px;
+            transition: width 1s ease-out;
+        }
+
+        .score-pill {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .score-pill.high {
+            background: #E8F5E9;
+            color: #2E7D32;
+            border: 1px solid #A5D6A7;
+        }
+
+        .score-pill.mid {
+            background: #FFF8E1;
+            color: #F57F17;
+            border: 1px solid #FFE082;
+        }
+
+        .score-pill.low {
+            background: #FFEBEE;
+            color: #C62828;
+            border: 1px solid #EF9A9A;
+        }
+
+        /* NAV ACTIVE */
+        .nav-links a.active {
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            display: block;
+            height: 1px;
+            background: var(--gold);
+            margin-top: 2px;
+        }
+
+        /* BUILDER */
+        .builder-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 40px;
+            padding: 40px 5%;
+            height: calc(100vh - 70px);
+        }
+
+        .builder-sidebar {
+            border: 1px solid var(--border);
+            background: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .builder-sidebar #player-pool {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .pool-item {
+            padding: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .pool-item:hover {
+            border-color: var(--gold);
+            background: var(--parchment);
+        }
+
+        .grid-squad {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .squad-card {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 20px;
+            position: relative;
+            text-align: center;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .squad-card.empty {
+            border: 1px dashed var(--gold);
+            opacity: 0.5;
+            color: var(--gold);
+            background: transparent;
+        }
+
+        .squad-card .pos {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 10px;
+            color: var(--gold);
+        }
+
+        .squad-card .name {
+            font-family: 'Bebas Neue';
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .squad-card .role {
+            font-size: 10px;
+            opacity: 0.6;
+        }
+
+        .rule-tag {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            margin-left: 10px;
+        }
+
+        .rule-tag.pass {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .rule-tag.fail {
+            background: #FFEBEE;
+            color: #C62828;
+        }
+
+        /* TEAM VIEW */
+        .team-roster-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .builder-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        .score-box.small {
+            padding: 15px;
+        }
+
+        .score-box.small .val {
+            font-size: 32px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content {
+                padding-bottom: 50px;
+            }
+
+            .grid-squad {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .builder-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+
+            .builder-sidebar {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid-squad {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats-overview,
+            .grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .profile-header h1 {
+                font-size: 48px !important;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .team-roster-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* SCORE BOX (REFINED) */
+        .score-box {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 30px;
+            text-align: center;
+        }
+
+        .score-box .val {
+            display: block;
+            font-family: 'Bebas Neue';
+            font-size: 48px;
+            color: var(--gold);
+        }
+
+        .score-box .lbl {
+            font-size: 11px;
+            color: var(--warm-gray);
+            letter-spacing: 0.2em;
+        }
+
+        /* TICKER */
+        .ticker-wrap {
+            background: var(--ink);
+            color: white;
+            padding: 12px 0;
+            overflow: hidden;
+        }
+
+        .ticker {
+            display: flex;
+            white-space: nowrap;
+            animation: ticker-scroll 40s linear infinite;
+            gap: 40px;
+        }
+
+        @keyframes ticker-scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'DM Mono';
+            font-size: 12px;
+        }
+
+        /* HERO */
+        .hero {
+            display: grid;
+            grid-template-columns: 60% 40%;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(64px, 10vw, 104px);
+            margin-bottom: 30px;
+        }
+
+        .eyebrow {
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-family: 'DM Mono';
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="#/" class="logo"><span>22 <em>YARDS</em></span><span>CRICKET</span></a>
+        <div class="nav-links mono">
+            <a href="#/players">Database</a>
+            <a href="#/builder">Builder</a>
+        </div>
+        <div class="nav-actions">
+            <a href="#" class="btn btn-dark">Access</a>
+        </div>
+    </nav>
+
+    <!-- LANDING VIEW -->
+    <main id="landing-view" class="app-view" style="display: block; padding-top: 0;">
+        <section class="hero" style="padding-top: 150px;">
+            <div class="hero-content reveal">
+                <div class="eyebrow">— IPL 2026 Intelligence</div>
+                <h1>SCOUT SMARTER.<br>WIN THE <span>PITCH.</span></h1>
+                <p style="max-width: 480px; margin-bottom: 40px; font-size: 18px; color: var(--warm-gray);">
+                    Professional-grade player scouting and squad optimization for IPL 2026.</p>
+                <div style="display: flex; gap: 20px;">
+                    <a href="#/players" class="btn btn-dark">Enter Database</a>
+                    <a href="#/builder" class="btn btn-ghost">Squad Builder</a>
+                </div>
+            </div>
+        </section>
+        <div class="ticker-wrap">
+            <div class="ticker"></div>
+        </div>
+
+        <section id="franchise-hub" class="reveal" style="padding: 100px 5%; border-top: 1px solid var(--border);">
+            <div class="eyebrow mono">— Strategic Hub</div>
+            <h2 class="display" style="font-size: 60px; margin-bottom: 20px;">Franchise Intelligence</h2>
+            <p class="mono" style="max-width: 600px; margin-bottom: 50px; opacity: 0.7;">Select a franchise to view
+                their confirmed 2026 roster, auction spend analytics, and scouting gaps.</p>
+            <div id="team-grid" class="grid" style="grid-template-columns: repeat(5, 1fr); gap: 20px;"></div>
+        </section>
+    </main>
+
+    <!-- DATABASE VIEW -->
+    <main id="database-view" class="app-view">
+        <div id="filter-bar"></div>
+        <section style="padding: 0;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>PLAYER</th>
+                        <th>TEAM</th>
+                        <th>ROLE</th>
+                        <th>PRICE</th>
+                        <th>RATING</th>
+                    </tr>
+                </thead>
+                <tbody id="player-table-body"></tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- PROFILE VIEW -->
+    <main id="profile-view" class="app-view" style="padding: 100px 10%;"></main>
+
+    <!-- TEAM VIEW -->
+    <main id="team-view" class="app-view" style="padding: 100px 10%;"></main>
+
+    <!-- BUILDER VIEW -->
+    <main id="builder-view" class="app-view">
+        <section style="text-align: center;">
+            <h1 class="display">Playing 12 Builder</h1>
+            <p class="mono" style="color:var(--gold); margin-top: 20px;">Coming Soon: Real-time Squad Intelligence
+                Engine</p>
+        </section>
+    </main>
+
+    <script src="players.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
