@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useMemo } from "react"
+import { Suspense, useMemo, use } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { TeamBalanceChart } from "@/components/analytics/team-charts"
@@ -11,8 +11,8 @@ import { LoadingSkeleton, ErrorState } from "@/components/ui/data-states"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 
-export default function TeamAnalyticsPage({ params }: { params: { id: string } }) {
-    const { id } = params
+export default function TeamAnalyticsPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = use(params)
     const { data: squadData, loading, error, refetch } = useSquads()
 
     const team = useMemo(() => {

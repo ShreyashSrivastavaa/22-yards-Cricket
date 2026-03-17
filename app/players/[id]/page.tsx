@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useMemo } from "react"
+import { Suspense, useMemo, use } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -20,8 +20,8 @@ import { Activity, ShieldAlert, Zap, TrendingUp, Info, Clock, AlertCircle } from
 import { PlayerRadarChart } from "@/components/player-radar"
 import { InsightEngine } from "@/lib/insight-engine"
 
-export default function PlayerProfilePage({ params }: { params: { id: string } }) {
-    const { id } = params
+export default function PlayerProfilePage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = use(params)
     const { data: playerData, loading: playerLoading, error: playerError, refetch } = usePlayer(id)
     const { data: formData, loading: formLoading } = useMatchForm(id)
 
