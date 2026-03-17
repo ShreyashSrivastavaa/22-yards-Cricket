@@ -4,23 +4,23 @@ import { Zap, TrendingUp, Award, Target } from "lucide-react"
 
 export function LiveStatusTicker() {
     const tickerItems = [
-        { icon: Award, label: "Orange Cap", value: "Ruturaj Gaikwad (724 Runs)" },
-        { icon: Target, label: "Purple Cap", value: "Harshal Patel (24 Wickets)" },
-        { icon: TrendingUp, label: "Highest SR", value: "Abhishek Sharma (208.4)" },
-        { icon: Zap, label: "Most Sixes", value: "Heinrich Klaasen (38)" },
-        { icon: Award, label: "Best Figures", value: "Sandeep Sharma (5/18)" },
+        { label: "ORANGE CAP", value: "R. GAIKWAD (724 RUNS)" },
+        { label: "PURPLE CAP", value: "H. PATEL (24 WICKETS)" },
+        { label: "HIGHEST SR", value: "A. SHARMA (208.4)" },
+        { label: "MOST SIXES", value: "H. KLAASEN (38)" },
+        { label: "AVG DELAY", value: "144 MS" },
+        { label: "ACTIVE NODES", value: "IPL26_TERMINAL" },
     ]
 
     return (
-        <div className="bg-[#D4AF37]/10 border-y border-[#D4AF37]/20 py-2 overflow-hidden relative">
+        <div className="bg-[#C9A84C] py-2.5 overflow-hidden relative">
             <div className="flex items-center gap-16 whitespace-nowrap animate-marquee">
-                {/* Double the list for seamless loop */}
                 {[...tickerItems, ...tickerItems, ...tickerItems].map((item, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                        <item.icon className="h-3 w-3 text-[#B8860B]" />
-                        <span className="text-[10px] font-mono uppercase tracking-widest font-bold text-[#4a4a4a]">
-                            {item.label}: <span className="text-[#1a1a1a] font-bold">{item.value}</span>
+                    <div key={i} className="flex items-center gap-2">
+                        <span className="text-[11px] font-mono uppercase tracking-[0.15em] text-[#0A0A0A]">
+                            <span className="font-bold">{item.label}:</span> {item.value}
                         </span>
+                        <div className="h-1 w-1 rounded-full bg-[#0A0A0A]/30 mx-4" />
                     </div>
                 ))}
             </div>
@@ -33,10 +33,7 @@ export function LiveStatusTicker() {
                 .animate-marquee {
                     display: flex;
                     width: max-content;
-                    animation: marquee 40s linear infinite;
-                }
-                .animate-marquee:hover {
-                    animation-play-state: paused;
+                    animation: marquee 30s linear infinite;
                 }
             `}</style>
         </div>

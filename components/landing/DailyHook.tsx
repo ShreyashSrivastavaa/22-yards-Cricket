@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Sparkles, TrendingUp, Target, Trophy, Flame, Share2, AlertCircle } from "lucide-react"
+import { Sparkles, TrendingUp, Target, Trophy, Flame, Share2, Activity, ChevronRight } from "lucide-react"
 import { useDailyPicks, useTrending } from "@/lib/hooks"
 import { LoadingSkeleton } from "@/components/ui/data-states"
 import { Button } from "@/components/ui/button"
@@ -12,10 +12,8 @@ export function DailyHook() {
     const { data: trendingRaw, loading: trendingLoading } = useTrending()
 
     const trendingData = (trendingRaw as any) || { trending: [], undervalued: [] }
-
     const isLoading = picksLoading || trendingLoading
 
-    // Process real cards from APIs
     const dailyPick = picksData?.picks?.[0]
     const captainPick = picksData?.picks?.[1]
     const trendingPick = trendingData.trending?.[0]
@@ -23,127 +21,122 @@ export function DailyHook() {
 
     const cards = [
         {
-            title: "Today's Elite Pick",
+            title: "Prime Strategic Target",
             player: dailyPick?.player_name || "Virat Kohli",
             team: dailyPick?.team_code || "IND",
             metric: `${dailyPick?.projected_points || '9.4'} Impact`,
-            reason: dailyPick?.reasoning || "Favored by venue atmospheric bias",
-            icon: Sparkles,
-            color: "text-primary",
-            bg: "bg-primary/5",
-            border: "border-primary/20",
-            isReal: !!dailyPick
+            reason: dailyPick?.reasoning || "Venue atmospheric bias alignment",
+            icon: Target,
+            color: "text-[#C9A84C]",
+            status: "High Conviction"
         },
         {
-            title: "Best Captain Choice",
+            title: "Leadership Selection",
             player: captainPick?.player_name || "Hardik Pandya",
             team: captainPick?.team_code || "IND",
-            metric: "82% Confidence",
-            reason: captainPick?.reasoning || "High all-round points projection",
+            metric: "82% Probability",
+            reason: captainPick?.reasoning || "Peak performance cycle projected",
             icon: Trophy,
-            color: "text-amber-500",
-            bg: "bg-amber-500/5",
-            border: "border-amber-500/20",
-            isReal: !!captainPick
+            color: "text-[#C9A84C]",
+            status: "Top Priority"
         },
         {
-            title: "Trending Performer",
+            title: "Market Momentum",
             player: trendingPick?.name || "Y. Jaiswal",
             team: trendingPick?.team || "IND",
-            metric: trendingPick?.trend || "+14% Spike",
-            reason: trendingPick?.reason || "Drastic gain in recent form rating",
+            metric: trendingPick?.trend || "+14% Alpha",
+            reason: trendingPick?.reason || "Significant form rating acceleration",
             icon: TrendingUp,
-            color: "text-emerald-500",
-            bg: "bg-emerald-500/5",
-            border: "border-emerald-500/20",
-            isReal: !!trendingPick
+            color: "text-[#1DB954]",
+            status: "Bullish Trend"
         },
         {
             title: "Undervalued Asset",
             player: undervaluedPick?.name || "Rinku Singh",
             team: undervaluedPick?.team || "IND",
-            metric: undervaluedPick?.impact || "7.2 Impact",
-            reason: "Outperforming auction value ratio",
-            icon: Target,
-            color: "text-blue-500",
-            bg: "bg-blue-500/5",
-            border: "border-blue-500/20",
-            isReal: !!undervaluedPick
+            metric: undervaluedPick?.impact || "7.2 Score",
+            reason: "Positive efficiency to cost ratio",
+            icon: Activity,
+            color: "text-[#C9A84C]",
+            status: "Market Buy"
         }
     ]
 
     return (
-        <section id="elite-picks" className="py-24 bg-muted/5 relative">
-            <div className="container mx-auto px-6">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-16">
-                    <div className="space-y-3">
-                        <div className="flex items-center gap-2 text-primary font-mono text-[10px] uppercase tracking-widest font-bold">
-                            <Flame className="h-3 w-3" /> Daily Intelligence Feed
+        <section id="elite-picks" className="py-32 bg-[#0D0D0D] border-y border-[rgba(245,240,232,0.05)] relative overflow-hidden">
+            {/* Background Watermark */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20vw] font-bebas text-[rgba(245,240,232,0.02)] select-none pointer-events-none tracking-tighter">
+                INTELLIGENCE
+            </div>
+
+            <div className="container mx-auto px-6 relative z-10">
+                <div className="flex flex-col md:flex-row items-end justify-between gap-10 mb-20">
+                    <div className="space-y-6">
+                        <div className="flex items-center gap-3">
+                            <div className="h-2 w-2 bg-[#C9A84C]" />
+                            <span className="text-[#C9A84C] font-mono text-[11px] uppercase tracking-[0.4em] font-bold">Terminal Intelligence Feed</span>
                         </div>
-                        <h2 className="text-4xl md:text-5xl font-bebas tracking-wider uppercase">Live Market Insights</h2>
-                        <p className="text-muted-foreground text-xs font-mono uppercase tracking-[0.1em] max-w-xl">
-                            Real-time AI picks from our 2026 neural network. Based on live form, venue bias, and atmospheric conditions.
+                        <h2 className="text-5xl md:text-7xl font-bebas tracking-wider uppercase text-[#F5F0E8]">Daily Strategic <span className="text-[#C9A84C]">Intercepts</span></h2>
+                        <p className="text-[rgba(245,240,232,0.4)] text-[12px] font-mono uppercase tracking-[0.2em] max-w-2xl leading-relaxed">
+                            Global data-streams synthesized into actionable scouting intelligence. Real-time form monitoring across all sectors.
                         </p>
                     </div>
-                    <div className="flex items-center gap-4 p-4 rounded-xl border border-white/5 bg-white/[0.02] backdrop-blur-sm">
+
+                    <div className="flex items-center gap-6 p-6 border border-[rgba(245,240,232,0.08)] bg-[#111111]">
                         <div className="text-right">
-                            <div className="text-[9px] font-mono text-muted-foreground uppercase">Last Global Refresh</div>
-                            <div className="text-xs font-bold font-mono text-primary">
-                                {picksData?.date ? new Date(picksData.date).toLocaleTimeString() : "SYNCED"}
+                            <div className="text-[10px] font-mono text-[rgba(245,240,232,0.25)] uppercase tracking-widest">Global Sync Status</div>
+                            <div className="text-xs font-bold font-mono text-[#C9A84C]">
+                                {picksData?.date ? new Date(picksData.date).toLocaleTimeString() : "READY"}
                             </div>
                         </div>
-                        <div className="h-10 w-1 bg-primary/20 rounded-full" />
-                        <div className="h-3 w-3 rounded-full bg-emerald-500 animate-pulse" />
+                        <div className="h-8 w-px bg-[rgba(245,240,232,0.1)]" />
+                        <div className="flex items-center gap-2">
+                            <div className="h-2 w-2 rounded-full bg-[#1DB954] animate-pulse" />
+                            <span className="text-[10px] font-mono text-[#1DB954] uppercase tracking-widest">Live</span>
+                        </div>
                     </div>
                 </div>
 
                 {isLoading ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {[1, 2, 3, 4].map(i => <LoadingSkeleton key={i} rows={4} />)}
+                        {[1, 2, 3, 4].map(i => (
+                            <div key={i} className="h-80 bg-[#111111] animate-pulse border border-[rgba(245,240,232,0.05)]" />
+                        ))}
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {cards.map((card, i) => (
-                            <Card key={i} className={`group relative h-full border-muted-foreground/10 bg-muted/5 shadow-none hover:border-muted-foreground/30 transition-all cursor-pointer overflow-hidden`}>
-                                <div className={`absolute top-0 left-0 w-full h-1 ${card.bg}`} />
-                                <CardHeader className="pb-4">
-                                    <div className="flex justify-between items-start mb-2">
-                                        <div className={`p-2 rounded-lg ${card.bg}`}>
-                                            <card.icon className={`h-4 w-4 ${card.color}`} />
+                            <div key={i} className="group bg-[#111111] border border-[rgba(245,240,232,0.08)] hover:border-[#C9A84C]/40 transition-all cursor-pointer flex flex-col">
+                                <div className="p-4 px-6 border-b border-[rgba(245,240,232,0.05)] flex justify-between items-center bg-[#0d0d0d]">
+                                    <span className="text-[10px] font-mono text-[rgba(245,240,232,0.4)] uppercase tracking-widest">{card.status}</span>
+                                    <card.icon className={`h-3 w-3 ${card.color}`} />
+                                </div>
+                                <div className="p-8 space-y-8 flex-grow">
+                                    <div className="space-y-2">
+                                        <div className="text-[11px] font-mono uppercase tracking-[0.2em] text-[#C9A84C]/60">{card.title}</div>
+                                        <div className="text-3xl font-bebas tracking-widest text-[#F5F0E8] group-hover:text-[#C9A84C] transition-colors leading-none uppercase">
+                                            {card.player} <span className="text-[11px] font-mono opacity-20">[{card.team}]</span>
                                         </div>
-                                        {!card.isReal ? (
-                                            <Badge variant="outline" className="text-[8px] font-mono uppercase tracking-widest border-amber-500/20 text-amber-500">Latest Available</Badge>
-                                        ) : (
-                                            <Badge variant="outline" className="text-[8px] font-mono uppercase tracking-widest border-white/10 opacity-60">AI Recommended</Badge>
-                                        )}
                                     </div>
-                                    <CardTitle className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">{card.title}</CardTitle>
-                                    <CardDescription className="text-2xl font-bebas tracking-wider text-foreground mt-2 group-hover:text-primary transition-colors">
-                                        {card.player} <span className="text-xs opacity-40">· {card.team}</span>
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent>
                                     <div className="space-y-4">
-                                        <div className="flex items-center justify-between py-3 border-y border-white/5">
-                                            <span className="text-[9px] font-mono uppercase text-muted-foreground">Neural Metric</span>
-                                            <span className={`text-sm font-bold font-mono ${card.color}`}>{card.metric}</span>
+                                        <div className="flex items-center justify-between py-4 border-y border-[rgba(245,240,232,0.05)]">
+                                            <span className="text-[10px] font-mono uppercase text-[rgba(245,240,232,0.25)] tracking-widest">Intelligence Score</span>
+                                            <span className={`text-xl font-bebas tracking-widest ${card.color}`}>{card.metric}</span>
                                         </div>
-                                        <p className="text-[10px] font-mono leading-relaxed text-muted-foreground uppercase h-8 line-clamp-2">
+                                        <p className="text-[11px] font-mono leading-relaxed text-[rgba(245,240,232,0.4)] uppercase h-10 overflow-hidden tracking-wider">
                                             {card.reason}
                                         </p>
                                     </div>
-                                </CardContent>
-                                <CardFooter className="pt-2 flex justify-between items-center">
-                                    <div className="flex-grow mr-4">
-                                        <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
-                                            <div className={`h-full ${card.color.replace('text-', 'bg-')} opacity-40 animate-pulse`} style={{ width: '70' + (i * 5) + '%' }} />
+                                </div>
+                                <div className="p-4 px-6 border-t border-[rgba(245,240,232,0.05)] bg-[#0d0d0d] flex justify-between items-center">
+                                    <div className="flex-grow mr-6">
+                                        <div className="w-full h-1 bg-[rgba(245,240,232,0.05)]">
+                                            <div className={`h-full ${card.color.replace('text-', 'bg-')} opacity-60`} style={{ width: (60 + (i * 10)) + '%' }} />
                                         </div>
                                     </div>
-                                    <Button size="icon" variant="ghost" className="h-8 w-8 rounded-full opacity-30 group-hover:opacity-100 hover:bg-primary/10 hover:text-primary transition-all">
-                                        <Share2 className="h-3 w-3" />
-                                    </Button>
-                                </CardFooter>
-                            </Card>
+                                    <ChevronRight className="h-4 w-4 text-[rgba(245,240,232,0.2)] group-hover:text-[#C9A84C] transition-all" />
+                                </div>
+                            </div>
                         ))}
                     </div>
                 )}

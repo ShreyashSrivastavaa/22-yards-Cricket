@@ -3,7 +3,6 @@
 import { Suspense, useMemo, use } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import PlayerCharts from "@/components/analytics/player-charts"
 import { usePlayer, useMatchForm } from "@/lib/hooks"
 import { LoadingSkeleton, ErrorState } from "@/components/ui/data-states"
@@ -43,7 +42,7 @@ export default function PlayerProfilePage({ params }: { params: Promise<{ id: st
             boundaryPct,
             knockoutAvg: stats.knockoutAvg || stats.avg || 0,
             regularAvg: stats.avg || 0,
-            leagueAvgSR: 135, // Static benchmarks for now
+            leagueAvgSR: 135,
             leagueAvgAvg: 28,
             leagueAvgBoundaryPct: 15
         })
@@ -80,221 +79,199 @@ export default function PlayerProfilePage({ params }: { params: Promise<{ id: st
         return { form, impact, rating, risk, boundaryPct, radarData, insights }
     }, [player, formData])
 
-    if (playerLoading) return <div className="container mx-auto py-10"><LoadingSkeleton rows={10} label="Synthesizing Player Intelligence..." /></div>
-    if (playerError) return <div className="container mx-auto py-10"><ErrorState message={playerError} onRetry={refetch} /></div>
-    if (!player) return <div className="container mx-auto py-10 text-center font-mono text-muted-foreground">Player profile not found</div>
+    if (playerLoading) return <div className="p-10"><LoadingSkeleton rows={10} label="Synthesizing Player Intelligence..." /></div>
+    if (playerError) return <div className="p-10"><ErrorState message={playerError} onRetry={refetch} /></div>
+    if (!player) return <div className="p-10 text-center font-mono text-[rgba(245,240,232,0.4)]">Player profile not found</div>
 
     return (
-        <div className="container mx-auto py-10 space-y-8">
-            {/* Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end border-b-2 border-primary pb-6 gap-6">
-                <div>
-                    <div className="flex items-center gap-3">
-                        <h1 className="text-6xl font-black tracking-tighter uppercase">{player.name}</h1>
-                        <Badge variant="outline" className="font-mono text-[10px] uppercase border-primary/30">
-                            {computed?.risk.risk} Risk
-                        </Badge>
+        <div className="flex flex-col gap-10 pb-20">
+            {/* Header Section */}
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10 pb-8 border-b border-[rgba(245,240,232,0.08)]">
+                <div className="space-y-4">
+                    <div className="flex items-center gap-4">
+                        <div className="h-2 w-2 bg-[#C9A84C]" />
+                        <span className="text-[11px] font-mono uppercase tracking-[0.35em] text-[#C9A84C]">Personnel File // {player.team}</span>
                     </div>
-                    <div className="flex flex-wrap gap-2 mt-2 font-mono text-sm text-muted-foreground uppercase">
-                        <span>{player.role}</span>
-                        <span>|</span>
-                        <span>{player.team}</span>
-                        <span>|</span>
-                        <span>{player.nationality}</span>
-                        <span>|</span>
-                        <span>Age {player.age}</span>
+                    <h1 className="text-7xl md:text-8xl font-bebas tracking-tight text-[#F5F0E8] leading-none uppercase">{player.name}</h1>
+                    <div className="flex flex-wrap gap-x-6 gap-y-2 text-[11px] font-mono text-[rgba(245,240,232,0.6)] uppercase tracking-widest">
+                        <span>Role: {player.role}</span>
+                        <span className="text-[rgba(245,240,232,0.2)]">|</span>
+                        <span>Origin: {player.nationality}</span>
+                        <span className="text-[rgba(245,240,232,0.2)]">|</span>
+                        <span>Age: {player.age} Years</span>
                     </div>
                 </div>
-                <div className="flex items-center gap-6">
-                    <div className="text-right">
-                        <div className="text-4xl font-black text-emerald-500 leading-none">{computed?.impact}</div>
-                        <div className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground">Impact Score</div>
+
+                <div className="flex items-center gap-12 p-8 bg-[#111111] border border-[rgba(245,240,232,0.08)]">
+                    <div className="text-right space-y-1">
+                        <div className="text-[10px] font-mono uppercase tracking-widest text-[rgba(245,240,232,0.25)]">Impact Index</div>
+                        <div className="text-6xl font-bebas text-[#1DB954] leading-none">{computed?.impact}</div>
                     </div>
-                    <div className="text-right">
-                        <div className="text-6xl font-black text-primary leading-none">{computed?.rating}</div>
-                        <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">22Y Rating</div>
+                    <div className="h-12 w-px bg-[rgba(245,240,232,0.1)]" />
+                    <div className="text-right space-y-1">
+                        <div className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C]">22Y Rating</div>
+                        <div className="text-7xl font-bebas text-[#C9A84C] leading-none">{computed?.rating}</div>
                     </div>
                 </div>
             </div>
 
-            {/* Quick Stats Grid */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <Card className="bg-muted/5 border-muted-foreground/10">
-                    <CardContent className="p-4 flex items-center gap-4">
-                        <div className="p-2 rounded bg-emerald-500/10">
-                            <TrendingUp className="h-4 w-4 text-emerald-500" />
+            {/* Tactical Briefing Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {[
+                    { label: "Form Status", value: computed?.form.level, color: computed?.form.color, icon: Activity },
+                    { label: "Boundary %", value: `${computed?.boundaryPct.toFixed(1)}%`, color: '#C9A84C', icon: Zap },
+                    { label: "Injury Risk", value: computed?.risk.risk, color: computed?.risk.color, icon: ShieldAlert },
+                    { label: "Data Integrity", value: "99.8%", color: 'rgba(245,240,232,0.6)', icon: TrendingUp },
+                ].map((item, i) => (
+                    <div key={i} className="bg-[#111111] border border-[rgba(245,240,232,0.08)] p-6 flex items-center justify-between">
+                        <div className="space-y-1">
+                            <span className="text-[10px] font-mono uppercase tracking-widest text-[rgba(245,240,232,0.25)]">{item.label}</span>
+                            <div className="text-2xl font-bebas tracking-wider" style={{ color: item.color }}>{item.value}</div>
                         </div>
-                        <div>
-                            <div className="text-[9px] font-mono text-muted-foreground uppercase">Form Status</div>
-                            <div className="text-sm font-bold font-mono" style={{ color: computed?.form.color }}>
-                                {computed?.form.level}
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
-                <Card className="bg-muted/5 border-muted-foreground/10">
-                    <CardContent className="p-4 flex items-center gap-4">
-                        <div className="p-2 rounded bg-amber-500/10">
-                            <Zap className="h-4 w-4 text-amber-500" />
-                        </div>
-                        <div>
-                            <div className="text-[9px] font-mono text-muted-foreground uppercase">Boundary %</div>
-                            <div className="text-sm font-bold font-mono">{computed?.boundaryPct.toFixed(1)}%</div>
-                        </div>
-                    </CardContent>
-                </Card>
-                <Card className="bg-muted/5 border-muted-foreground/10">
-                    <CardContent className="p-4 flex items-center gap-4">
-                        <div className="p-2 rounded bg-rose-500/10">
-                            <ShieldAlert className="h-4 w-4 text-rose-500" />
-                        </div>
-                        <div>
-                            <div className="text-[9px] font-mono text-muted-foreground uppercase">Injury Risk</div>
-                            <div className="text-sm font-bold font-mono" style={{ color: computed?.risk.color }}>
-                                {computed?.risk.risk}
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
-                <Card className="bg-muted/5 border-muted-foreground/10">
-                    <CardContent className="p-4 flex items-center gap-4">
-                        <div className="p-2 rounded bg-primary/10">
-                            <Activity className="h-4 w-4 text-primary" />
-                        </div>
-                        <div>
-                            <div className="text-[9px] font-mono text-muted-foreground uppercase">Data Source</div>
-                            <div className="text-sm font-bold font-mono uppercase">{playerData?.source}</div>
-                        </div>
-                    </CardContent>
-                </Card>
+                        <item.icon className="h-5 w-5 opacity-20" />
+                    </div>
+                ))}
             </div>
 
-            {/* Tabs */}
             <Tabs defaultValue="overview" className="w-full">
-                <TabsList className="grid w-full grid-cols-4 font-mono uppercase">
-                    <TabsTrigger value="overview">Overview</TabsTrigger>
-                    <TabsTrigger value="analytics">Analytics</TabsTrigger>
-                    <TabsTrigger value="matchups">Matchups</TabsTrigger>
-                    <TabsTrigger value="form">Form</TabsTrigger>
+                <TabsList className="w-full h-14 bg-[#111111] border border-[rgba(245,240,232,0.08)] rounded-none p-0">
+                    {['overview', 'analytics', 'matchups', 'form'].map(tab => (
+                        <TabsTrigger
+                            key={tab}
+                            value={tab}
+                            className="flex-1 h-full rounded-none font-mono text-[11px] uppercase tracking-widest text-[rgba(245,240,232,0.4)] data-[state=active]:bg-[#1A1A1A] data-[state=active]:text-[#C9A84C] data-[state=active]:border-b-2 data-[state=active]:border-[#C9A84C] transition-all"
+                        >
+                            {tab}
+                        </TabsTrigger>
+                    ))}
                 </TabsList>
 
-                <TabsContent value="overview" className="mt-6">
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div className="lg:col-span-2 space-y-6">
-                            <Card className="bg-muted/5 border-muted-foreground/10">
-                                <CardHeader>
-                                    <CardTitle className="font-mono text-[10px] uppercase tracking-widest text-primary">— Batting Analytics</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="grid grid-cols-3 gap-6">
+                <TabsContent value="overview" className="mt-8 space-y-8 animate-in fade-in duration-500">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div className="lg:col-span-2 space-y-8">
+                            {/* Batting Analytics */}
+                            <div className="bg-[#111111] border border-[rgba(245,240,232,0.08)]">
+                                <div className="p-4 px-6 border-b border-[rgba(245,240,232,0.05)] bg-[#0D0D0D]">
+                                    <h4 className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#C9A84C]">Batting Profile Matrix</h4>
+                                </div>
+                                <div className="p-10">
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-x-10 gap-y-12">
                                         {Object.entries(player.stats?.batting || {}).map(([key, val]: [any, any]) => (
-                                            <div key={key} className="text-center group">
-                                                <div className="text-2xl font-black font-mono group-hover:text-primary transition-colors">{val}</div>
-                                                <div className="text-[9px] font-mono text-muted-foreground uppercase tracking-tighter">{key}</div>
+                                            <div key={key} className="space-y-1 group">
+                                                <div className="text-[10px] font-mono text-[rgba(245,240,232,0.25)] uppercase tracking-widest group-hover:text-[#C9A84C] transition-colors">{key}</div>
+                                                <div className="text-3xl font-bebas text-[#F5F0E8] tracking-widest">{val}</div>
                                             </div>
                                         ))}
                                     </div>
-                                </CardContent>
-                            </Card>
-                            <Card className="bg-muted/5 border-muted-foreground/10">
-                                <CardHeader>
-                                    <CardTitle className="font-mono text-[10px] uppercase tracking-widest text-primary">— Bowling Analytics</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="grid grid-cols-3 gap-6">
+                                </div>
+                            </div>
+
+                            {/* Bowling Analytics */}
+                            <div className="bg-[#111111] border border-[rgba(245,240,232,0.08)]">
+                                <div className="p-4 px-6 border-b border-[rgba(245,240,232,0.05)] bg-[#0D0D0D]">
+                                    <h4 className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#C9A84C]">Bowling Profile Matrix</h4>
+                                </div>
+                                <div className="p-10">
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-x-10 gap-y-12">
                                         {Object.entries(player.stats?.bowling || {}).map(([key, val]: [any, any]) => (
-                                            <div key={key} className="text-center group">
-                                                <div className="text-2xl font-black font-mono group-hover:text-primary transition-colors">{val}</div>
-                                                <div className="text-[9px] font-mono text-muted-foreground uppercase tracking-tighter">{key}</div>
+                                            <div key={key} className="space-y-1 group">
+                                                <div className="text-[10px] font-mono text-[rgba(245,240,232,0.25)] uppercase tracking-widest group-hover:text-[#C9A84C] transition-colors">{key}</div>
+                                                <div className="text-3xl font-bebas text-[#F5F0E8] tracking-widest">{val}</div>
                                             </div>
                                         ))}
                                     </div>
-                                </CardContent>
-                            </Card>
+                                </div>
+                            </div>
                         </div>
 
-                        <Card className="bg-primary/5 border-primary/20 shadow-none">
-                            <CardHeader>
-                                <CardTitle className="font-mono text-[10px] uppercase tracking-widest text-primary">— Insight Engine v1.0</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
+                        {/* Intelligence Report Card */}
+                        <div className="bg-[#111111] border border-[rgba(245,240,232,0.08)] flex flex-col">
+                            <div className="p-4 px-6 border-b border-[rgba(245,240,232,0.05)] bg-[#0D0D0D]">
+                                <h4 className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#C9A84C]">Tactical Briefing</h4>
+                            </div>
+                            <div className="p-8 space-y-10">
                                 {computed?.radarData && <PlayerRadarChart stats={computed.radarData} />}
-                                <div className="mt-4 pt-4 border-t border-primary/10 space-y-3">
-                                    {computed?.insights.map((insight: string, idx: number) => (
-                                        <div key={idx} className="flex gap-2">
-                                            <AlertCircle className="h-3 w-3 text-primary shrink-0 mt-0.5" />
-                                            <p className="text-[10px] text-muted-foreground font-mono leading-relaxed uppercase">
-                                                {insight}
-                                            </p>
-                                        </div>
-                                    ))}
+                                <div className="space-y-6">
+                                    <div className="h-px w-full bg-[rgba(245,240,232,0.05)]" />
+                                    <div className="space-y-5">
+                                        {computed?.insights.map((insight: string, idx: number) => (
+                                            <div key={idx} className="flex gap-4 group">
+                                                <div className="mt-1.5 h-1.5 w-1.5 bg-[#C9A84C] group-hover:scale-150 transition-transform" />
+                                                <p className="text-[11px] text-[rgba(245,240,232,0.6)] font-mono leading-relaxed uppercase tracking-wider">
+                                                    {insight}
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
-                            </CardContent>
-                        </Card>
+                            </div>
+                        </div>
                     </div>
                 </TabsContent>
 
-                <TabsContent value="analytics" className="mt-6">
-                    <Suspense fallback={<div className="font-mono">Loading Data Visualization...</div>}>
-                        <PlayerCharts playerId={id} />
-                    </Suspense>
+                <TabsContent value="analytics" className="mt-8 animate-in fade-in duration-500">
+                    <div className="bg-[#111111] border border-[rgba(245,240,232,0.08)] p-10">
+                        <Suspense fallback={<div className="font-mono text-center py-20 uppercase tracking-[0.4em] text-[rgba(245,240,232,0.2)]">Global Feed Connection Active...</div>}>
+                            <PlayerCharts playerId={id} />
+                        </Suspense>
+                    </div>
                 </TabsContent>
 
-                <TabsContent value="matchups" className="mt-6">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="font-mono text-sm uppercase">— Performance in Critical Moments</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-6">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                                <div className="p-4 border border-muted-foreground/10 rounded-lg">
-                                    <div className="text-[10px] font-mono uppercase text-muted-foreground mb-1">Pressure Index</div>
-                                    <div className="text-3xl font-black font-mono text-rose-500">7.8</div>
-                                    <Badge className="mt-2 bg-rose-500">HIGH STAKES</Badge>
-                                </div>
-                                <div className="p-4 border border-muted-foreground/10 rounded-lg">
-                                    <div className="text-[10px] font-mono uppercase text-muted-foreground mb-1">vs LHB/RHB Bias</div>
-                                    <div className="text-3xl font-black font-mono text-emerald-500">12%</div>
-                                    <Badge className="mt-2 bg-emerald-500">NEUTRAL</Badge>
-                                </div>
-                                <div className="p-4 border border-muted-foreground/10 rounded-lg">
-                                    <div className="text-[10px] font-mono uppercase text-muted-foreground mb-1">Success Rate</div>
-                                    <div className="text-3xl font-black font-mono text-primary">64%</div>
-                                    <Badge className="mt-2 bg-primary">ABOVE AVG</Badge>
-                                </div>
+                <TabsContent value="matchups" className="mt-8 animate-in fade-in duration-500">
+                    <div className="bg-[#111111] border border-[rgba(245,240,232,0.08)]">
+                        <div className="p-6 border-b border-[rgba(245,240,232,0.05)] bg-[#0D0D0D]">
+                            <h4 className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#C9A84C]">Performance in High-Stakes Intervals</h4>
+                        </div>
+                        <div className="p-10">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                {[
+                                    { label: "Pressure Index", value: "7.8", badge: "CRITICAL", color: "#C0392B" },
+                                    { label: "vs LHB Bias", value: "12%", badge: "NEUTRAL", color: "#F5F0E8" },
+                                    { label: "Success Rate", value: "64%", badge: "OVER-PERFORM", color: "#1DB954" },
+                                ].map((stat, i) => (
+                                    <div key={i} className="p-8 border border-[rgba(245,240,232,0.05)] bg-[#0D0D0D] text-center space-y-4">
+                                        <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-[rgba(245,240,232,0.25)]">{stat.label}</div>
+                                        <div className="text-6xl font-bebas tracking-widest" style={{ color: stat.color }}>{stat.value}</div>
+                                        <div className="inline-block px-3 py-1 border border-[rgba(245,240,232,0.1)] text-[10px] font-mono text-[rgba(245,240,232,0.6)] tracking-widest uppercase">
+                                            {stat.badge}
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-                        </CardContent>
-                    </Card>
+                        </div>
+                    </div>
                 </TabsContent>
 
-                <TabsContent value="form" className="mt-6">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="font-mono text-sm uppercase">— Recent Match Data</CardTitle>
-                        </CardHeader>
-                        <CardContent>
+                <TabsContent value="form" className="mt-8 animate-in fade-in duration-500">
+                    <div className="bg-[#111111] border border-[rgba(245,240,232,0.08)]">
+                        <div className="p-6 border-b border-[rgba(245,240,232,0.05)] bg-[#0D0D0D]">
+                            <h4 className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#C9A84C]">Recent Match Intercepts</h4>
+                        </div>
+                        <div className="p-8">
                             {formLoading ? (
                                 <LoadingSkeleton rows={5} />
                             ) : (
                                 <div className="space-y-3">
                                     {formData?.form?.map((match: any, i: number) => (
-                                        <div key={i} className="flex items-center justify-between p-3 rounded bg-muted/5 border border-muted-foreground/5">
-                                            <div className="font-mono text-xs font-bold">{match.date}</div>
-                                            <div className="font-mono text-xs">{match.opponent}</div>
-                                            <div className={`font-mono font-black ${match.runs > 30 ? 'text-emerald-500' : 'text-primary'}`}>
-                                                {match.runs} ({match.balls})
+                                        <div key={i} className="flex items-center justify-between p-5 bg-[#0D0D0D] border border-[rgba(245,240,232,0.05)] group hover:border-[#C9A84C]/30 transition-all">
+                                            <div className="flex items-center gap-10">
+                                                <div className="font-mono text-[11px] uppercase tracking-widest text-[rgba(245,240,232,0.25)]">{match.date}</div>
+                                                <div className="font-bebas text-xl text-[#F5F0E8] tracking-widest uppercase">{match.opponent}</div>
+                                            </div>
+                                            <div className={`font-bebas text-3xl tracking-widest ${match.runs > 40 ? 'text-[#1DB954]' : (match.runs > 20 ? 'text-[#C9A84C]' : 'text-[#C0392B]')}`}>
+                                                {match.runs} <span className="text-[11px] font-mono opacity-50">({match.balls})</span>
                                             </div>
                                         </div>
                                     ))}
                                     {!formData?.form?.length && (
-                                        <div className="text-center py-6 font-mono text-xs text-muted-foreground uppercase tracking-widest">
-                                            No recent match data found in cache
+                                        <div className="text-center py-20 font-mono text-[11px] uppercase tracking-[0.4em] text-[rgba(245,240,232,0.2)]">
+                                            No recent intercepts found in sectoral cache
                                         </div>
                                     )}
                                 </div>
                             )}
-                        </CardContent>
-                    </Card>
+                        </div>
+                    </div>
                 </TabsContent>
             </Tabs>
         </div>

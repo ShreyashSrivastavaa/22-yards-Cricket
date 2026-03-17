@@ -14,7 +14,7 @@ import { LandingNavbar } from "@/components/landing/LandingNavbar"
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col bg-[#F5F2E9] text-[#1a1a1a] selection:bg-[#D4AF37] selection:text-white min-h-screen relative">
+    <div className="flex flex-col bg-[#0A0A0A] text-[#F5F0E8] selection:bg-[#C9A84C] selection:text-[#0A0A0A] min-h-screen relative font-sans">
       <LandingNavbar />
 
       <main className="flex-grow">

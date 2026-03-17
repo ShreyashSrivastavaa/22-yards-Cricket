@@ -8,83 +8,88 @@ export function Pricing() {
     const plans = [
         {
             name: "Standard",
-            price: "0",
-            description: "Basic entry-level insights for casual fans.",
+            price: "FREE",
+            description: "Basic entry-level insights for tactical observers.",
             features: [
                 "Intelligence Dashboard Access",
                 "Basic Player Profiling",
                 "Live Match Scorecards",
-                "Limited Daily Picks",
-                "Community Analysis Feed"
+                "Limited Daily Insights",
+                "Tactical Archive Access"
             ],
-            cta: "Get Started Free",
+            cta: "Initialize Access",
             popular: false
         },
         {
             name: "Analyst Pro",
             price: "499",
-            period: "/month",
-            description: "Elite tools for serious fantasy players and scouts.",
+            period: "/MO",
+            description: "Elite tools for professional fantasy scouts and analysts.",
             features: [
-                "Full AI Prediction Engine",
+                "Tactical Intelligence Engine",
                 "Interactive Radar Charts",
-                "Fantasy Optimizer Pro",
-                "Match Story Timeline",
-                "Innings Simulation Model",
-                "Early Venue Intelligence"
+                "Strategic Squad Optimizer",
+                "Full Match Story Timeline",
+                "Multivariate Simulations",
+                "Venue Advantage Analysis"
             ],
-            cta: "Unlock Pro Early",
+            cta: "Join Analyst Tier",
             popular: true
         }
     ]
 
     return (
-        <section id="pricing" className="py-24 bg-[#F5F2E9]">
+        <section id="pricing" className="py-24 bg-[#0D0D0D] border-b border-[rgba(201,168,76,0.1)]">
             <div className="container mx-auto px-6">
-                <div className="text-center max-w-2xl mx-auto mb-20 space-y-4">
-                    <h2 className="text-4xl md:text-5xl font-bebas tracking-wider uppercase text-[#1a1a1a]">Choose Your <span className="text-[#D4AF37]">Intelligence Tier</span></h2>
-                    <p className="text-[#4a4a4a] text-[10px] font-mono uppercase tracking-[0.2em] font-bold">
-                        Scale your tactical advantage from casual observer to professional analyst.
-                    </p>
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-3">
+                            <div className="h-px w-8 bg-[#C9A84C]" />
+                            <span className="text-[11px] font-mono uppercase tracking-[0.3em] text-[#C9A84C]">
+                                Pricing Structure
+                            </span>
+                        </div>
+                        <h2 className="text-6xl md:text-7xl font-bebas text-[#F5F0E8] tracking-tight uppercase leading-none">
+                            Intelligence <span className="text-[#C9A84C]">Access Tiers</span>
+                        </h2>
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                     {plans.map((plan, i) => (
-                        <div key={i} className={`relative flex flex-col p-8 rounded-none border ${plan.popular ? 'border-[#D4AF37] bg-white shadow-2xl shadow-[#D4AF37]/10' : 'border-[#1a1a1a]/10 bg-white/50'}`}>
+                        <div key={i} className={`relative flex flex-col p-10 bg-[#111111] border ${plan.popular ? 'border-[#C9A84C] shadow-2xl shadow-[#C9A84C]/5' : 'border-[rgba(245,240,232,0.08)]'}`}>
                             {plan.popular && (
-                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#D4AF37] text-[10px] font-mono font-bold uppercase tracking-widest text-white flex items-center gap-1.5 shadow-lg">
-                                    <Sparkles className="h-3 w-3" /> Highest Clearance
+                                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#C9A84C] text-[10px] font-mono font-bold uppercase tracking-widest text-[#0A0A0A]">
+                                    Recommended
                                 </div>
                             )}
 
-                            <div className="mb-8">
-                                <div className="text-[10px] font-mono uppercase tracking-widest text-[#B8860B] mb-2">{plan.name} Node</div>
+                            <div className="mb-10">
+                                <div className="text-[10px] font-mono uppercase tracking-widest text-[rgba(245,240,232,0.25)] mb-2">{plan.name} Tier</div>
                                 <div className="flex items-baseline gap-1">
-                                    <span className="text-sm font-mono text-[#4a4a4a]">₹</span>
-                                    <span className="text-5xl font-bebas tracking-tighter text-[#1a1a1a]">{plan.price}</span>
-                                    <span className="text-sm font-mono text-[#4a4a4a]">{plan.period}</span>
+                                    <span className="text-sm font-mono text-[#C9A84C] font-bold">₹</span>
+                                    <span className="text-6xl font-bebas tracking-tighter text-[#C9A84C]">{plan.price}</span>
+                                    {plan.period && <span className="text-sm font-mono text-[rgba(245,240,232,0.4)] ml-1">{plan.period}</span>}
                                 </div>
-                                <p className="text-[10px] font-mono uppercase text-[#4a4a4a] mt-4 leading-relaxed tracking-wider font-medium opacity-70">
+                                <p className="text-[11px] font-mono uppercase text-[rgba(245,240,232,0.6)] mt-6 leading-relaxed tracking-wider">
                                     {plan.description}
                                 </p>
                             </div>
 
-                            <div className="space-y-4 mb-10 flex-grow">
+                            <div className="space-y-5 mb-12 flex-grow">
                                 {plan.features.map((feature, idx) => (
                                     <div key={idx} className="flex items-start gap-3">
-                                        <div className={`mt-1 p-0.5 ${plan.popular ? 'text-[#D4AF37]' : 'text-[#4a4a4a]'}`}>
-                                            <Check className="h-3 w-3 stroke-[3]" />
+                                        <div className="mt-1">
+                                            <Check className="h-3 w-3 text-[#C9A84C]" />
                                         </div>
-                                        <span className="text-[10px] font-mono uppercase tracking-widest text-[#1a1a1a] font-bold">{feature}</span>
+                                        <span className="text-[11px] font-mono uppercase tracking-widest text-[#F5F0E8]">{feature}</span>
                                     </div>
                                 ))}
                             </div>
 
-                            <Link href="/register" className="w-full">
-                                <Button className={`w-full h-14 rounded-none text-xs font-mono uppercase tracking-[0.2em] ${plan.popular ? 'bg-[#D4AF37] hover:bg-[#B8860B] text-white' : 'bg-[#1a1a1a]/5 hover:bg-[#1a1a1a]/10 text-[#1a1a1a] border border-[#1a1a1a]/10'}`}>
-                                    {plan.cta}
-                                </Button>
-                            </Link>
+                            <Button className="w-full h-14 bg-[#C9A84C] hover:bg-[#E8D08A] text-[#0A0A0A] rounded-none font-mono text-[11px] uppercase tracking-widest transition-colors" asChild>
+                                <a href="/register">{plan.cta}</a>
+                            </Button>
                         </div>
                     ))}
                 </div>

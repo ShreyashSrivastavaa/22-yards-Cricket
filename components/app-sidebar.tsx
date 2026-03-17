@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import {
     LayoutDashboard,
@@ -81,6 +81,7 @@ const items = [
 
 export function AppSidebar() {
     const router = useRouter()
+    const pathname = usePathname()
 
     const handleLogout = async () => {
         await supabase.auth.signOut()
@@ -89,23 +90,28 @@ export function AppSidebar() {
 
     return (
         <Sidebar variant="inset" collapsible="icon">
-            <SidebarHeader className="flex flex-col gap-2 p-4">
-                <div className="flex flex-col gap-1">
-                    <span className="font-bebas text-2xl tracking-tighter text-primary">22 YARDS</span>
-                    <span className="text-[10px] font-mono uppercase tracking-widest opacity-50">Intelligence Terminal</span>
+            <SidebarHeader className="flex flex-col gap-2 p-6 pb-2">
+                <div className="flex flex-col gap-0.5" >
+                    <span className="font-bebas text-3xl tracking-tight text-[#F5F0E8]">22 YARDS</span>
+                    <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-[#C9A84C] font-bold">Intelligence Platform</span>
                 </div>
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
-                    <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+                    <SidebarGroupLabel className="px-6 font-mono text-[10px] uppercase tracking-[0.2em] text-[rgba(245,240,232,0.25)] mb-2">Systems</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {items.map((item) => (
                                 <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton asChild tooltip={item.title}>
+                                    <SidebarMenuButton
+                                        asChild
+                                        tooltip={item.title}
+                                        isActive={pathname === item.url}
+                                        className="h-10 hover:bg-[#1A1A1A] transition-all data-[active=true]:border-l-2 data-[active=true]:border-[#C9A84C] data-[active=true]:text-[#C9A84C] data-[active=true]:bg-[rgba(201,168,76,0.05)] rounded-none px-6"
+                                    >
                                         <a href={item.url}>
-                                            <item.icon />
-                                            <span>{item.title}</span>
+                                            <item.icon className="h-4 w-4 opacity-70 group-data-[active=true]:opacity-100" />
+                                            <span className="text-[11px] font-mono uppercase tracking-widest font-medium">{item.title}</span>
                                         </a>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>

@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { UserPlus, Mail, Lock, Loader2 } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { UserPlus, Mail, Lock, Loader2, ShieldAlert, CheckCircle2 } from "lucide-react"
 
 export default function RegisterPage() {
     const [email, setEmail] = useState("")
@@ -42,21 +42,24 @@ export default function RegisterPage() {
 
     if (success) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-[#F5F2E9] p-4">
-                <Card className="w-full max-w-md bg-white border-[#D4AF37]/20 shadow-xl rounded-none text-center p-8">
-                    <div className="h-16 w-16 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <Mail className="h-8 w-8" />
+            <div className="min-h-screen flex items-center justify-center bg-[#0A0A0A] p-6 relative overflow-hidden">
+                <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
+                    style={{ backgroundImage: 'radial-gradient(#C9A84C 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+
+                <Card className="w-full max-w-md bg-[#111111] border-[rgba(245,240,232,0.1)] rounded-none text-center p-12 relative z-10 shadow-2xl">
+                    <div className="h-20 w-20 border border-[rgba(29,185,84,0.3)] bg-[rgba(29,185,84,0.05)] flex items-center justify-center mx-auto mb-8">
+                        <CheckCircle2 className="h-10 w-10 text-[#1DB954]" />
                     </div>
-                    <h2 className="text-3xl font-bebas tracking-wide uppercase text-[#1a1a1a] mb-4">Verification Sent</h2>
-                    <p className="text-[11px] font-mono uppercase tracking-widest text-[#4a4a4a] leading-relaxed">
-                        We have dispatched a confirmation link to your terminal.
-                        Please verify your email to activate your clearance.
+                    <h2 className="text-4xl font-bebas tracking-[0.15em] uppercase text-[#F5F0E8] mb-4">Transmission Sent</h2>
+                    <p className="text-[11px] font-mono uppercase tracking-[0.2em] text-[rgba(245,240,232,0.4)] leading-relaxed mb-10">
+                        We have dispatched a validation intercept to your coordinates.
+                        Confirm the link to finalize your clearance.
                     </p>
                     <Button
                         onClick={() => router.push("/login")}
-                        className="w-full mt-10 bg-[#D4AF37] hover:bg-[#B8860B] text-white font-bebas text-xl tracking-widest rounded-none"
+                        className="w-full h-14 bg-[#111111] hover:bg-[#1a1a1a] border border-[rgba(245,240,232,0.1)] text-[#C9A84C] font-bebas text-xl tracking-widest rounded-none transition-all"
                     >
-                        Return to Login
+                        Return to Terminal
                     </Button>
                 </Card>
             </div>
@@ -64,65 +67,76 @@ export default function RegisterPage() {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#F5F2E9] p-4">
-            <Card className="w-full max-w-md bg-white border-[#D4AF37]/20 shadow-xl rounded-none">
-                <CardHeader className="space-y-1 text-center border-b border-[#F5F2E9] pb-8">
-                    <div className="flex justify-center mb-4">
-                        <div className="h-12 w-12 bg-[#D4AF37]/10 flex items-center justify-center border border-[#D4AF37]/20">
-                            <UserPlus className="h-6 w-6 text-[#D4AF37]" />
+        <div className="min-h-screen flex items-center justify-center bg-[#0A0A0A] p-6 relative overflow-hidden">
+            {/* Background pattern */}
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
+                style={{ backgroundImage: 'radial-gradient(#C9A84C 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+
+            <Card className="w-full max-w-md bg-[#111111] border-[rgba(245,240,232,0.08)] rounded-none relative z-10 shadow-2xl">
+                <CardHeader className="space-y-6 text-center border-b border-[rgba(245,240,232,0.05)] pb-10 bg-[#0D0D0D]">
+                    <div className="flex justify-center">
+                        <div className="h-16 w-16 border border-[#C9A84C]/30 flex items-center justify-center bg-[#C9A84C]/5">
+                            <UserPlus className="h-7 w-7 text-[#C9A84C]" />
                         </div>
                     </div>
-                    <CardTitle className="text-3xl font-bebas tracking-wider uppercase text-[#1a1a1a]">Register Profile</CardTitle>
-                    <CardDescription className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#4a4a4a]">Initialize your analyst clearance</CardDescription>
+                    <div className="space-y-2">
+                        <CardTitle className="text-4xl font-bebas tracking-[0.2em] uppercase text-[#F5F0E8]">Register <span className="text-[#C9A84C]">Asset</span></CardTitle>
+                        <p className="text-[10px] font-mono uppercase tracking-[0.4em] text-[rgba(245,240,232,0.4)]">Initialize Global Clearance Protocol</p>
+                    </div>
                 </CardHeader>
-                <CardContent className="pt-8">
-                    <form onSubmit={handleRegister} className="space-y-6">
+                <CardContent className="pt-10 p-10">
+                    <form onSubmit={handleRegister} className="space-y-8">
                         {error && (
-                            <div className="p-3 bg-red-50 border border-red-200 text-red-600 text-[10px] font-mono uppercase tracking-widest">
+                            <div className="p-4 bg-[rgba(192,57,43,0.1)] border border-[rgba(192,57,43,0.3)] text-[#C0392B] text-[10px] font-mono uppercase tracking-widest flex items-center gap-3">
+                                <ShieldAlert className="h-4 w-4" />
                                 {error}
                             </div>
                         )}
-                        <div className="space-y-2">
-                            <Label htmlFor="email" className="text-[10px] font-mono uppercase tracking-widest text-[#4a4a4a]">Email Node</Label>
-                            <div className="relative">
-                                <Mail className="absolute left-3 top-3 h-4 w-4 text-[#D4AF37]" />
+
+                        <div className="space-y-3">
+                            <Label htmlFor="email" className="text-[10px] font-mono uppercase tracking-[0.3em] text-[rgba(245,240,232,0.45)]">Desired Analytical Node [Email]</Label>
+                            <div className="relative group">
+                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[rgba(245,240,232,0.2)] group-focus-within:text-[#C9A84C] transition-colors" />
                                 <Input
                                     id="email"
                                     type="email"
-                                    placeholder="analyst@22yards.ai"
-                                    className="pl-10 h-12 bg-[#F5F2E9]/50 border-[#D4AF37]/10 rounded-none focus-visible:ring-[#D4AF37]"
+                                    placeholder="analyst@22yards.io"
+                                    className="pl-10 h-14 bg-[#0A0A0A] border-[rgba(245,240,232,0.08)] rounded-none focus-visible:ring-[#C9A84C] text-[#F5F0E8] font-mono text-sm placeholder:text-[rgba(245,240,232,0.1)] transition-all"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
                                 />
                             </div>
                         </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="password" className="text-[10px] font-mono uppercase tracking-widest text-[#4a4a4a]">Create Passcode</Label>
-                            <div className="relative">
-                                <Lock className="absolute left-3 top-3 h-4 w-4 text-[#D4AF37]" />
+
+                        <div className="space-y-3">
+                            <Label htmlFor="password" className="text-[10px] font-mono uppercase tracking-[0.3em] text-[rgba(245,240,232,0.45)]">New Passcode Hash</Label>
+                            <div className="relative group">
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[rgba(245,240,232,0.2)] group-focus-within:text-[#C9A84C] transition-colors" />
                                 <Input
                                     id="password"
                                     type="password"
-                                    placeholder="Min. 8 characters"
-                                    className="pl-10 h-12 bg-[#F5F2E9]/50 border-[#D4AF37]/10 rounded-none focus-visible:ring-[#D4AF37]"
+                                    placeholder="8+ characters required"
+                                    className="pl-10 h-14 bg-[#0A0A0A] border-[rgba(245,240,232,0.08)] rounded-none focus-visible:ring-[#C9A84C] text-[#F5F0E8] transition-all placeholder:text-[rgba(245,240,232,0.1)]"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
                             </div>
                         </div>
+
                         <Button
                             type="submit"
                             disabled={loading}
-                            className="w-full h-12 bg-[#D4AF37] hover:bg-[#B8860B] text-white font-bebas text-xl tracking-widest rounded-none mt-4"
+                            className="w-full h-14 bg-[#C9A84C] hover:bg-[#E8D08A] text-[#0A0A0A] font-bebas text-2xl tracking-[0.2em] rounded-none mt-4 transition-all"
                         >
-                            {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : "PROVISIONAL REGISTRATION"}
+                            {loading ? <Loader2 className="h-6 w-6 animate-spin" /> : "Authorize Clearance"}
                         </Button>
                     </form>
-                    <div className="mt-8 pt-6 border-t border-[#F5F2E9] text-center">
-                        <p className="text-[10px] font-mono uppercase tracking-widest text-[#4a4a4a]">
-                            Existing clearance? <a href="/login" className="text-[#D4AF37] hover:underline font-bold">Access Terminal</a>
+
+                    <div className="mt-12 pt-8 border-t border-[rgba(245,240,232,0.05)] text-center">
+                        <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-[rgba(245,240,232,0.3)]">
+                            Existing Clearance? <a href="/login" className="text-[#C9A84C] hover:text-[#E8D08A] font-bold transition-colors">Return to Terminal</a>
                         </p>
                     </div>
                 </CardContent>

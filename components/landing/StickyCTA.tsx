@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Sparkles } from "lucide-react"
+import { ArrowRight, Radar } from "lucide-react"
 import Link from "next/link"
 
 export function StickyCTA() {
@@ -23,18 +23,18 @@ export function StickyCTA() {
     if (!isVisible) return null
 
     return (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-10 fade-in duration-500">
-            <div className="bg-black/40 backdrop-blur-xl border border-primary/30 p-2 rounded-2xl shadow-2xl shadow-primary/20 flex items-center gap-4">
-                <div className="pl-4 pr-2">
-                    <div className="text-[8px] font-mono text-muted-foreground uppercase tracking-widest leading-none mb-1">Live Intelligence</div>
-                    <div className="text-xs font-bold font-mono text-white flex items-center gap-2">
-                        <Sparkles className="h-3 w-3 text-primary" />
-                        Elite Picks Ready
+        <div className="fixed bottom-12 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-12 fade-in duration-700">
+            <div className="bg-[#111111] border border-[#C9A84C]/40 p-1 rounded-none shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex items-center gap-6">
+                <div className="pl-6 pr-2 py-2">
+                    <div className="text-[10px] font-mono text-[rgba(245,240,232,0.3)] uppercase tracking-[0.3em] leading-none mb-2 italic">Intelligence Link</div>
+                    <div className="text-xs font-bold font-mono text-[#F5F0E8] flex items-center gap-3 tracking-widest uppercase">
+                        <Radar className="h-4 w-4 text-[#C9A84C] animate-pulse" />
+                        Signal Intercepted
                     </div>
                 </div>
                 <Link href="#elite-picks">
-                    <Button size="sm" className="h-10 px-6 text-[10px] uppercase font-mono tracking-widest bg-primary hover:bg-primary/90 gap-2">
-                        Get Today’s Picks <ArrowRight className="h-3 w-3" />
+                    <Button size="lg" className="h-12 px-10 text-[11px] uppercase font-mono tracking-[0.4em] bg-[#C9A84C] text-[#0A0A0A] hover:bg-[#E8D08A] rounded-none font-bold gap-3 transition-all hover:gap-5">
+                        Intercept Intel <ArrowRight className="h-4 w-4" />
                     </Button>
                 </Link>
             </div>
