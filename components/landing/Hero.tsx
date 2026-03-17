@@ -1,107 +1,95 @@
 "use client"
 
+import { useState, useEffect } from "react"
+import { Cpu, ShieldCheck, BarChart3, Play, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { ArrowRight, Play, Cpu, BarChart3, ShieldCheck } from "lucide-react"
-import Link from "next/link"
 
 export function Hero() {
+    const [timeLeft, setTimeLeft] = useState({ h: 0, m: 0, s: 0 })
+
+    useEffect(() => {
+        const target = new Date("2026-03-31T19:30:00").getTime()
+        const timer = setInterval(() => {
+            const now = new Date().getTime()
+            const distance = target - now
+            if (distance < 0) {
+                clearInterval(timer)
+                return
+            }
+            setTimeLeft({
+                h: Math.floor((distance / (1000 * 60 * 60))),
+                m: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+                s: Math.floor((distance % (1000 * 60)) / 1000)
+            })
+        }, 1000)
+        return () => clearInterval(timer)
+    }, [])
+
     return (
-        <section className="relative overflow-hidden pt-20 pb-20 md:pt-32 md:pb-32 border-b border-primary/10">
-            {/* Background Glows */}
-            <div className="absolute top-0 -left-4 w-72 h-72 bg-primary/20 rounded-full blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-0 -right-4 w-72 h-72 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
+        <section className="relative overflow-hidden pt-20 pb-20 md:pt-32 md:pb-40 border-b border-[#D4AF37]/20 bg-[#F5F2E9]">
+            {/* Background Texture/Pattern */}
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]" />
 
-            <div className="container mx-auto px-6 relative z-10">
-                <div className="flex flex-col items-center text-center max-w-4xl mx-auto space-y-8">
+            <div className="container relative z-10 mx-auto px-4 flex flex-col items-center text-center">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/10 text-[#B8860B] text-[10px] font-mono uppercase tracking-[0.2em] mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+                    <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D4AF37] opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D4AF37]"></span>
+                    </span>
+                    Next Generation Cricket Intelligence
+                </div>
 
-                    <div className="flex flex-col items-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-                        <Badge variant="outline" className="px-4 py-1.5 border-primary/30 bg-primary/5 text-primary text-[10px] font-mono tracking-[0.2em]">
-                            SYSTEM VERSION 2.0.4 · ACTIVE
-                        </Badge>
-                        <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-emerald-500 bg-emerald-500/5 px-3 py-1 rounded-full border border-emerald-500/10">
-                            <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                            AI Engine: Analyzing 1,242 Scenarios...
-                        </div>
+                <h1 className="text-6xl md:text-8xl font-bebas tracking-tight leading-[0.9] text-[#1a1a1a] mb-6 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+                    MASTER THE <span className="text-[#D4AF37]">CREASE</span> WITH <br />
+                    ELITE ANALYTICS
+                </h1>
+
+                <p className="max-w-2xl text-lg md:text-xl text-[#4a4a4a] mb-10 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-400">
+                    The most advanced match intelligence engine ever built for cricket.
+                    From phase-wise matchups to real-time win probability, 22 Yards
+                    deciphers the game like never before.
+                </p>
+
+                <div className="flex flex-col sm:flex-row gap-4 mb-16 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
+                    <Button size="lg" className="bg-[#D4AF37] hover:bg-[#B8860B] text-white px-8 h-14 text-sm font-bold uppercase tracking-widest rounded-none border-b-4 border-[#8B6508]" asChild>
+                        <a href="/register">Start Analyzing Now <ArrowRight className="ml-2 h-4 w-4" /></a>
+                    </Button>
+                    <Button variant="outline" size="lg" className="border-[#D4AF37] text-[#B8860B] hover:bg-[#D4AF37]/5 px-8 h-14 text-sm font-bold uppercase tracking-widest rounded-none" asChild>
+                        <a href="/login">Login to Dashboard</a>
+                    </Button>
+                </div>
+
+                {/* Countdown / Status Bar */}
+                <div className="flex items-center gap-8 py-4 px-8 rounded-none border border-[#D4AF37]/30 bg-white/50 backdrop-blur-md shadow-xl animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-600">
+                    <div className="text-left">
+                        <div className="text-[9px] font-mono text-[#4a4a4a] uppercase tracking-widest mb-1">Season Opener</div>
+                        <div className="text-sm font-bold font-mono text-[#B8860B]">IPL 2026 Opening Night</div>
                     </div>
-
-                    <h1 className="text-5xl md:text-7xl lg:text-8xl font-bebas tracking-tight leading-[0.9] uppercase animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-                        Stop Guessing. <span className="text-primary">Start Winning.</span>
-                    </h1>
-
-                    <p className="text-muted-foreground text-sm md:text-lg font-mono uppercase tracking-widest max-w-2xl opacity-80 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-300">
-                        Win More Fantasy Matches Using AI Cricket Intelligence. Real-time insights powered by data—not guesswork.
-                    </p>
-
-                    <div className="flex flex-col items-center gap-6 pt-4 animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-500 w-full">
-                        <div className="flex flex-wrap items-center justify-center gap-4">
-                            <Link href="#elite-picks">
-                                <Button size="lg" className="h-14 px-8 text-xs font-mono uppercase tracking-widest bg-primary hover:bg-primary/90 gap-2">
-                                    Get Today’s Picks <ArrowRight className="h-4 w-4" />
-                                </Button>
-                            </Link>
-                            <Link href="/dashboard">
-                                <Button size="lg" variant="outline" className="h-14 px-8 text-xs font-mono uppercase tracking-widest border-primary/20 hover:bg-primary/5 gap-2">
-                                    Enter Dashboard
-                                </Button>
-                            </Link>
+                    <div className="h-10 w-px bg-[#D4AF37]/20" />
+                    <div className="text-left">
+                        <div className="text-[9px] font-mono text-[#4a4a4a] uppercase tracking-widest mb-1">Intelligence Countdown</div>
+                        <div className="text-sm font-bold font-mono text-[#1a1a1a]">
+                            {String(timeLeft.h).padStart(2, '0')}h {String(timeLeft.m).padStart(2, '0')}m {String(timeLeft.s).padStart(2, '0')}s
                         </div>
-
-                        <div className="flex items-center gap-8 py-3 px-6 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-md">
-                            <div className="text-left">
-                                <div className="text-[8px] font-mono text-muted-foreground uppercase tracking-widest mb-1">Next Major Match</div>
-                                <div className="text-sm font-bold font-mono text-primary">MI vs CSK</div>
-                            </div>
-                            <div className="h-8 w-px bg-white/10" />
-                            <div className="text-left">
-                                <div className="text-[8px] font-mono text-muted-foreground uppercase tracking-widest mb-1">Starts In</div>
-                                <div className="text-sm font-bold font-mono text-white">02h 14m 45s</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-16 w-full max-w-3xl animate-in fade-in slide-in-from-bottom-20 duration-1000 delay-700">
-                        {[
-                            { title: "AI-Powered", icon: Cpu, desc: "Neural forecasting engine" },
-                            { title: "Real Match Data", icon: ShieldCheck, desc: "Live ingestion pipeline" },
-                            { title: "Advanced Analytics", icon: BarChart3, desc: "10+ proprietary metrics" }
-                        ].map((trust, i) => (
-                            <div key={i} className="flex items-center gap-3 p-4 rounded-xl border border-white/5 bg-white/[0.02] backdrop-blur-sm">
-                                <div className="p-2 rounded-lg bg-primary/10">
-                                    <trust.icon className="h-4 w-4 text-primary" />
-                                </div>
-                                <div className="text-left">
-                                    <div className="text-[10px] font-bold font-mono uppercase tracking-wider">{trust.title}</div>
-                                    <div className="text-[9px] font-mono text-muted-foreground uppercase">{trust.desc}</div>
-                                </div>
-                            </div>
-                        ))}
                     </div>
                 </div>
 
-                {/* Dashboard Preview Mock */}
-                <div className="mt-20 relative animate-in fade-in slide-in-from-bottom-24 duration-1000 delay-1000">
-                    <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10" />
-                    <div className="rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md overflow-hidden shadow-2xl shadow-primary/20">
-                        <div className="h-8 bg-white/5 border-b border-white/5 flex items-center px-4 gap-1.5">
-                            <div className="h-2 w-2 rounded-full bg-white/10" />
-                            <div className="h-2 w-2 rounded-full bg-white/10" />
-                            <div className="h-2 w-2 rounded-full bg-white/10" />
-                            <div className="ml-auto flex items-center gap-3">
-                                <div className="h-1 w-20 bg-white/10 rounded" />
-                                <div className="h-1 w-12 bg-white/10 rounded" />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-20 w-full max-w-4xl animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-800">
+                    {[
+                        { title: "Neural Forecasting", icon: Cpu, desc: "Predictive engine for game states" },
+                        { title: "Tactical Vault", icon: ShieldCheck, desc: "Historical data and archives" },
+                        { title: "Live Intelligence", icon: BarChart3, desc: "Real-time stats ingestion" }
+                    ].map((trust, i) => (
+                        <div key={i} className="flex items-center gap-4 p-5 bg-white shadow-sm border border-[#D4AF37]/10">
+                            <div className="p-3 rounded-none bg-[#D4AF37]/10">
+                                <trust.icon className="h-5 w-5 text-[#D4AF37]" />
+                            </div>
+                            <div className="text-left">
+                                <div className="text-xs font-bold uppercase text-[#1a1a1a]">{trust.title}</div>
+                                <div className="text-[10px] font-mono text-[#4a4a4a] uppercase mt-0.5">{trust.desc}</div>
                             </div>
                         </div>
-                        <div className="aspect-[16/9] bg-[url('https://images.unsplash.com/photo-1540747913346-19e3adca174f?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center grayscale opacity-40 mix-blend-overlay" />
-                        <div className="absolute inset-x-0 bottom-0 top-8 bg-black/60 p-8 flex items-center justify-center">
-                            <div className="flex flex-col items-center gap-4">
-                                <div className="h-12 w-12 rounded-full border border-primary/30 flex items-center justify-center bg-primary/10 animate-pulse">
-                                    <Play className="h-5 w-5 text-primary fill-primary" />
-                                </div>
-                                <span className="text-[10px] font-mono uppercase tracking-widest text-primary/80">Preview Live Dashboard Feed</span>
-                            </div>
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </div>
         </section>

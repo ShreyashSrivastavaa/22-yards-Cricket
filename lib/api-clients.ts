@@ -34,7 +34,9 @@ const RAPIDAPI_HOST = "cricbuzz-cricket.p.rapidapi.com"
 
 export async function cricbuzzFetch(endpoint: string) {
     const apiKey = process.env.RAPIDAPI_KEY
-    if (!apiKey) throw new Error("RAPIDAPI_KEY is not set")
+    if (!apiKey || apiKey === "YOUR_RAPIDAPI_KEY") {
+        throw new Error("RAPIDAPI_KEY is missing. Real-world data access requires a valid RapidAPI (Cricbuzz) key.")
+    }
 
     const res = await fetch(`https://${RAPIDAPI_HOST}/${endpoint}`, {
         headers: {
@@ -43,7 +45,12 @@ export async function cricbuzzFetch(endpoint: string) {
         },
         next: { revalidate: 3600 },
     })
-    if (!res.ok) throw new Error(`Cricbuzz ${endpoint} failed: ${res.status}`)
+
+    if (!res.ok) {
+        const errorData = await res.json().catch(() => ({ message: res.statusText }))
+        throw new Error(`Cricbuzz API Error (${res.status}): ${errorData.message || res.statusText}`)
+    }
+
     return res.json()
 }
 

@@ -78,5 +78,17 @@ export function useDailyPicks() {
 }
 
 export function useTrending() {
-    return useFetch<{ players: any[]; source: string }>("/api/trending")
+    return useFetch<{ trending: any[]; undervalued: any[]; source: string }>("/api/trending")
+}
+
+export function usePointsTable(seriesId = "7607") {
+    return useFetch<{ pointsTable: any[]; source: string }>(`/api/points-table?seriesId=${seriesId}`)
+}
+
+export function useMatches(type = "upcoming") {
+    return useFetch<{ matches: any[]; source: string }>(`/api/matches?type=${type}`)
+}
+
+export function useMatchDetails(id: string) {
+    return useFetch<{ match: any; source: string }>(`/api/match-details?id=${id}`)
 }

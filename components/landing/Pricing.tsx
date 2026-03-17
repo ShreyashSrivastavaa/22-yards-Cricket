@@ -7,7 +7,7 @@ import Link from "next/link"
 export function Pricing() {
     const plans = [
         {
-            name: "Free",
+            name: "Standard",
             price: "0",
             description: "Basic entry-level insights for casual fans.",
             features: [
@@ -21,7 +21,7 @@ export function Pricing() {
             popular: false
         },
         {
-            name: "Pro",
+            name: "Analyst Pro",
             price: "499",
             period: "/month",
             description: "Elite tools for serious fantasy players and scouts.",
@@ -39,32 +39,32 @@ export function Pricing() {
     ]
 
     return (
-        <section className="py-24">
+        <section id="pricing" className="py-24 bg-[#F5F2E9]">
             <div className="container mx-auto px-6">
                 <div className="text-center max-w-2xl mx-auto mb-20 space-y-4">
-                    <h2 className="text-4xl md:text-5xl font-bebas tracking-wider uppercase">Choose Your <span className="text-primary">Intelligence Tier</span></h2>
-                    <p className="text-muted-foreground text-xs font-mono uppercase tracking-widest opacity-80">
+                    <h2 className="text-4xl md:text-5xl font-bebas tracking-wider uppercase text-[#1a1a1a]">Choose Your <span className="text-[#D4AF37]">Intelligence Tier</span></h2>
+                    <p className="text-[#4a4a4a] text-[10px] font-mono uppercase tracking-[0.2em] font-bold">
                         Scale your tactical advantage from casual observer to professional analyst.
                     </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                     {plans.map((plan, i) => (
-                        <div key={i} className={`relative flex flex-col p-8 rounded-3xl border ${plan.popular ? 'border-primary/50 bg-primary/[0.03] shadow-2xl shadow-primary/10' : 'border-white/5 bg-muted/5'}`}>
+                        <div key={i} className={`relative flex flex-col p-8 rounded-none border ${plan.popular ? 'border-[#D4AF37] bg-white shadow-2xl shadow-[#D4AF37]/10' : 'border-[#1a1a1a]/10 bg-white/50'}`}>
                             {plan.popular && (
-                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-primary text-[10px] font-mono font-bold uppercase tracking-widest text-primary-foreground flex items-center gap-1.5 shadow-lg">
-                                    <Sparkles className="h-3 w-3" /> Most Recommended
+                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#D4AF37] text-[10px] font-mono font-bold uppercase tracking-widest text-white flex items-center gap-1.5 shadow-lg">
+                                    <Sparkles className="h-3 w-3" /> Highest Clearance
                                 </div>
                             )}
 
                             <div className="mb-8">
-                                <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">{plan.name} Intelligence</div>
+                                <div className="text-[10px] font-mono uppercase tracking-widest text-[#B8860B] mb-2">{plan.name} Node</div>
                                 <div className="flex items-baseline gap-1">
-                                    <span className="text-sm font-mono opacity-60">₹</span>
-                                    <span className="text-5xl font-bebas tracking-tighter">{plan.price}</span>
-                                    <span className="text-sm font-mono opacity-60">{plan.period}</span>
+                                    <span className="text-sm font-mono text-[#4a4a4a]">₹</span>
+                                    <span className="text-5xl font-bebas tracking-tighter text-[#1a1a1a]">{plan.price}</span>
+                                    <span className="text-sm font-mono text-[#4a4a4a]">{plan.period}</span>
                                 </div>
-                                <p className="text-[10px] font-mono uppercase text-muted-foreground mt-4 leading-relaxed tracking-wider opacity-60">
+                                <p className="text-[10px] font-mono uppercase text-[#4a4a4a] mt-4 leading-relaxed tracking-wider font-medium opacity-70">
                                     {plan.description}
                                 </p>
                             </div>
@@ -72,16 +72,16 @@ export function Pricing() {
                             <div className="space-y-4 mb-10 flex-grow">
                                 {plan.features.map((feature, idx) => (
                                     <div key={idx} className="flex items-start gap-3">
-                                        <div className={`mt-1 p-0.5 rounded-full ${plan.popular ? 'bg-primary/20 text-primary' : 'bg-white/10 text-muted-foreground'}`}>
-                                            <Check className="h-3 w-3" />
+                                        <div className={`mt-1 p-0.5 ${plan.popular ? 'text-[#D4AF37]' : 'text-[#4a4a4a]'}`}>
+                                            <Check className="h-3 w-3 stroke-[3]" />
                                         </div>
-                                        <span className="text-[10px] font-mono uppercase tracking-widest opacity-80">{feature}</span>
+                                        <span className="text-[10px] font-mono uppercase tracking-widest text-[#1a1a1a] font-bold">{feature}</span>
                                     </div>
                                 ))}
                             </div>
 
-                            <Link href="/dashboard" className="w-full">
-                                <Button className={`w-full h-14 text-xs font-mono uppercase tracking-widest ${plan.popular ? 'bg-primary hover:bg-primary/90' : 'bg-muted-foreground/10 hover:bg-muted-foreground/20 text-white border border-white/5'}`}>
+                            <Link href="/register" className="w-full">
+                                <Button className={`w-full h-14 rounded-none text-xs font-mono uppercase tracking-[0.2em] ${plan.popular ? 'bg-[#D4AF37] hover:bg-[#B8860B] text-white' : 'bg-[#1a1a1a]/5 hover:bg-[#1a1a1a]/10 text-[#1a1a1a] border border-[#1a1a1a]/10'}`}>
                                     {plan.cta}
                                 </Button>
                             </Link>

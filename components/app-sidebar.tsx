@@ -1,19 +1,20 @@
 "use client"
 
 import * as React from "react"
+import { useRouter } from "next/navigation"
+import { supabase } from "@/lib/supabase"
 import {
     LayoutDashboard,
     Users,
     Trophy,
-    History,
     TrendingUp,
-    Search,
-    Settings,
-    HelpCircle,
     MapPin,
     Calculator,
     Zap,
     Scale,
+    LogOut,
+    ChevronUp,
+    UserCircle
 } from "lucide-react"
 
 import {
@@ -28,6 +29,12 @@ import {
     SidebarGroupLabel,
     SidebarGroupContent,
 } from "@/components/ui/sidebar"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const items = [
     {
@@ -73,12 +80,19 @@ const items = [
 ]
 
 export function AppSidebar() {
+    const router = useRouter()
+
+    const handleLogout = async () => {
+        await supabase.auth.signOut()
+        router.push("/")
+    }
+
     return (
         <Sidebar variant="inset" collapsible="icon">
             <SidebarHeader className="flex flex-col gap-2 p-4">
                 <div className="flex flex-col gap-1">
                     <span className="font-bebas text-2xl tracking-tighter text-primary">22 YARDS</span>
-                    <span className="text-[10px] font-mono uppercase tracking-widest opacity-50">Intelligence Platform</span>
+                    <span className="text-[10px] font-mono uppercase tracking-widest opacity-50">Intelligence Terminal</span>
                 </div>
             </SidebarHeader>
             <SidebarContent>
@@ -101,10 +115,27 @@ export function AppSidebar() {
                 </SidebarGroup>
             </SidebarContent>
             <SidebarFooter className="p-4">
-                <div className="flex items-center gap-2 rounded-lg border bg-muted/50 p-2 text-xs">
-                    <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                    <span className="font-mono text-[10px] uppercase opacity-70">Core Engine: Active</span>
-                </div>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <SidebarMenuButton className="w-full justify-between">
+                                    <div className="flex items-center gap-2">
+                                        <UserCircle className="h-4 w-4" />
+                                        <span className="text-[10px] font-mono uppercase tracking-widest">Analyst Profile</span>
+                                    </div>
+                                    <ChevronUp className="h-3 w-3 opacity-50" />
+                                </SidebarMenuButton>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent side="top" className="w-56 mb-2">
+                                <DropdownMenuItem onClick={handleLogout} className="text-red-500 cursor-pointer text-xs font-mono uppercase tracking-widest">
+                                    <LogOut className="mr-2 h-4 w-4" />
+                                    Sign Out
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </SidebarMenuItem>
+                </SidebarMenu>
             </SidebarFooter>
         </Sidebar>
     )

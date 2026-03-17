@@ -10,12 +10,12 @@ import { Footer } from "@/components/landing/Footer"
 import { LiveStatusTicker } from "@/components/landing/LiveStatusTicker"
 import { StickyCTA } from "@/components/landing/StickyCTA"
 import { OnboardingModal } from "@/components/landing/OnboardingModal"
+import { LandingNavbar } from "@/components/landing/LandingNavbar"
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col bg-background text-foreground selection:bg-primary selection:text-primary-foreground min-h-screen relative">
-      <OnboardingModal />
-      <StickyCTA />
+    <div className="flex flex-col bg-[#F5F2E9] text-[#1a1a1a] selection:bg-[#D4AF37] selection:text-white min-h-screen relative">
+      <LandingNavbar />
 
       <main className="flex-grow">
         <LiveStatusTicker />

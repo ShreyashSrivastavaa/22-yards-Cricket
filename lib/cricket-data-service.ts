@@ -106,6 +106,75 @@ export class CricketDataService {
     }
 
     /**
+     * Get points table for a specific series.
+     */
+    static async getPointsTable(seriesId: string) {
+        const cacheTable = "points_table_cache"
+        const cached = await getFromCache(cacheTable, seriesId, "series_id", "data_json", 6)
+        if (cached) return { pointsTable: cached, source: "cache" }
+
+        try {
+            const data = await withBackoff(() => cricbuzzFetch(`series/v1/${seriesId}/points-table`))
+            const pointsTable = data?.pointsTable || []
+
+            if (pointsTable.length > 0) {
+                await setCache(cacheTable, "series_id", seriesId, "data_json", pointsTable)
+            }
+            return { pointsTable, source: "api" }
+        } catch (error) {
+            const stale = await getFromCache(cacheTable, seriesId, "series_id", "data_json", 24)
+            if (stale) return { pointsTable: stale, source: "stale-cache" }
+            throw error
+        }
+    }
+
+    /**
+     * Get matches by type (live, upcoming, recent).
+     */
+    static async getMatches(type: string) {
+        const cacheTable = "matches_cache"
+        const cached = await getFromCache(cacheTable, type, "type", "data_json", 0.5) // 30m cache
+        if (cached) return { matches: cached, source: "cache" }
+
+        try {
+            const data = await withBackoff(() => cricbuzzFetch(`matches/v1/${type}`))
+            const matches = data?.typeMatches || []
+
+            if (matches.length > 0) {
+                await setCache(cacheTable, "type", type, "data_json", matches)
+            }
+            return { matches, source: "api" }
+        } catch (error) {
+            const stale = await getFromCache(cacheTable, type, "type", "data_json", 12)
+            if (stale) return { matches: stale, source: "stale-cache" }
+            throw error
+        }
+    }
+
+    /**
+     * Get full details for a specific match.
+     */
+    static async getMatchDetails(id: string) {
+        const cacheTable = "match_details_cache"
+        const cached = await getFromCache(cacheTable, id, "match_id", "data_json", 0.1) // 6m cache
+        if (cached) return { match: cached, source: "cache" }
+
+        try {
+            const data = await withBackoff(() => cricbuzzFetch(`msc/v1/m3/${id}/scorecard`)) // Example endpoint for live/detailed
+            const match = data || {}
+
+            if (match) {
+                await setCache(cacheTable, "match_id", id, "data_json", match)
+            }
+            return { match, source: "api" }
+        } catch (error) {
+            const stale = await getFromCache(cacheTable, id, "match_id", "data_json", 24)
+            if (stale) return { match: stale, source: "stale-cache" }
+            throw error
+        }
+    }
+
+    /**
      * Map a raw player object to a normalized internal format.
      */
     static normalizePlayer(raw: any) {
