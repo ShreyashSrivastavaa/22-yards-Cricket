@@ -81,7 +81,7 @@ export default function TournamentPredictorPage() {
                                 <div className="text-xl font-bold font-mono">16 Points</div>
                             </div>
                             <p className="text-[10px] text-muted-foreground leading-relaxed italic">
-                                "CSK needs 1 win in their next 4 matches to mathematically guarantee a top 4 finish."
+                                &quot;CSK needs 1 win in their next 4 matches to mathematically guarantee a top 4 finish.&quot;
                             </p>
                             <div className="space-y-2 pt-2 border-t border-muted-foreground/10">
                                 <div className="flex justify-between text-[9px] font-mono uppercase">
@@ -100,7 +100,7 @@ export default function TournamentPredictorPage() {
                             <CardTitle className="text-xs font-mono uppercase tracking-widest">Scenario Simulator</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-3">
-                            <p className="text-[9px] text-muted-foreground">"What if RCB wins all their remaining games?"</p>
+                            <p className="text-[9px] text-muted-foreground">&quot;What if RCB wins all their remaining games?&quot;</p>
                             <div className="bg-muted/20 p-3 rounded-sm border border-muted-foreground/5">
                                 <span className="text-[10px] font-bold font-mono text-primary uppercase">Scenario Alpha</span>
                                 <p className="text-[10px] mt-1">RCB wins 4/4 matches → Playoff Prob climbs to <span className="text-primary font-bold">78%</span></p>
