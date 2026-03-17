@@ -1,77 +1,132 @@
 "use client"
 
-import { useParams } from "next/navigation"
-import { IPL_TEAMS } from "@/lib/api-clients"
+import { use, useMemo } from "react"
+import { useSquads } from "@/lib/hooks"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Users, TrendingUp, Trophy, Target } from "lucide-react"
+import { LoadingSkeleton, ErrorState } from "@/components/ui/data-states"
+import { Users, TrendingUp, Trophy, Target, ChevronRight, User } from "lucide-react"
+import { IPL_TEAMS } from "@/lib/api-clients"
+import Link from "next/link"
 
-export default function TeamProfilePage() {
-    const params = useParams()
-    const teamCode = params.id as string
-    const team = IPL_TEAMS.find(t => t.code.toLowerCase() === teamCode.toLowerCase())
+export default function TeamProfilePage({ params }: { params: Promise<{ id: string }> }) {
+    const { id: teamCode } = use(params)
+    const { data, loading, error, refetch } = useSquads()
 
-    if (!team) return <div>Team not found.</div>
+    const teamMetadata = useMemo(() => {
+        return IPL_TEAMS.find(t => t.code.toLowerCase() === teamCode.toLowerCase())
+    }, [teamCode])
+
+    const squad = useMemo(() => {
+        if (!data?.teams) return null
+        return data.teams.find((t: any) =>
+            t.teamCode?.toLowerCase() === teamCode.toLowerCase() ||
+            t.teamName?.toLowerCase().includes(teamCode.toLowerCase())
+        )
+    }, [data, teamCode])
+
+    const playersByRole = useMemo(() => {
+        if (!squad?.players) return {}
+        return squad.players.reduce((acc: any, player: any) => {
+            const role = player.role || "Others"
+            if (!acc[role]) acc[role] = []
+            acc[role].push(player)
+            return acc
+        }, {})
+    }, [squad])
+
+    if (loading) return <div className="p-10"><LoadingSkeleton rows={10} label={`Accessing ${teamMetadata?.name || teamCode} Data Hub...`} /></div>
+    if (error) return <div className="p-10"><ErrorState message={error} onRetry={refetch} /></div>
+    if (!teamMetadata) return <div className="p-10 text-center font-mono opacity-50 uppercase tracking-widest">Franchise Node Not Identified</div>
 
     return (
-        <div className="flex flex-col gap-8">
-            <div className="flex flex-col md:flex-row items-end justify-between gap-6 border-b border-primary/20 pb-8">
-                <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                        <Badge variant="outline" className="font-mono text-[9px] uppercase tracking-widest border-primary/40 text-primary">Franchise Intelligence</Badge>
-                        <div className="h-2 w-2 rounded-full animate-pulse" style={{ backgroundColor: team.color }} />
+        <div className="flex flex-col gap-10 pb-20">
+            {/* Header Section */}
+            <div className="flex flex-col md:flex-row items-end justify-between gap-10 border-b border-[rgba(245,240,232,0.08)] pb-10">
+                <div className="space-y-6">
+                    <div className="flex items-center gap-4">
+                        <div className="h-2 w-2 rounded-full shadow-[0_0_15px_rgba(201,168,76,0.5)]" style={{ backgroundColor: teamMetadata.color }} />
+                        <span className="text-[11px] font-mono uppercase tracking-[0.4em] text-[#C9A84C]">Franchise Intelligence Hub</span>
                     </div>
-                    <h1 className="text-6xl font-bebas tracking-wider leading-none">{team.name}</h1>
-                    <div className="flex items-center gap-6 font-mono text-[10px] uppercase text-muted-foreground tracking-widest">
-                        <span style={{ color: team.color }}>{team.code} Primary Node</span>
-                        <span>|</span>
-                        <span>IPL 2026 Cycle</span>
+                    <h1 className="text-7xl md:text-8xl font-bebas tracking-tighter leading-none text-[#F5F0E8] uppercase">{teamMetadata.name}</h1>
+                    <div className="flex flex-wrap items-center gap-x-8 gap-y-2 font-mono text-[11px] uppercase text-[rgba(245,240,232,0.4)] tracking-widest">
+                        <span className="text-[#C9A84C] font-bold">Node ID: {teamMetadata.code}</span>
+                        <span className="opacity-20">|</span>
+                        <span>Sector: {teamMetadata.name.split(' ')[0]}</span>
+                        <span className="opacity-20">|</span>
+                        <span>Active Cycle: IPL 2026</span>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-8">
-                    <div className="text-right">
-                        <div className="text-[10px] font-mono text-muted-foreground uppercase mb-1">Squad Strength</div>
-                        <div className="text-4xl font-black font-mono text-primary">92.4</div>
+                <div className="flex items-center gap-12 p-8 bg-[#111111] border border-[rgba(245,240,232,0.08)] relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[rgba(201,168,76,0.02)]" />
+                    <div className="text-right z-10">
+                        <div className="text-[10px] font-mono text-[rgba(245,240,232,0.25)] uppercase mb-2 tracking-widest">Strength Index</div>
+                        <div className="text-6xl font-bebas text-[#C9A84C]">92.4</div>
                     </div>
-                    <div className="text-right">
-                        <div className="text-[10px] font-mono text-muted-foreground uppercase mb-1">Impact Rank</div>
-                        <div className="text-4xl font-black font-mono text-muted-foreground">#3</div>
+                    <div className="h-14 w-px bg-[rgba(245,240,232,0.1)] z-10" />
+                    <div className="text-right z-10">
+                        <div className="text-[10px] font-mono text-[rgba(245,240,232,0.25)] uppercase mb-2 tracking-widest">League Rank</div>
+                        <div className="text-6xl font-bebas text-[#F5F0E8]">#03</div>
                     </div>
                 </div>
             </div>
 
+            {/* Quick Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {[
-                    { label: "Total Players", value: "25", icon: Users },
-                    { label: "Win Probability", value: "54%", icon: TrendingUp },
-                    { label: "Trophy Count", value: "5", icon: Trophy },
-                    { label: "Scouting Targets", value: "3", icon: Target },
+                    { label: "Total Assets", value: squad?.players?.length || "25", icon: Users, color: "#C9A84C" },
+                    { label: "Win Probability", value: "58.2%", icon: TrendingUp, color: "#1DB954" },
+                    { label: "Season Trophies", value: "05", icon: Trophy, color: "#C9A84C" },
+                    { label: "Strategic Priority", value: "HIGH", icon: Target, color: "#C0392B" },
                 ].map((kpi, idx) => (
-                    <Card key={idx} className="bg-muted/5 border-muted-foreground/10 shadow-none">
-                        <CardContent className="p-4 flex items-center gap-4">
-                            <div className="p-2 rounded bg-primary/10">
-                                <kpi.icon className="h-5 w-5 text-primary" />
-                            </div>
-                            <div>
-                                <div className="text-[10px] font-mono text-muted-foreground uppercase">{kpi.label}</div>
-                                <div className="text-sm font-bold font-mono">{kpi.value}</div>
-                            </div>
-                        </CardContent>
-                    </Card>
+                    <div key={idx} className="bg-[#111111] border border-[rgba(245,240,232,0.08)] p-6 flex items-center justify-between group hover:border-[#C9A84C]/30 transition-all">
+                        <div className="space-y-1">
+                            <div className="text-[10px] font-mono text-[rgba(245,240,232,0.25)] uppercase tracking-widest">{kpi.label}</div>
+                            <div className="text-3xl font-bebas tracking-wider" style={{ color: kpi.color }}>{kpi.value}</div>
+                        </div>
+                        <kpi.icon className="h-5 w-5 opacity-20 group-hover:opacity-40 transition-opacity" />
+                    </div>
                 ))}
             </div>
 
-            <Card className="bg-muted/5 border-muted-foreground/10 shadow-none">
-                <CardHeader>
-                    <CardTitle className="text-xs font-mono uppercase tracking-[0.2em]">— Full Squad Roster</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="p-8 text-center border border-dashed border-muted-foreground/20 rounded-lg text-muted-foreground font-mono text-[10px] uppercase">
-                        Sample Squad Data — Fetching from Cricbuzz RapidAPI...
-                    </div>
-                </CardContent>
-            </Card>
+            {/* Squad Grouping */}
+            <div className="space-y-10">
+                <div className="flex items-center gap-4">
+                    <h2 className="text-3xl font-bebas tracking-widest uppercase text-[#F5F0E8]">Confidential Roster</h2>
+                    <div className="h-px flex-1 bg-[rgba(245,240,232,0.08)]" />
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    {Object.entries(playersByRole).map(([role, players]: [any, any]) => (
+                        <div key={role} className="space-y-6">
+                            <div className="flex items-center justify-between border-b border-[rgba(245,240,232,0.05)] pb-4">
+                                <span className="text-[12px] font-mono uppercase tracking-[0.3em] text-[#C9A84C] font-bold">{role}s</span>
+                                <span className="text-[10px] font-mono text-[rgba(245,240,232,0.2)]">Count: {players.length}</span>
+                            </div>
+                            <div className="grid grid-cols-1 gap-2">
+                                {players.map((p: any) => (
+                                    <Link
+                                        key={p.id}
+                                        href={`/players/${p.id}`}
+                                        className="flex items-center justify-between p-4 bg-[#111111] border border-[rgba(245,240,232,0.03)] hover:border-[#C9A84C]/30 group transition-all"
+                                    >
+                                        <div className="flex items-center gap-4">
+                                            <div className="h-8 w-8 bg-[#0D0D0D] border border-[rgba(245,240,232,0.05)] flex items-center justify-center">
+                                                <User className="h-4 w-4 text-[rgba(245,240,232,0.1)] group-hover:text-[#C9A84C] transition-colors" />
+                                            </div>
+                                            <span className="text-sm font-bebas tracking-widest text-[#F5F0E8] uppercase group-hover:text-[#C9A84C] transition-colors">{p.name}</span>
+                                        </div>
+                                        <div className="flex items-center gap-4">
+                                            <span className="text-[9px] font-mono text-[rgba(245,240,232,0.25)] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">View Profile</span>
+                                            <ChevronRight className="h-4 w-4 text-[rgba(245,240,232,0.1)] group-hover:text-[#C9A84C]" />
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
     )
 }
