@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Player {
+  id              String   @id @default(uuid())
+  name            String
+  role            String   // Batter, Bowler, etc.
+  battingStyle    String?
+  bowlingStyle    String?
+  nationality     String   @default("Indian")
+  age             Int?
+  iplTeam         String?
+  price           Float?   // in Cr
+  overallRating   Int      @default(0)
+  analytics       Json?    // Store archetype, scout verdict, etc.
+  
+  // Historical stats (all-time)
+  careerRuns      Int      @default(0)
+  careerWickets   Int      @default(0)
+  careerAvg       Float?
+  careerSR        Float?
+  careerEcon      Float?
+
+  // Seasonal stats (e.g., IPL 2025)
+  seasonalRuns    Int      @default(0)
+  seasonalWickets Int      @default(0)
+  
+  performances    Performance[]
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Team {
+  id              String   @id @default(uuid())
+  name            String   @unique // CSK, MI, etc.
+  fullName        String?
+  logoUrl         String?
+  homeVenue       String?
+  
+  strengthScore   Int      @default(0)
+  weaknessScore   Int      @default(0)
+  
+  matches         Match[]
+}
+
+model Match {
+  id              String   @id @default(uuid())
+  team1Id         String
+  team2Id         String
+  venue           String
+  matchDate       DateTime
+  matchType       String   @default("IPL")
+  status          String   @default("UPCOMING") // UPCOMING, LIVE, COMPLETED
+  
+  team1           Team     @relation(fields: [team1Id], references: [id])
+  result          String?  // Winner info
+  scorecard       Json?    // Match summary
+  
+  performances    Performance[]
+}
+
+model Performance {
+  id              String   @id @default(uuid())
+  playerId        String
+  matchId         String
+  runs            Int      @default(0)
+  balls           Int      @default(0)
+  wickets         Int      @default(0)
+  overs           Float    @default(0.0)
+  impactScore     Float?
+  
+  player          Player   @relation(fields: [playerId], references: [id])
+  match           Match    @relation(fields: [matchId], references: [id])
+}

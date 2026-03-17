@@ -29,7 +29,8 @@ const App = {
             playing12: Array(12).fill(null),
             impactSub: null,
             pool: []
-        }
+        },
+        savedSquads: {} // { teamCode: { xi: [ids], sub: id } }
     },
 
     async init() {
@@ -43,6 +44,7 @@ const App = {
         if (session) {
             const username = session.user.user_metadata?.username || session.user.email;
             this.state.user = { username };
+            this.state.savedSquads = session.user.user_metadata?.savedSquads || {};
         }
 
         // Supabase Auth Listener
@@ -50,8 +52,10 @@ const App = {
             if (session) {
                 const username = session.user.user_metadata.username || session.user.email;
                 this.state.user = { username };
+                this.state.savedSquads = session.user.user_metadata?.savedSquads || {};
             } else {
                 this.state.user = null;
+                this.state.savedSquads = {};
             }
             this.updateAuthNav();
         });
@@ -272,9 +276,54 @@ const App = {
     selectBuilderTeam(teamId) {
         this.state.builder.selectedTeam = teamId;
         this.state.builder.pool = this.state.players.filter(p => p.ipl2026Team === teamId);
-        this.state.builder.playing12 = Array(12).fill(null);
-        this.state.builder.impactSub = null;
+
+        // Load saved squad if it exists
+        const saved = this.state.savedSquads[teamId];
+        if (saved) {
+            this.state.builder.playing12 = saved.xi.map(id => id ? this.state.players.find(p => p.id === id) : null);
+            this.state.builder.impactSub = saved.sub ? this.state.players.find(p => p.id === saved.sub) : null;
+        } else {
+            this.state.builder.playing12 = Array(12).fill(null);
+            this.state.builder.impactSub = null;
+        }
+
         this.moveBuilderStep(2);
+    },
+
+    async saveSquad() {
+        if (!this.state.user) return alert("Sign in to save squads.");
+        const teamId = this.state.builder.selectedTeam;
+        if (!teamId) return;
+
+        const squadToSave = {
+            xi: this.state.builder.playing12.map(p => p ? p.id : null),
+            sub: this.state.builder.impactSub ? this.state.builder.impactSub.id : null
+        };
+
+        this.state.savedSquads[teamId] = squadToSave;
+
+        const btn = document.getElementById('save-squad-btn');
+        const originalText = btn.innerText;
+        btn.innerText = "SAVING...";
+        btn.disabled = true;
+
+        const { error } = await _supabase.auth.updateUser({
+            data: { savedSquads: this.state.savedSquads }
+        });
+
+        if (error) {
+            alert("Error saving squad: " + error.message);
+            btn.innerText = originalText;
+            btn.disabled = false;
+        } else {
+            btn.innerText = "SAVED TO VAULT";
+            btn.style.background = "#2E7D32";
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.background = "";
+                btn.disabled = false;
+            }, 2000);
+        }
     },
 
     renderBuilderStep2() {
@@ -400,6 +449,8 @@ const App = {
 
     addPlayerToXI(id) {
         const p = this.state.players.find(pl => pl.id === id);
+        if (!p || p.ipl2026Team !== this.state.builder.selectedTeam) return;
+
         const slots = this.state.builder.playing12;
         const emptyIdx = slots.findIndex(s => s === null);
 
@@ -749,6 +800,25 @@ const App = {
         const b = p.batting?.ipl2025 || {};
         const bowl = p.bowling?.ipl2025 || {};
         const form = p.batting?.recentForm || [];
+        const records = (typeof IPL_RECORDS !== 'undefined') ?
+            (IPL_RECORDS.batting[p.name] || IPL_RECORDS.bowling[p.name]) : null;
+
+        const getHistoricalStats = () => {
+            if (!records) return '';
+            const isBat = !!IPL_RECORDS.batting[p.name];
+            return `
+                <div style="margin-top: 50px; background: var(--cream-card); padding: 30px; border: 1px solid var(--border); position: relative; overflow: hidden;">
+                    <div style="position: absolute; right: -10px; bottom: -10px; font-family: 'Bebas Neue'; font-size: 80px; opacity: 0.05; pointer-events: none;">LEGACY</div>
+                    <div class="eyebrow mono" style="color:var(--ink)">— ALL-TIME INTELLIGENCE (2008-2025)</div>
+                    <div class="grid" style="grid-template-columns: repeat(4, 1fr); margin-top: 20px;">
+                        <div><div class="mono" style="font-size:9px;">MATCHES</div><div class="display" style="font-size:28px;">${records.mat}</div></div>
+                        <div><div class="mono" style="font-size:9px;">${isBat ? 'TOTAL RUNS' : 'TOTAL WKTS'}</div><div class="display" style="font-size:28px; color:var(--gold);">${records.runs || records.wkts}</div></div>
+                        <div><div class="mono" style="font-size:9px;">ALL-TIME AVG</div><div class="display" style="font-size:28px;">${records.avg}</div></div>
+                        <div><div class="mono" style="font-size:9px;">CAREER ${isBat ? 'SR' : 'ECON'}</div><div class="display" style="font-size:28px;">${records.sr || records.econ}</div></div>
+                    </div>
+                </div>
+            `;
+        };
 
         const getPhaseBars = () => {
             if (p.role.includes('Batter')) {
@@ -809,6 +879,7 @@ const App = {
                             </div>
                         </div>
                     </div>
+                    ${getHistoricalStats()}
                 </div>
             </div>
         `;
