@@ -89,6 +89,10 @@ export function useMatches(type = "upcoming") {
     return useFetch<{ matches: any[]; source: string }>(`/api/matches?type=${type}`)
 }
 
+export function usePlayers() {
+    return useFetch<{ players: any[]; count: number; source: string }>("/api/players")
+}
+
 export function useMatchDetails(id: string) {
     return useFetch<{ match: any; source: string }>(`/api/match-details?id=${id}`)
 }
