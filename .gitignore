@@ -41,7 +41,14 @@ yarn-error.log*
 next-env.d.ts
 
 # Large Data & Binaries
-/datasets/
+/datasets/archive (1)/
+/datasets/archive (2)/
+/datasets/archive/
 *.zip
 *.tar.gz
 *.7z
+
+# But DO commit these core datasets
+!/datasets/Domestic/
+!/datasets/International/
+!/datasets/archive (3)/IPLPlayerAuctionData.csv

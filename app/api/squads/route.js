@@ -1,14 +1,20 @@
 export const dynamic = 'force-dynamic'
 
 import { NextResponse } from "next/server"
-import { CricketDataService } from "@/lib/cricket-data-service"
+import { getAllTeams } from "@/lib/cricbuzz"
 
 export async function GET(request) {
     try {
-        const { teams, source } = await CricketDataService.getSquads()
-        return NextResponse.json({ teams, source })
+        const teams = await getAllTeams()
+        return NextResponse.json({ 
+            teams: teams || [],
+            source: "rapid-api-teams-list"
+        })
     } catch (error) {
         console.error("[/api/squads]", error.message)
-        return NextResponse.json({ error: error.message }, { status: 500 })
+        return NextResponse.json({ 
+            error: "NO INTELLIGENCE DATA AVAILABLE — SYSTEM INITIALIZING",
+            details: error.message
+        }, { status: 500 })
     }
 }

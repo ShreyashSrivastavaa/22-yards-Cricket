@@ -3,11 +3,11 @@
 import { Calculator, Trophy, Info, Search, ListFilter, Loader2, AlertCircle } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { usePointsTable } from "@/lib/hooks"
+import { useSeries } from "@/lib/hooks"
 
 export default function TournamentPredictorPage() {
-    const { data, loading, error } = usePointsTable()
-    const pointsTable = data?.pointsTable || []
+    const { data, loading, error } = useSeries()
+    const pointsTable = data?.iplSeries?.pointsTable || []
 
     return (
         <div className="flex flex-col gap-8">
@@ -45,8 +45,8 @@ export default function TournamentPredictorPage() {
                             <div className="p-20 flex flex-col items-center justify-center gap-4 text-center">
                                 <Trophy className="h-8 w-8 text-primary/20" />
                                 <div className="space-y-1">
-                                    <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">Pre-Season: No standngs data identified</p>
-                                    <p className="text-[8px] font-mono text-muted-foreground/50 uppercase tracking-widest">IPL 2026 data stream starts March 26</p>
+                                    <p className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">NO INTELLIGENCE DATA AVAILABLE — SEASON INITIALIZING</p>
+                                    <p className="text-[8px] font-mono text-muted-foreground/50 uppercase tracking-widest">IPL 2026 data stream will initialize prior to match 1</p>
                                 </div>
                             </div>
                         ) : (
@@ -62,22 +62,20 @@ export default function TournamentPredictorPage() {
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-muted-foreground/5">
-                                        {pointsTable.map((group) =>
-                                            (group.pointsTable || []).map((s, i) => (
-                                                <tr key={i} className="hover:bg-primary/5 transition-colors group">
-                                                    <td className="px-6 py-4">
-                                                        <div className="flex flex-col">
-                                                            <span className="font-bold uppercase">{s.teamName}</span>
-                                                            <span className="text-[8px] opacity-50 tracking-widest">{s.teamShortName}</span>
-                                                        </div>
-                                                    </td>
+                                        {pointsTable.map((s, i) => (
+                                            <tr key={i} className="hover:bg-primary/5 transition-colors group">
+                                                <td className="px-6 py-4">
+                                                    <div className="flex flex-col">
+                                                        <span className="font-bold uppercase">{s.teamName}</span>
+                                                        <span className="text-[8px] opacity-50 tracking-widest">{s.teamShortName}</span>
+                                                    </div>
+                                                </td>
                                                     <td className="px-6 py-4 text-center">{s.matchesPlayed}</td>
                                                     <td className="px-6 py-4 text-center">{s.matchesWon}</td>
                                                     <td className="px-6 py-4 text-center group-hover:text-primary transition-colors font-bold">{s.points}</td>
                                                     <td className="px-6 py-4 text-right text-muted-foreground">{s.nrr}</td>
-                                                </tr>
-                                            ))
-                                        )}
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </table>
                             </div>

@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Sparkles, Crown, Star, TrendingUp, Zap, Users, Info } from "lucide-react"
 import { generateFantasyTeam, getDifferentialPicks, getMustHavePicks } from "@/lib/fantasy-engine"
-import { useSquads } from "@/lib/hooks"
+import { usePlayers, useFantasyPicks } from "@/lib/hooks"
 import { LoadingSkeleton, ErrorState } from "@/components/ui/data-states"
 
 const roleColors = {
@@ -17,37 +17,28 @@ const roleColors = {
 }
 
 export default function FantasyPage() {
-    const { data: squadData, loading, error, refetch } = useSquads()
+    const { data: fantasyData, loading, error, refetch } = useFantasyPicks()
 
     const playerPool = useMemo(() => {
-        if (!squadData?.teams) return []
-        return squadData.teams.flatMap(team =>
-            team.players.map(p => {
-                // Map roles
-                let role = "BAT"
-                const r = p.role?.toLowerCase() || ""
-                if (r.includes("wk") || r.includes("keeper")) role = "WK"
-                else if (r.includes("all-rounder")) role = "AR"
-                else if (r.includes("bowl")) role = "BOWL"
+        if (!fantasyData?.picks) return []
+        return fantasyData.picks.map(p => {
+            let role = "BAT"
+            const r = (p.role || "").toLowerCase()
+            if (r.includes("wk")) role = "WK"
+            else if (r.includes("ar") || r.includes("all")) role = "AR"
+            else if (r.includes("bowl")) role = "BOWL"
 
-                // Generate surrogate credits/ownership based on name/role (as API doesn't have these yet)
-                const seed = p.name.length
-                const credits = 8.0 + (seed % 3)
-                const formScore = 7.0 + (seed % 3)
-                const ownership = 10 + (seed * 7) % 80
-
-                return {
-                    id: p.id,
-                    name: p.name,
-                    team: team.id,
-                    role,
-                    credits,
-                    formScore,
-                    ownership
-                }
-            })
-        )
-    }, [squadData])
+            return {
+                id: p.id,
+                name: p.name,
+                team: p.teamCode || p.teamName,
+                role,
+                credits: 8.5 + (p.id % 2), // Synthetic credits as not in ball-by-ball
+                formScore: Number(p.batting?.strikeRate || 0) / 10 + (p.bowling?.wickets || 0) * 5,
+                ownership: 20 + (p.id % 50)
+            }
+        })
+    }, [fantasyData])
 
     const team = useMemo(() => playerPool.length > 0 ? generateFantasyTeam(playerPool) : null, [playerPool])
     const diffs = useMemo(() => playerPool.length > 0 ? getDifferentialPicks(playerPool) : [], [playerPool])
@@ -65,7 +56,7 @@ export default function FantasyPage() {
                     <h1 className="text-5xl font-black tracking-tighter uppercase">Fantasy Intelligence</h1>
                 </div>
                 <p className="font-mono text-xs text-muted-foreground uppercase tracking-widest">
-                    AI-Powered Team Generator · {squadData?.source} · Real-time Optimization
+                    AI-Powered Team Generator · {playerData?.source || "Sourcing..."} · Real-time Optimization
                 </p>
             </div>
 

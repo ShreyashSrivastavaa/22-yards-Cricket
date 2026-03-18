@@ -1,16 +1,17 @@
 export const dynamic = 'force-dynamic'
 
 import { NextResponse } from "next/server"
-import { CricketDataService } from "@/lib/cricket-data-service"
+import { getRecentMatches } from '@/lib/localData'
 
-export async function GET(request) {
-    const { searchParams } = new URL(request.url)
-    const type = searchParams.get("type") || "upcoming"
-
+export async function GET() {
     try {
-        const { matches, source } = await CricketDataService.getMatches(type)
-        return NextResponse.json({ matches, source })
+        const matches = getRecentMatches('2025')
+        return NextResponse.json({ 
+            matches,
+            source: "local-match-archive"
+        })
     } catch (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 })
+        console.error("Matches API Error:", error)
+        return NextResponse.json({ error: "Failed to fetch matches" }, { status: 500 })
     }
 }

@@ -1,33 +1,19 @@
-export const dynamic = 'force-dynamic'
+import { searchPlayers } from '@/lib/localData'
 
-import { NextResponse } from "next/server"
-import { CricketDataService } from "@/lib/cricket-data-service"
-
-export async function GET(request) {
+export async function GET(req) {
     try {
-        const { teams } = await CricketDataService.getSquads()
-
-        // Flatten players from all teams
-        const allPlayers = []
-        teams.forEach(team => {
-            if (team.players) {
-                team.players.forEach(player => {
-                    allPlayers.push({
-                        ...player,
-                        teamName: team.teamName,
-                        teamCode: team.teamCode || team.teamName?.substring(0, 3).toUpperCase()
-                    })
-                })
-            }
-        })
-
-        return NextResponse.json({
-            players: allPlayers,
-            count: allPlayers.length,
-            source: "flattened-squads"
+        const q = new URL(req.url).searchParams.get('q')
+        const players = searchPlayers(q)
+        return Response.json({ 
+            players,
+            count: players.length,
+            source: "local-intelligence-archive"
         })
     } catch (error) {
-        console.error("[/api/players]", error.message)
-        return NextResponse.json({ error: error.message }, { status: 500 })
+        console.error("Players API Error:", error)
+        return Response.json({ 
+            players: [], 
+            error: "NO INTELLIGENCE DATA AVAILABLE — SYSTEM INITIALIZING" 
+        }, { status: 500 })
     }
 }

@@ -26,11 +26,11 @@ export default function MatchIntelligencePage() {
     const { data, loading, error } = useMatchDetails(matchId)
     const { data: storyData, loading: storyLoading } = useFetch(`/api/match-story?id=${matchId}`)
 
-    const match = data?.match || {}
-    const isLive = match.matchHeader?.state === "InProgress"
+    // The new API GET /score/{matchId} returns match details directly
+    const match = data || {}
+    const header = match.matchHeader || match
+    const isLive = header.state === "InProgress" || header.status?.toLowerCase().includes("live")
 
-    // Probability data would ideally come from a real model.
-    // Since we don't have one, we show an empty chart or a "Predictor Node Offline" message rather than mock data.
     const probabilityData = []
 
     return (
@@ -60,19 +60,19 @@ export default function MatchIntelligencePage() {
                                 {isLive && <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />}
                             </div>
                             <h1 className="text-6xl font-bebas tracking-wider leading-none">
-                                {match.matchHeader?.team1?.shortName} vs {match.matchHeader?.team2?.shortName}
+                                {header?.team1?.shortName || header?.team1} vs {header?.team2?.shortName || header?.team2}
                             </h1>
                             <div className="flex items-center gap-6 font-mono text-[10px] uppercase text-muted-foreground tracking-widest">
-                                <span>{match.matchHeader?.venueName}</span>
+                                <span>{header?.venueName || header?.venue}</span>
                                 <span>|</span>
-                                <span>{match.matchHeader?.seriesName}</span>
+                                <span>{header?.seriesName || header?.series}</span>
                             </div>
                         </div>
 
                         <div className="flex items-center gap-8">
                             <div className="text-right">
                                 <div className="text-[10px] font-mono text-muted-foreground uppercase mb-1">Status</div>
-                                <div className="text-2xl font-black font-mono text-primary uppercase">{match.matchHeader?.status}</div>
+                                <div className="text-2xl font-black font-mono text-primary uppercase">{header?.status}</div>
                             </div>
                         </div>
                     </div>

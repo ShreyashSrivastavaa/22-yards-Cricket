@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic'
 
 import { NextResponse } from "next/server"
-import { CricketDataService } from "@/lib/cricket-data-service"
+import { getAllTeams, getPlayersByTeam } from "@/lib/cricbuzz"
 
 export async function GET(request) {
     const { searchParams } = new URL(request.url)
@@ -13,53 +13,49 @@ export async function GET(request) {
     }
 
     try {
-        if (id) {
-            // First try direct ID lookup
-            const { player, source } = await CricketDataService.getPlayerProfile(id)
-            if (player && player.batting && Object.keys(player.batting).length > 0) {
-                return NextResponse.json({ player, source })
-            }
-
-            // If ID lookup returns empty shell, maybe it's a name slug
-            if (isNaN(Number(id))) {
-                const { teams } = await CricketDataService.getSquads()
-                let foundPlayer = null
-                teams.forEach(team => {
-                    team.players?.forEach(p => {
-                        const slug = p.name?.toLowerCase().replace(/\s+/g, '-')
-                        if (slug === id.toLowerCase() || p.name?.toLowerCase() === id.toLowerCase().replace(/-/g, ' ')) {
-                            foundPlayer = p
-                        }
-                    })
-                })
-
-                if (foundPlayer) {
-                    const { player: fullPlayer, source: fullSource } = await CricketDataService.getPlayerProfile(foundPlayer.id)
-                    return NextResponse.json({ player: fullPlayer, source: fullSource })
-                }
-            }
-        }
-
-        if (name) {
-            const { teams } = await CricketDataService.getSquads()
-            let playerId = null
-            teams.forEach(team => {
-                team.players?.forEach(p => {
-                    if (p.name?.toLowerCase() === name.toLowerCase()) {
-                        playerId = p.id
-                    }
-                })
+        // Since the new API doesn't have a specific player detail endpoint, 
+        // we must find the player in the squads.
+        const teams = await getAllTeams()
+        const playerResults = await Promise.all(
+            (teams || []).map(async (team) => {
+                try {
+                    const squad = await getPlayersByTeam(team.id || team.teamId)
+                    return (squad || []).map(player => ({
+                        ...player,
+                        teamName: team.name || team.teamName,
+                        teamId: team.id || team.teamId
+                    }))
+                } catch { return [] }
             })
+        )
 
-            if (playerId) {
-                const { player, source } = await CricketDataService.getPlayerProfile(playerId)
-                return NextResponse.json({ player, source })
-            }
+        const allPlayers = playerResults.flat()
+        let player = null
+
+        if (id) {
+            player = allPlayers.find(p => String(p.id) === String(id) || String(p.playerId) === String(id))
+        } else if (name) {
+            player = allPlayers.find(p => p.name?.toLowerCase() === name.toLowerCase())
         }
 
-        return NextResponse.json({ error: "Player not found" }, { status: 404 })
+        if (player) {
+            return NextResponse.json({ 
+                player: {
+                    ...player,
+                    // Mock empty stats as they are no longer available in the new API
+                    batting: {},
+                    bowling: {},
+                }, 
+                source: "rapid-api-squad-lookup" 
+            })
+        }
+
+        return NextResponse.json({ error: "NO INTELLIGENCE DATA AVAILABLE — SYSTEM OFFLINE" }, { status: 404 })
     } catch (error) {
         console.error("[/api/player]", error.message)
-        return NextResponse.json({ error: error.message }, { status: 500 })
+        return NextResponse.json({ 
+            error: "NO INTELLIGENCE DATA AVAILABLE — SYSTEM INITIALIZING",
+            details: error.message 
+        }, { status: 500 })
     }
 }

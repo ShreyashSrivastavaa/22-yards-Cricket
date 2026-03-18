@@ -5,31 +5,48 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Search, X, BarChart3, ArrowUp, ArrowDown, Minus } from "lucide-react"
 import { ComparisonRadar, ComparisonBars } from "@/components/analytics/comparison-charts"
-import { useSquads } from "@/lib/hooks"
+import { usePlayers } from "@/lib/hooks"
 import { LoadingSkeleton, ErrorState } from "@/components/ui/data-states"
 
+function PlayerComparisonRow({ player, i, onRemove }) {
+    const { data: stats, loading } = usePlayerStats(player.name)
+    const color = ["#e11d48", "#2563eb", "#10b981"][i]
+
+    return (
+        <Badge
+            variant="outline"
+            className="px-3 py-1.5 text-sm font-mono gap-2"
+            style={{ borderColor: color + "80", color: color }}
+        >
+            {player.name} · {player.teamCode || player.teamName}
+            <button onClick={() => onRemove(player.id)} className="hover:opacity-70">
+                <X className="h-3 w-3" />
+            </button>
+        </Badge>
+    )
+}
+
+function StatCell({ player, metric }) {
+    const { data: stats, loading } = usePlayerStats(player.name)
+    if (loading) return <td className="text-center py-2 px-4 animate-pulse opacity-50">—</td>
+    
+    const val = stats?.[metric.category]?.[metric.key] || stats?.[metric.key]
+    return (
+        <td className="text-center py-2 px-4 font-bold text-[#F5F0E8]">
+            {val || "—"}
+        </td>
+    )
+}
+
 export default function ComparePage() {
-    const { data: squadData, loading, error, refetch } = useSquads()
-    const [selected, setSelected] = useState([])
     const [searchQuery, setSearchQuery] = useState("")
+    const { data: searchData, loading: searchLoading } = usePlayers(searchQuery)
+    const [selected, setSelected] = useState([])
 
-    const allPlayers = useMemo(() => {
-        if (!squadData?.teams) return []
-        return squadData.teams.flatMap(team =>
-            team.players.map(p => ({
-                ...p,
-                teamName: team.name,
-                teamCode: team.id,
-                // Ensure skills exist for charts (fallback)
-                skills: p.skills || { Power: 50, Consistency: 50, Speed: 50, SpinPlay: 50, PacePlay: 50, Finishing: 50 },
-                phases: p.phases || [{ name: "PP", sr: 110 }, { name: "Middle", sr: 110 }, { name: "Death", sr: 110 }]
-            }))
-        )
-    }, [squadData])
-
-    const filteredPool = allPlayers.filter(
-        p => !selected.find(s => s.id === p.id) && p.name.toLowerCase().includes(searchQuery.toLowerCase())
-    ).slice(0, 10)
+    const filteredPool = useMemo(() => {
+        if (!searchData?.players) return []
+        return searchData.players.filter(p => !selected.find(s => s.id === p.id)).slice(0, 10)
+    }, [searchData, selected])
 
     const addPlayer = (player) => {
         if (selected.length < 3) {
@@ -45,8 +62,9 @@ export default function ComparePage() {
     const compData = selected.map((p, i) => ({
         name: p.name,
         color: ["#e11d48", "#2563eb", "#10b981"][i],
-        skills: p.skills,
-        phases: p.phases,
+        // Skills and phases will be defaulted as CSV doesn't have them
+        skills: [80, 75, 85, 90, 70],
+        phases: [70, 85, 90]
     }))
 
     if (error) return <div className="container mx-auto py-10"><ErrorState message={error} onRetry={refetch} /></div>
@@ -70,17 +88,7 @@ export default function ComparePage() {
                     {/* Selected Players */}
                     <div className="flex flex-wrap gap-2">
                         {selected.map((p, i) => (
-                            <Badge
-                                key={p.id}
-                                variant="outline"
-                                className="px-3 py-1.5 text-sm font-mono gap-2"
-                                style={{ borderColor: ["#e11d48", "#2563eb", "#10b981"][i] + "80", color: ["#e11d48", "#2563eb", "#10b981"][i] }}
-                            >
-                                {p.name} · {p.teamCode}
-                                <button onClick={() => removePlayer(p.id)} className="hover:opacity-70">
-                                    <X className="h-3 w-3" />
-                                </button>
-                            </Badge>
+                            <PlayerComparisonRow key={p.id} player={p} i={i} onRemove={removePlayer} />
                         ))}
                         {selected.length === 0 && !loading && (
                             <span className="text-[10px] font-mono text-muted-foreground uppercase self-center opacity-50">
@@ -152,26 +160,19 @@ export default function ComparePage() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {[
+                                        { [
                                             { label: "Runs", key: "runs", category: "batting" },
-                                            { label: "Average", key: "avg", category: "batting" },
-                                            { label: "Strike Rate", key: "sr", category: "batting" },
+                                            { label: "Strike Rate", key: "strikeRate", category: "batting" },
+                                            { label: "Average", key: "average", category: "batting" },
                                             { label: "Wickets", key: "wickets", category: "bowling" },
-                                            { label: "Economy", key: "econ", category: "bowling" },
+                                            { label: "Economy", key: "economy", category: "bowling" },
+                                            { label: "Fantasy Pts", key: "fantasyScore", category: null },
                                         ].map(metric => (
                                             <tr key={`${metric.category}-${metric.key}`} className="border-b border-muted-foreground/5">
                                                 <td className="text-[10px] uppercase text-muted-foreground py-2 pr-4">{metric.label}</td>
-                                                {selected.map((p, i) => {
-                                                    const val = p.stats?.[metric.category]?.[metric.key]
-                                                    const allVals = selected.map(s => s.stats?.[metric.category]?.[metric.key] || 0)
-                                                    const best = metric.key === 'econ' ? Math.min(...allVals.filter(v => v > 0)) : Math.max(...allVals)
-                                                    const isBest = val === best && val > 0
-                                                    return (
-                                                        <td key={p.id} className={`text-center py-2 px-4 font-bold ${isBest ? "text-primary" : ""}`}>
-                                                            {val || "—"}
-                                                        </td>
-                                                    )
-                                                })}
+                                                {selected.map((p, i) => (
+                                                    <StatCell key={p.id} player={p} metric={metric} />
+                                                ))}
                                             </tr>
                                         ))}
                                     </tbody>
