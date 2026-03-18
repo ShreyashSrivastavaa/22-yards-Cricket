@@ -48,7 +48,10 @@ next-env.d.ts
 *.tar.gz
 *.7z
 
-# But DO commit these core datasets
-!/datasets/Domestic/
-!/datasets/International/
-!/datasets/archive (3)/IPLPlayerAuctionData.csv
+# But DO commit these# Datasets
+datasets/*
+!datasets/Domestic/Men's/IPL/2022/ipl_2022_deliveries.csv
+!datasets/Domestic/Men's/IPL/2023/ipl_2023_deliveries.csv
+!datasets/Domestic/Men's/IPL/2024/ipl_2024_deliveries.csv
+!datasets/Domestic/Men's/IPL/2025/ipl_2025_deliveries.csv
+!datasets/archive (3)/IPLPlayerAuctionData.csv

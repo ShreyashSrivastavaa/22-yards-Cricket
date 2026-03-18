@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useMemo } from "react"
-import { Search, User, ChevronRight } from "lucide-react"
+import { Search, User, ChevronRight, Loader2 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { LoadingSkeleton, ErrorState } from "@/components/ui/data-states"
@@ -62,12 +62,17 @@ function BackgroundStats({ label, data }) {
     )
 }
 
+import { useDebounce } from "@/hooks/useDebounce"
+
 export default function PlayersPage() {
     const [search, setSearch] = useState("")
-    const { data, loading, error, refetch } = usePlayers(search)
+    const debouncedSearch = useDebounce(search, 400)
+    const { data, loading, error, refetch } = usePlayers(debouncedSearch)
     const [teamFilter, setTeamFilter] = useState("all")
     const [roleFilter, setRoleFilter] = useState("all")
     const [selectedPlayer, setSelectedPlayer] = useState(null)
+
+    const isDebouncing = search !== debouncedSearch
 
     const filteredPlayers = useMemo(() => {
         if (!data?.players) return []
@@ -94,9 +99,19 @@ export default function PlayersPage() {
                         Player <span className="text-[#C9A84C]">Database</span>
                     </h1>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1 bg-[rgba(201,168,76,0.05)] border border-[rgba(201,168,76,0.1)]">
-                    <div className="h-1.5 w-1.5 rounded-full bg-[#1DB954]" />
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C]">Records Detected: {data?.count || 0}</span>
+                <div className="flex items-center gap-4">
+                    {isDebouncing && (
+                        <div className="flex items-center gap-2 px-3 py-1 bg-primary/5 border border-primary/10 animate-pulse">
+                            <Loader2 className="h-3 w-3 animate-spin text-primary" />
+                            <span className="text-[10px] font-mono uppercase tracking-widest text-primary">Decrypting...</span>
+                        </div>
+                    )}
+                    <div className="flex items-center gap-2 px-3 py-1 bg-[rgba(201,168,76,0.05)] border border-[rgba(201,168,76,0.1)]">
+                        <div className={`h-1.5 w-1.5 rounded-full ${data?.source === 'live' ? 'bg-[#1DB954] shadow-[0_0_8px_#1DB954]' : 'bg-[#C9A84C]'}`} />
+                        <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C]">
+                            {data?.source === 'live' ? 'LIVE SYNC ACTIVE' : 'ARCHIVE MODE'} : {data?.count || 0}
+                        </span>
+                    </div>
                 </div>
             </div>
 

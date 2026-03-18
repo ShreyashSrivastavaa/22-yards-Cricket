@@ -38,10 +38,16 @@ function StatCell({ player, metric }) {
     )
 }
 
+import { useDebounce } from "@/hooks/useDebounce"
+import { Loader2 } from "lucide-react"
+
 export default function ComparePage() {
     const [searchQuery, setSearchQuery] = useState("")
-    const { data: searchData, loading: searchLoading } = usePlayers(searchQuery)
+    const debouncedSearch = useDebounce(searchQuery, 400)
+    const { data: searchData, loading: searchLoading } = usePlayers(debouncedSearch)
     const [selected, setSelected] = useState([])
+
+    const isDebouncing = searchQuery !== debouncedSearch
 
     const filteredPool = useMemo(() => {
         if (!searchData?.players) return []
@@ -104,16 +110,20 @@ export default function ComparePage() {
 
                     {/* Search */}
                     {selected.length < 3 && (
-                        <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            <input
-                                type="text"
+                        <div className="relative group">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[rgba(245,240,232,0.3)] group-focus-within:text-[#e11d48]" />
+                            <Input
+                                placeholder="ADD PLAYER TO MATRIX..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                placeholder={loading ? "Synchronizing Player Vault..." : "Search players to compare..."}
                                 disabled={loading}
-                                className="w-full pl-10 pr-4 py-2 rounded-lg border border-muted-foreground/20 bg-background font-mono text-sm focus:border-primary/50 focus:outline-none disabled:opacity-50"
+                                className="pl-12 h-14 bg-[#111111] border-[rgba(245,240,232,0.08)] rounded-none text-[#F5F0E8] font-mono text-xs tracking-widest focus-visible:ring-[#e11d48] focus-visible:border-[#e11d48]"
                             />
+                            {isDebouncing && (
+                                <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                                    <Loader2 className="h-3 w-3 animate-spin text-primary" />
+                                </div>
+                            )}
                         </div>
                     )}
 

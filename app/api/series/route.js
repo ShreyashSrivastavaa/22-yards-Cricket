@@ -1,20 +1,29 @@
-export const dynamic = 'force-dynamic'
-
-import { NextResponse } from "next/server"
 import { getPointsTable } from '@/lib/localData'
+import { getIPLSeriesId, getLivePointsTable } from '@/lib/liveData'
 
 export async function GET() {
     try {
-        const pointsTable = getPointsTable('2025')
-        return NextResponse.json({
-            season: '2025',
+        // Try live points table first
+        const seriesId = await getIPLSeriesId()
+        let liveTable = []
+        if (seriesId) {
+            liveTable = await getLivePointsTable(seriesId)
+        }
+
+        // Fall back to local computed table
+        const localTable = getPointsTable('2025')
+
+        const hasLive = liveTable && liveTable.length > 0
+
+        return Response.json({
             iplSeries: {
-                pointsTable
+                pointsTable: hasLive ? liveTable : localTable
             },
-            source: "local-standings-engine"
+            source: hasLive ? 'live' : 'local',
+            season: '2025',
         })
     } catch (error) {
         console.error("Series API Error:", error)
-        return NextResponse.json({ error: "Failed to fetch series" }, { status: 500 })
+        return Response.json({ error: "Failed to fetch series data" }, { status: 500 })
     }
 }
