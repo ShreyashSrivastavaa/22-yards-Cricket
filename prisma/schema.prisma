@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,74 +8,105 @@ datasource db {
 }
 
 model Player {
-  id              String   @id @default(uuid())
-  name            String
-  role            String   // Batter, Bowler, etc.
-  battingStyle    String?
-  bowlingStyle    String?
-  nationality     String   @default("Indian")
-  age             Int?
-  iplTeam         String?
-  price           Float?   // in Cr
-  overallRating   Int      @default(0)
-  analytics       Json?    // Store archetype, scout verdict, etc.
-  
-  // Historical stats (all-time)
-  careerRuns      Int      @default(0)
-  careerWickets   Int      @default(0)
-  careerAvg       Float?
-  careerSR        Float?
-  careerEcon      Float?
+  id           Int      @id @default(autoincrement())
+  name         String   @unique
+  team         String?
+  innings      Int      @default(0)
+  runs         Int      @default(0)
+  balls        Int      @default(0)
+  strikeRate   Float    @default(0) @map("strike_rate")
+  average      Float    @default(0)
+  fours        Int      @default(0)
+  sixes        Int      @default(0)
+  wickets      Int      @default(0)
+  economy      Float    @default(0)
+  fantasyScore Int      @default(0) @map("fantasy_score")
+  createdAt    DateTime @default(now()) @map("created_at")
 
-  // Seasonal stats (e.g., IPL 2025)
-  seasonalRuns    Int      @default(0)
-  seasonalWickets Int      @default(0)
-  
-  performances    Performance[]
-  
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  @@map("players")
 }
 
 model Team {
-  id              String   @id @default(uuid())
-  name            String   @unique // CSK, MI, etc.
-  fullName        String?
-  logoUrl         String?
-  homeVenue       String?
-  
-  strengthScore   Int      @default(0)
-  weaknessScore   Int      @default(0)
-  
-  matches         Match[]
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  code      String
+  color     String   @default("#FFD700")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("teams")
 }
 
 model Match {
-  id              String   @id @default(uuid())
-  team1Id         String
-  team2Id         String
-  venue           String
-  matchDate       DateTime
-  matchType       String   @default("IPL")
-  status          String   @default("UPCOMING") // UPCOMING, LIVE, COMPLETED
-  
-  team1           Team     @relation(fields: [team1Id], references: [id])
-  result          String?  // Winner info
-  scorecard       Json?    // Match summary
-  
-  performances    Performance[]
+  id        String   @id
+  season    String?
+  date      String?
+  venue     String?
+  team1     String?
+  team2     String?
+  winner    String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("matches")
 }
 
-model Performance {
-  id              String   @id @default(uuid())
-  playerId        String
-  matchId         String
-  runs            Int      @default(0)
-  balls           Int      @default(0)
-  wickets         Int      @default(0)
-  overs           Float    @default(0.0)
-  impactScore     Float?
-  
-  player          Player   @relation(fields: [playerId], references: [id])
-  match           Match    @relation(fields: [matchId], references: [id])
+model PointsTable {
+  id      Int      @id @default(autoincrement())
+  season  String
+  team    String
+  played  Int      @default(0)
+  won     Int      @default(0)
+  lost    Int      @default(0)
+  points  Int      @default(0)
+  last5   String[] @default([])
+  rank    Int      @default(0)
+
+  @@unique([season, team])
+  @@map("points_table")
+}
+
+model InternationalMatch {
+  id         String   @id
+  tournament String
+  season     String
+  date       String?
+  venue      String?
+  team1      String?
+  team2      String?
+  format     String?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("international_matches")
+}
+
+model PlayerTournamentStats {
+  id           Int    @id @default(autoincrement())
+  playerName   String @map("player_name")
+  tournament   String
+  season       String
+  team         String?
+  runs         Int    @default(0)
+  balls        Int    @default(0)
+  strikeRate   Float  @default(0) @map("strike_rate")
+  fours        Int    @default(0)
+  sixes        Int    @default(0)
+  wickets      Int    @default(0)
+  economy      Float  @default(0)
+  innings      Int    @default(0)
+  fantasyScore Int    @default(0) @map("fantasy_score")
+
+  @@unique([playerName, tournament, season])
+  @@map("player_tournament_stats")
+}
+
+model AuctionRecord {
+  id          Int    @id @default(autoincrement())
+  playerName  String @map("player_name")
+  year        String?
+  team        String?
+  basePrice   Float? @map("base_price")
+  soldPrice   Float? @map("sold_price")
+  nationality String?
+  role        String?
+
+  @@map("auction_records")
 }

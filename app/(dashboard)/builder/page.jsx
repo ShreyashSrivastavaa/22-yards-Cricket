@@ -197,7 +197,7 @@ export default function BuilderPage() {
                             <FileText className="h-10 w-10 text-[#C9A84C]" />
                         </div>
                         <h2 className="text-5xl font-bebas tracking-tighter text-[#F5F0E8] uppercase">Playing 12 Strategic Report</h2>
-                        <div className="text-[11px] font-mono uppercase tracking-[0.4em] text-[#C9A84C]">Franchise: {selectedTeam.name} // CONFIDENTIAL</div>
+                        <div className="text-[11px] font-mono uppercase tracking-[0.4em] text-[#C9A84C]">Franchise: {selectedTeam.name} {/* CONFIDENTIAL */}</div>
                     </div>
 
                     <div className="bg-[#111111] border border-[rgba(245,240,232,0.08)] p-12 space-y-12">

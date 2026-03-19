@@ -27,57 +27,53 @@ export default function PlayerProfilePage({ params }) {
     const player = playerData?.player
 
     // Compute metrics
-    const computed = useMemo(() => {
-        if (!player) return null
+    const lastScores = formData?.form?.map(m => m.runs) || []
+    const form = formRating(lastScores)
 
-        const lastScores = formData?.form?.map(m => m.runs) || []
-        const form = formRating(lastScores)
+    const stats = player.stats?.batting || {}
+    const boundaryPct = boundaryPercentage(stats.fours || 0, stats.sixes || 0, stats.runs || 0)
 
-        const stats = player.stats?.batting || {}
-        const boundaryPct = boundaryPercentage(stats.fours || 0, stats.sixes || 0, stats.runs || 0)
+    const impact = impactScore({
+        sr: stats.sr || 0,
+        avg: stats.avg || 0,
+        boundaryPct,
+        knockoutAvg: stats.knockoutAvg || stats.avg || 0,
+        regularAvg: stats.avg || 0,
+        leagueAvgSR: 135,
+        leagueAvgAvg: 28,
+        leagueAvgBoundaryPct: 15
+    })
 
-        const impact = impactScore({
-            sr: stats.sr || 0,
+    const rating = player.role?.toLowerCase().includes("bat")
+        ? batterRating({
             avg: stats.avg || 0,
-            boundaryPct,
-            knockoutAvg: stats.knockoutAvg || stats.avg || 0,
-            regularAvg: stats.avg || 0,
-            leagueAvgSR: 135,
-            leagueAvgAvg: 28,
-            leagueAvgBoundaryPct: 15
+            sr: stats.sr || 0,
+            ppSRvsAvg: 1.1,
+            deathSRvsAvg: 1.2,
+            impact,
+            fielding: 7
+        })
+        : bowlerRating({
+            econVsAvg: (player.stats?.bowling?.econ || 8) / 8.5,
+            sr: player.stats?.bowling?.sr || 24,
+            deathEconVsAvg: 1.0,
+            wicketsPerMatch: (player.stats?.bowling?.wickets || 0) / 14,
+            dotBallPct: 35
         })
 
-        const rating = player.role?.toLowerCase().includes("bat")
-            ? batterRating({
-                avg: stats.avg || 0,
-                sr: stats.sr || 0,
-                ppSRvsAvg: 1.1,
-                deathSRvsAvg: 1.2,
-                impact,
-                fielding: 7
-            })
-            : bowlerRating({
-                econVsAvg: (player.stats?.bowling?.econ || 8) / 8.5,
-                sr: player.stats?.bowling?.sr || 24,
-                deathEconVsAvg: 1.0,
-                wicketsPerMatch: (player.stats?.bowling?.wickets || 0) / 14,
-                dotBallPct: 35
-            })
+    const risk = injuryRiskRating(player.injuryHistory?.missed || 2, player.age || 25, !!player.injuryHistory)
 
-        const risk = injuryRiskRating(player.injuryHistory?.missed || 2, player.age || 25, !!player.injuryHistory)
+    const radarData = normalizeRadarStats(
+        player.stats?.batting || {},
+        player.stats?.bowling || {},
+        impact,
+        7.5,
+        3.2
+    )
 
-        const radarData = normalizeRadarStats(
-            player.stats?.batting || {},
-            player.stats?.bowling || {},
-            impact,
-            7.5,
-            3.2
-        )
+    const insights = InsightEngine.generatePlayerInsight(player, { boundaryPct, impact })
 
-        const insights = InsightEngine.generatePlayerInsight(player, { ...computed, boundaryPct, impact })
-
-        return { form, impact, rating, risk, boundaryPct, radarData, insights }
-    }, [player, formData])
+    const computed = { form, impact, rating, risk, boundaryPct, radarData, insights }
 
     if (playerLoading) return <div className="p-10"><LoadingSkeleton rows={10} label="Synthesizing Player Intelligence..." /></div>
     if (playerError) return <div className="p-10"><ErrorState message={playerError} onRetry={refetch} /></div>

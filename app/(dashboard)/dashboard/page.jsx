@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import {
   TrendingUp,
   Users,
@@ -81,7 +82,7 @@ export default function DashboardPage() {
           <div className="p-6 px-8 flex justify-between items-center bg-[#0D0D0D]">
             <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[rgba(245,240,232,0.2)]">MASTER NODE: IPL26_LIVE_FEED</span>
             <Button variant="ghost" className="h-10 text-[11px] uppercase font-mono tracking-[0.2em] text-[#C9A84C] hover:bg-[#1A1A1A] rounded-none group-hover:pl-6 transition-all" asChild>
-              <a href="/matches">Intelligence Hub <ChevronRight className="ml-2 h-3 w-3" /></a>
+              <Link href="/matches">Intelligence Hub <ChevronRight className="ml-2 h-3 w-3" /></Link>
             </Button>
           </div>
         </div>
@@ -113,7 +114,7 @@ export default function DashboardPage() {
                       </div>
                       <div>
                         <div className="text-base font-bebas text-[#F5F0E8] tracking-widest uppercase group-hover/item:text-[#C9A84C] transition-colors">{p.name}</div>
-                        <div className="text-[9px] font-mono text-[rgba(245,240,232,0.3)] mt-0.5 uppercase tracking-widest">{p.team} // STABLE FLOW</div>
+                        <div className="text-[9px] font-mono text-[rgba(245,240,232,0.3)] mt-0.5 uppercase tracking-widest">{p.team} {/* STABLE FLOW */}</div>
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
@@ -124,7 +125,7 @@ export default function DashboardPage() {
                         {(p.delta || 0)}%
                       </div>
                       <Button variant="ghost" className="h-8 w-8 p-0 text-[rgba(245,240,232,0.1)] hover:text-[#C9A84C] hover:bg-transparent transition-all" asChild>
-                        <a href={`/players/${p.id}`}><ChevronRight className="h-4 w-4" /></a>
+                        <Link href={`/players/${p.id}`}><ChevronRight className="h-4 w-4" /></Link>
                       </Button>
                     </div>
                   </div>
@@ -139,7 +140,7 @@ export default function DashboardPage() {
           </div>
           <div className="p-4 bg-[#0d0d0d] border-t border-[rgba(245,240,232,0.05)]">
             <Button variant="ghost" className="w-full text-[10px] font-mono uppercase tracking-[0.4em] text-[rgba(245,240,232,0.3)] hover:text-[#C9A84C] h-10 font-bold" asChild>
-              <a href="/players">Access Registry Vault</a>
+              <Link href="/players">Access Registry Vault</Link>
             </Button>
           </div>
         </div>

@@ -36,8 +36,12 @@ export default function MatchupsPage() {
 
     // Set defaults when data loads
     useEffect(() => {
-        if (battersPool.length && !selectedBatterId) setSelectedBatterId(battersPool[0].id)
-        if (bowlersPool.length && !selectedBowlerId) setSelectedBowlerId(bowlersPool[0].id)
+        if (battersPool.length > 0 && !selectedBatterId) {
+            setSelectedBatterId(battersPool[0].id)
+        }
+        if (bowlersPool.length > 0 && !selectedBowlerId) {
+            setSelectedBowlerId(bowlersPool[0].id)
+        }
     }, [battersPool, bowlersPool, selectedBatterId, selectedBowlerId])
 
     const { data: batterData, loading: batterLoading } = usePlayer(selectedBatterId)

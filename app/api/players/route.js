@@ -1,10 +1,13 @@
-import { searchPlayers, getAllPlayers } from '@/lib/localData'
+import prisma from '@/lib/prisma'
 
-export async function GET(request) {
+export async function GET(req) {
   try {
-    const { searchParams } = new URL(request.url)
-    const q = searchParams.get('q') || ''
-    const players = q.length >= 1 ? searchPlayers(q) : getAllPlayers()
+    const q = new URL(req.url).searchParams.get('q') || ''
+    const players = await prisma.player.findMany({
+      where: q ? { name: { contains: q, mode: 'insensitive' } } : {},
+      orderBy: { fantasyScore: 'desc' },
+      take: q ? 50 : 50
+    })
     return Response.json({ players, total: players.length })
   } catch (err) {
     console.error('Players API error:', err)
