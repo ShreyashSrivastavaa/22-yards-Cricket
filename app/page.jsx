@@ -9,7 +9,6 @@ import { Pricing } from "@/components/landing/Pricing"
 import { Footer } from "@/components/landing/Footer"
 import { LiveStatusTicker } from "@/components/landing/LiveStatusTicker"
 import { StickyCTA } from "@/components/landing/StickyCTA"
-import { OnboardingModal } from "@/components/landing/OnboardingModal"
 import { LandingNavbar } from "@/components/landing/LandingNavbar"
 
 export default function LandingPage() {

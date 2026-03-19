@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
-import { OnboardingModal } from "@/components/landing/OnboardingModal"
 import { Loader2 } from "lucide-react"
 
 export default function AppLayout({ children }) {
@@ -34,7 +33,6 @@ export default function AppLayout({ children }) {
 
     return (
         <SidebarProvider>
-            <OnboardingModal />
             <AppSidebar />
             <SidebarInset>
                 <main className="flex flex-1 flex-col gap-4 p-4 lg:p-8">
