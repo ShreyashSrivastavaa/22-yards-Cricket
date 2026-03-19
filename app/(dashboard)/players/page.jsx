@@ -77,7 +77,7 @@ export default function PlayersPage() {
     const filteredPlayers = useMemo(() => {
         if (!data?.players) return []
         return data.players.filter(p => {
-            const matchesTeam = teamFilter === "all" || p.teamCode === teamFilter || p.teamName === teamFilter
+            const matchesTeam = teamFilter === "all" || p.team === teamFilter || p.teamName === teamFilter || p.teamCode === teamFilter
             const matchesRole = roleFilter === "all" || p.role?.toLowerCase().includes(roleFilter.toLowerCase())
             return matchesTeam && matchesRole
         })
@@ -109,7 +109,7 @@ export default function PlayersPage() {
                     <div className="flex items-center gap-2 px-3 py-1 bg-[rgba(201,168,76,0.05)] border border-[rgba(201,168,76,0.1)]">
                         <div className={`h-1.5 w-1.5 rounded-full ${data?.source === 'live' ? 'bg-[#1DB954] shadow-[0_0_8px_#1DB954]' : 'bg-[#C9A84C]'}`} />
                         <span className="text-[10px] font-mono uppercase tracking-widest text-[#C9A84C]">
-                            {data?.source === 'live' ? 'LIVE SYNC ACTIVE' : 'ARCHIVE MODE'} : {data?.count || 0}
+                            {data?.source === 'live' ? 'LIVE SYNC ACTIVE' : 'ARCHIVE MODE'} : {data?.total || 0}
                         </span>
                     </div>
                 </div>
@@ -128,12 +128,12 @@ export default function PlayersPage() {
                 </div>
                 <select value={teamFilter} onChange={(e) => setTeamFilter(e.target.value)} className="h-14 bg-[#111111] border border-[rgba(245,240,232,0.08)] px-4 text-[#F5F0E8] font-mono text-[10px] uppercase tracking-widest outline-none focus:border-[#C9A84C] appearance-none">
                     <option value="all">ALL FRANCHISES</option>
-                    <option value="MI">MUMBAI INDIANS</option>
-                    <option value="CSK">CHENNAI SUPER KINGS</option>
-                    <option value="RCB">ROYAL CHALLENGERS BENGALURU</option>
-                    <option value="KKR">KOLKATA KNIGHT RIDERS</option>
-                    <option value="DC">DELHI CAPITALS</option>
-                    <option value="SRH">SRH</option>
+                    <option value="Mumbai Indians">MUMBAI INDIANS</option>
+                    <option value="Chennai Super Kings">CHENNAI SUPER KINGS</option>
+                    <option value="Royal Challengers Bengaluru">ROYAL CHALLENGERS BENGALURU</option>
+                    <option value="Kolkata Knight Riders">KOLKATA KNIGHT RIDERS</option>
+                    <option value="Delhi Capitals">DELHI CAPITALS</option>
+                    <option value="Sunrisers Hyderabad">SRH</option>
                 </select>
                 <select value={roleFilter} onChange={(e) => setRoleFilter(e.target.value)} className="h-14 bg-[#111111] border border-[rgba(245,240,232,0.08)] px-4 text-[#F5F0E8] font-mono text-[10px] uppercase tracking-widest outline-none focus:border-[#C9A84C] appearance-none">
                     <option value="all">ALL SPECIALIZATIONS</option>
@@ -172,7 +172,7 @@ export default function PlayersPage() {
                                     </td>
                                     <td className="p-6">
                                         <span className="text-[10px] font-mono uppercase tracking-widest text-[rgba(245,240,232,0.6)]">
-                                            {player.teamCode || player.teamName}
+                                            {player.team || player.teamCode || player.teamName}
                                         </span>
                                     </td>
                                     <td className="p-6">
