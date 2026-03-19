@@ -133,8 +133,12 @@ export default function PlayersPage() {
                     <option value="Chennai Super Kings">CHENNAI SUPER KINGS</option>
                     <option value="Royal Challengers Bengaluru">ROYAL CHALLENGERS BENGALURU</option>
                     <option value="Kolkata Knight Riders">KOLKATA KNIGHT RIDERS</option>
+                    <option value="Rajasthan Royals">RAJASTHAN ROYALS</option>
+                    <option value="Gujarat Titans">GUJARAT TITANS</option>
+                    <option value="Lucknow Super Giants">LUCKNOW SUPER GIANTS</option>
                     <option value="Delhi Capitals">DELHI CAPITALS</option>
-                    <option value="Sunrisers Hyderabad">SRH</option>
+                    <option value="Sunrisers Hyderabad">SUNRISERS HYDERABAD</option>
+                    <option value="Punjab Kings">PUNJAB KINGS</option>
                 </select>
                 <select value={roleFilter} onChange={(e) => setRoleFilter(e.target.value)} className="h-14 bg-[#111111] border border-[rgba(245,240,232,0.08)] px-4 text-[#F5F0E8] font-mono text-[10px] uppercase tracking-widest outline-none focus:border-[#C9A84C] appearance-none">
                     <option value="all">ALL SPECIALIZATIONS</option>
