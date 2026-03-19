@@ -1,32 +1,71 @@
-# Shreyash Srivastava
-**Backend Engineer | Greater Noida, India**
+# 🏏 22 Yards — Cricket Stats Tracker
 
-I build the backend systems that products run on. My focus is on designing scalable, distributed architectures that prioritize data integrity and system resilience.
+A full-stack cricket statistics platform for tracking scores,
+player profiles, and match history across IPL 2022–2025.
 
-### Currently
-- **Building**: Production-grade backend systems using NestJS, PostgreSQL, and RabbitMQ.
-- **Exploring**: Advanced System Design patterns and high-performance concurrency in Go.
-- **Open to**: Backend Engineering opportunities at scale.
+> Built to survive API outages — fully functional offline using
+> a local ball-by-ball dataset.
 
-### Featured Projects
+---
 
-#### [22 Yards](https://github.com/ShreyashSrivastavaa/22-yards-Cricket)
-*Cricket statistics and performance tracking engine.*
-- **Architecture**: Implemented a decoupled Adapter pattern to handle multiple data providers (local CSV/External APIs), ensuring 100% system uptime during provider outages.
-- **Stack**: Next.js, Prisma, Supabase, Node.js.
+## Why I built this
 
-#### [Production Backend System]
-*High-concurrency infrastructure for real-time data processing.*
-- **System Design**: Engineered an asynchronous event-driven architecture using RabbitMQ to decouple intensive data processing from API response cycles.
-- **Stack**: Node.js, NestJS, PostgreSQL, Docker.
+Cricket data APIs are unreliable — rate limits, key expirations,
+and provider changes break apps overnight. I wanted a system where
+the data source was an implementation detail, not a dependency.
+That's the adapter pattern in action.
 
-### Technical Stack
-- **Runtime**: Node.js, NestJS, Go (Intermediate)
-- **Database**: PostgreSQL, Prisma ORM, Supabase, Redis
-- **Infra & Tools**: Docker, RabbitMQ, Git, CI/CD Pipelines
-- **Frontend**: Next.js (Full-stack integration)
+---
 
-### Find Me
-- [LinkedIn](https://linkedin.com/in/shreyash-srivastava-310652273)
-- [LeetCode](https://leetcode.com/u/NotRambo)
-- [Email](mailto:shreyashsr2004@gmail.com)
+## Architecture
+
+- **Adapter pattern** — all data access goes through a consistent
+  interface. Swapping providers (API → CSV → DB) = changing one file,
+  not rewriting the app.
+
+- **Local dataset** — migrated from RapidAPI to a local ball-by-ball
+  IPL CSV dataset (2022–2025). Zero rate-limit risk, works offline,
+  deploy anywhere.
+
+- **Prisma + Supabase** — schema managed as code with versioned
+  migrations. No manual SQL, no environment drift.
+
+- **Next.js App Router** — server components handle data-heavy pages
+  (standings, match history). Client components scoped only to
+  interactive elements.
+
+- **Auth** — Supabase Auth with middleware-level route protection.
+
+---
+
+## Stack
+
+`Next.js 14` · `Prisma` · `Supabase` · `Tailwind CSS` · `JavaScript`
+
+---
+
+## Running locally
+```bash
+git clone https://github.com/ShreyashSrivastavaa/22-yards-Cricket
+cd 22-yards-Cricket
+npm install
+cp .env.example .env   # add your Supabase keys
+npx prisma db push
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000)
+
+---
+
+## Project Structure
+```
+├── adapters/          # Data source abstraction layer
+├── app/               # Next.js App Router pages
+├── components/        # UI components
+├── datasets/          # Local IPL ball-by-ball CSV data
+├── hooks/             # Custom React hooks
+├── lib/               # Utilities and helpers
+├── prisma/            # Schema and migrations
+└── scripts/           # Data processing scripts
+```
