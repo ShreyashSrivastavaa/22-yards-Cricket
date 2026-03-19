@@ -1,19 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
+  experimental: {
+    // Required for JSON assert imports in some Next.js versions
   },
-  serverExternalPackages: ['papaparse'],
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        path: false,
-      }
-    }
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.json$/,
+      type: 'json',
+    })
     return config
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig

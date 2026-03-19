@@ -44,7 +44,7 @@ import { Loader2 } from "lucide-react"
 export default function ComparePage() {
     const [searchQuery, setSearchQuery] = useState("")
     const debouncedSearch = useDebounce(searchQuery, 400)
-    const { data: searchData, loading: searchLoading } = usePlayers(debouncedSearch)
+    const { data: searchData, loading, error } = usePlayers(debouncedSearch)
     const [selected, setSelected] = useState([])
 
     const isDebouncing = searchQuery !== debouncedSearch
@@ -73,7 +73,7 @@ export default function ComparePage() {
         phases: [70, 85, 90]
     }))
 
-    if (error) return <div className="container mx-auto py-10"><ErrorState message={error} onRetry={refetch} /></div>
+    if (error) return <div className="container mx-auto py-10"><ErrorState message={error.message || "An error occurred"} /></div>
 
     return (
         <div className="container mx-auto py-10 space-y-8">
@@ -84,7 +84,7 @@ export default function ComparePage() {
                     <h1 className="text-5xl font-black tracking-tighter uppercase">Data Explorer</h1>
                 </div>
                 <p className="font-mono text-xs text-muted-foreground uppercase tracking-widest">
-                    Cross-Player Comparison · Side-by-Side Intelligence · Sources: {squadData?.source || "Sourcing..."}
+                    Cross-Player Comparison · Side-by-Side Intelligence · Sources: Local JSON Engine
                 </p>
             </div>
 
@@ -112,12 +112,12 @@ export default function ComparePage() {
                     {selected.length < 3 && (
                         <div className="relative group">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-[rgba(245,240,232,0.3)] group-focus-within:text-[#e11d48]" />
-                            <Input
+                            <input
                                 placeholder="ADD PLAYER TO MATRIX..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 disabled={loading}
-                                className="pl-12 h-14 bg-[#111111] border-[rgba(245,240,232,0.08)] rounded-none text-[#F5F0E8] font-mono text-xs tracking-widest focus-visible:ring-[#e11d48] focus-visible:border-[#e11d48]"
+                                className="pl-12 h-14 w-full bg-[#111111] border border-[rgba(245,240,232,0.08)] rounded-none text-[#F5F0E8] font-mono text-xs tracking-widest focus-visible:ring-[#e11d48] focus-visible:border-[#e11d48] outline-none"
                             />
                             {isDebouncing && (
                                 <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">

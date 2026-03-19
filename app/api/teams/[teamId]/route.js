@@ -1,25 +1,14 @@
-export const dynamic = 'force-dynamic'
+import { getTeamByCode, getPlayersByTeam } from '@/lib/localData'
 
-import { NextResponse } from "next/server"
-import { getIPLTeams, getPlayersByTeam } from '@/lib/localData'
-
-export async function GET(req, { params }) {
-    try {
-        const teams = getIPLTeams()
-        const team = teams.find(
-            t => t.code?.toUpperCase() === params.teamId?.toUpperCase() || t.id === Number(params.teamId)
-        )
-        
-        if (!team) return Response.json({ error: 'Team not found' }, { status: 404 })
-        
-        const players = getPlayersByTeam(team.name)
-        return Response.json({ 
-            team, 
-            players,
-            source: "local-roster-archive"
-        })
-    } catch (error) {
-        console.error("Team API Error:", error)
-        return Response.json({ error: "Failed to fetch team data" }, { status: 500 })
+export async function GET(request, { params }) {
+  try {
+    const team = getTeamByCode(params.teamId)
+    if (!team) {
+      return Response.json({ error: 'Team not found' }, { status: 404 })
     }
+    const players = getPlayersByTeam(params.teamId)
+    return Response.json({ team, players })
+  } catch (err) {
+    return Response.json({ error: err.message }, { status: 500 })
+  }
 }

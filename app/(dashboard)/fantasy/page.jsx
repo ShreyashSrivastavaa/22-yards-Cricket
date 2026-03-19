@@ -56,7 +56,7 @@ export default function FantasyPage() {
                     <h1 className="text-5xl font-black tracking-tighter uppercase">Fantasy Intelligence</h1>
                 </div>
                 <p className="font-mono text-xs text-muted-foreground uppercase tracking-widest">
-                    AI-Powered Team Generator · {playerData?.source || "Sourcing..."} · Real-time Optimization
+                    AI-Powered Team Generator · Local JSON Engine · Real-time Optimization
                 </p>
             </div>
 
