@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Shreyash Srivastava
+**Backend Engineer | Greater Noida, India**
 
-## Getting Started
+I build the backend systems that products run on. My focus is on designing scalable, distributed architectures that prioritize data integrity and system resilience.
 
-First, run the development server:
+### Currently
+- **Building**: Production-grade backend systems using NestJS, PostgreSQL, and RabbitMQ.
+- **Exploring**: Advanced System Design patterns and high-performance concurrency in Go.
+- **Open to**: Backend Engineering opportunities at scale.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Featured Projects
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### [22 Yards](https://github.com/ShreyashSrivastavaa/22-yards-Cricket)
+*Cricket statistics and performance tracking engine.*
+- **Architecture**: Implemented a decoupled Adapter pattern to handle multiple data providers (local CSV/External APIs), ensuring 100% system uptime during provider outages.
+- **Stack**: Next.js, Prisma, Supabase, Node.js.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#### [Production Backend System]
+*High-concurrency infrastructure for real-time data processing.*
+- **System Design**: Engineered an asynchronous event-driven architecture using RabbitMQ to decouple intensive data processing from API response cycles.
+- **Stack**: Node.js, NestJS, PostgreSQL, Docker.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Technical Stack
+- **Runtime**: Node.js, NestJS, Go (Intermediate)
+- **Database**: PostgreSQL, Prisma ORM, Supabase, Redis
+- **Infra & Tools**: Docker, RabbitMQ, Git, CI/CD Pipelines
+- **Frontend**: Next.js (Full-stack integration)
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Find Me
+- [LinkedIn](https://linkedin.com/in/shreyash-srivastava-310652273)
+- [LeetCode](https://leetcode.com/u/NotRambo)
+- [Email](mailto:shreyashsr2004@gmail.com)
