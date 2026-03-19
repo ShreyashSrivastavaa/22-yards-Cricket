@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { LoadingSkeleton, ErrorState } from "@/components/ui/data-states"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { usePlayers, usePlayerStats } from "@/lib/hooks"
+import { useDebounce } from "@/hooks/useDebounce"
 
 function StatsModal({ player, isOpen, onClose }) {
     const { data: stats, loading } = usePlayerStats(player?.name)
@@ -62,7 +63,7 @@ function BackgroundStats({ label, data }) {
     )
 }
 
-import { useDebounce } from "@/hooks/useDebounce"
+
 
 export default function PlayersPage() {
     const [search, setSearch] = useState("")
