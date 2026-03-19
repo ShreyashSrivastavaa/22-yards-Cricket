@@ -21,6 +21,8 @@ model Player {
   sixes        Int      @default(0)
   wickets      Int      @default(0)
   economy      Float    @default(0)
+  bowlingBalls Int      @default(0) @map("bowling_balls")
+  bowlingRuns  Int      @default(0) @map("bowling_runs")
   fantasyScore Int      @default(0) @map("fantasy_score")
   createdAt    DateTime @default(now()) @map("created_at")
 
