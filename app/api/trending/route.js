@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic'
 
 import { NextResponse } from "next/server"
 import { CricketDataService } from "@/lib/cricket-data-service"
+import * as localData from "@/lib/localData"
 
 /**
  * GET /api/trending
@@ -18,32 +19,35 @@ export async function GET(request) {
 
         if (allPlayers.length === 0) return NextResponse.json({ players: [] })
 
-        // Mock algorithm for startup feel:
-        // Trending = Random 4 with high projected form
-        // Undervalued = Random 4 with role 'All Rounder' (simplification)
-
         const trending = allPlayers
-            .sort(() => 0.5 - Math.random())
+            .map(p => {
+                const stats = localData.getPlayerStats(p.name || p.playerName)
+                return {
+                    id: p.id || p.playerId,
+                    name: p.name || p.playerName,
+                    team: p.teamCode,
+                    impact: Number(stats.fantasyScore || 0),
+                    trend: stats.batting.strikeRate > 150 ? "+18.2%" : "+5.4%",
+                    reason: stats.batting.runs > 500 ? "Consistent run machine" : "Emerging middle-order specialist"
+                }
+            })
+            .sort((a, b) => b.impact - a.impact)
             .slice(0, 4)
-            .map(p => ({
-                id: p.id || p.playerId,
-                name: p.name || p.playerName,
-                team: p.teamCode,
-                trend: "+12.4%",
-                reason: "Spiking in recent simulations"
-            }))
 
         const undervalued = allPlayers
             .filter(p => (p.role || "").toLowerCase().includes("all"))
-            .sort(() => 0.5 - Math.random())
+            .map(p => {
+                const stats = localData.getPlayerStats(p.name || p.playerName)
+                return {
+                    id: p.id || p.playerId,
+                    name: p.name || p.playerName,
+                    team: p.teamCode,
+                    impact: Number(stats.fantasyScore || 0),
+                    value: stats.batting.average > 30 ? "8.5 Cr" : "4.2 Cr"
+                }
+            })
+            .sort((a, b) => a.impact - b.impact) // Lower impact but with potential
             .slice(0, 4)
-            .map(p => ({
-                id: p.id || p.playerId,
-                name: p.name || p.playerName,
-                team: p.teamCode,
-                impact: 8.4,
-                value: "7.5 Cr"
-            }))
 
         return NextResponse.json({
             trending,
