@@ -51,15 +51,15 @@ model Match {
 }
 
 model PointsTable {
-  id      Int      @id @default(autoincrement())
-  season  String
-  team    String
-  played  Int      @default(0)
-  won     Int      @default(0)
-  lost    Int      @default(0)
-  points  Int      @default(0)
-  last5   String[] @default([])
-  rank    Int      @default(0)
+  id     Int      @id @default(autoincrement())
+  season String
+  team   String
+  played Int      @default(0)
+  won    Int      @default(0)
+  lost   Int      @default(0)
+  points Int      @default(0)
+  last5  String[] @default([])
+  rank   Int      @default(0)
 
   @@unique([season, team])
   @@map("points_table")
@@ -80,32 +80,32 @@ model InternationalMatch {
 }
 
 model PlayerTournamentStats {
-  id           Int    @id @default(autoincrement())
-  playerName   String @map("player_name")
+  id           Int     @id @default(autoincrement())
+  playerName   String  @map("player_name")
   tournament   String
   season       String
   team         String?
-  runs         Int    @default(0)
-  balls        Int    @default(0)
-  strikeRate   Float  @default(0) @map("strike_rate")
-  fours        Int    @default(0)
-  sixes        Int    @default(0)
-  wickets      Int    @default(0)
-  economy      Float  @default(0)
-  innings      Int    @default(0)
-  fantasyScore Int    @default(0) @map("fantasy_score")
+  runs         Int     @default(0)
+  balls        Int     @default(0)
+  strikeRate   Float   @default(0) @map("strike_rate")
+  fours        Int     @default(0)
+  sixes        Int     @default(0)
+  wickets      Int     @default(0)
+  economy      Float   @default(0)
+  innings      Int     @default(0)
+  fantasyScore Int     @default(0) @map("fantasy_score")
 
   @@unique([playerName, tournament, season])
   @@map("player_tournament_stats")
 }
 
 model AuctionRecord {
-  id          Int    @id @default(autoincrement())
-  playerName  String @map("player_name")
+  id          Int     @id @default(autoincrement())
+  playerName  String  @map("player_name")
   year        String?
   team        String?
-  basePrice   Float? @map("base_price")
-  soldPrice   Float? @map("sold_price")
+  basePrice   Float?  @map("base_price")
+  soldPrice   Float?  @map("sold_price")
   nationality String?
   role        String?
 
