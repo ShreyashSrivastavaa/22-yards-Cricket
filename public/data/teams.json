@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": "CSK",
+    "code": "c",
+    "color": "#FFD700"
+  },
+  {
+    "id": 2,
+    "name": "KKR",
+    "code": "k",
+    "color": "#FFD700"
+  },
+  {
+    "id": 3,
+    "name": "MI",
+    "code": "m",
+    "color": "#FFD700"
+  },
+  {
+    "id": 4,
+    "name": "DC",
+    "code": "d",
+    "color": "#FFD700"
+  },
+  {
+    "id": 5,
+    "name": "RCB",
+    "code": "r",
+    "color": "#FFD700"
+  },
+  {
+    "id": 6,
+    "name": "PBKS",
+    "code": "p",
+    "color": "#FFD700"
+  },
+  {
+    "id": 7,
+    "name": "LSG",
+    "code": "l",
+    "color": "#FFD700"
+  },
+  {
+    "id": 8,
+    "name": "GT",
+    "code": "g",
+    "color": "#FFD700"
+  },
+  {
+    "id": 9,
+    "name": "RR",
+    "code": "r",
+    "color": "#FFD700"
+  },
+  {
+    "id": 10,
+    "name": "SRH",
+    "code": "s",
+    "color": "#FFD700"
+  }
+]

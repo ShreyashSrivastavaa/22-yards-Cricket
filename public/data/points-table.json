@@ -1,0 +1,192 @@
+[
+  {
+    "team": "PBKS",
+    "played": 17,
+    "won": 12,
+    "lost": 5,
+    "points": 24,
+    "runsFor": 0,
+    "ballsFor": 0,
+    "runsAgainst": 0,
+    "ballsAgainst": 0,
+    "last5": [
+      "W",
+      "W",
+      "W",
+      "L",
+      "W"
+    ],
+    "rank": 1
+  },
+  {
+    "team": "LSG",
+    "played": 14,
+    "won": 10,
+    "lost": 4,
+    "points": 20,
+    "runsFor": 0,
+    "ballsFor": 0,
+    "runsAgainst": 0,
+    "ballsAgainst": 0,
+    "last5": [
+      "W",
+      "W",
+      "W",
+      "W",
+      "W"
+    ],
+    "rank": 2
+  },
+  {
+    "team": "KKR",
+    "played": 13,
+    "won": 9,
+    "lost": 4,
+    "points": 18,
+    "runsFor": 0,
+    "ballsFor": 0,
+    "runsAgainst": 0,
+    "ballsAgainst": 0,
+    "last5": [
+      "L",
+      "W",
+      "W",
+      "W",
+      "L"
+    ],
+    "rank": 3
+  },
+  {
+    "team": "RCB",
+    "played": 15,
+    "won": 8,
+    "lost": 7,
+    "points": 16,
+    "runsFor": 0,
+    "ballsFor": 0,
+    "runsAgainst": 0,
+    "ballsAgainst": 0,
+    "last5": [
+      "W",
+      "W",
+      "L",
+      "L",
+      "L"
+    ],
+    "rank": 4
+  },
+  {
+    "team": "SRH",
+    "played": 13,
+    "won": 8,
+    "lost": 5,
+    "points": 16,
+    "runsFor": 0,
+    "ballsFor": 0,
+    "runsAgainst": 0,
+    "ballsAgainst": 0,
+    "last5": [
+      "W",
+      "W",
+      "L",
+      "L",
+      "W"
+    ],
+    "rank": 5
+  },
+  {
+    "team": "CSK",
+    "played": 14,
+    "won": 7,
+    "lost": 7,
+    "points": 14,
+    "runsFor": 0,
+    "ballsFor": 0,
+    "runsAgainst": 0,
+    "ballsAgainst": 0,
+    "last5": [
+      "W",
+      "L",
+      "L",
+      "W",
+      "W"
+    ],
+    "rank": 6
+  },
+  {
+    "team": "DC",
+    "played": 13,
+    "won": 7,
+    "lost": 6,
+    "points": 14,
+    "runsFor": 0,
+    "ballsFor": 0,
+    "runsAgainst": 0,
+    "ballsAgainst": 0,
+    "last5": [
+      "W",
+      "L",
+      "W",
+      "L",
+      "L"
+    ],
+    "rank": 7
+  },
+  {
+    "team": "MI",
+    "played": 16,
+    "won": 5,
+    "lost": 11,
+    "points": 10,
+    "runsFor": 0,
+    "ballsFor": 0,
+    "runsAgainst": 0,
+    "ballsAgainst": 0,
+    "last5": [
+      "W",
+      "W",
+      "L",
+      "W",
+      "W"
+    ],
+    "rank": 8
+  },
+  {
+    "team": "GT",
+    "played": 15,
+    "won": 4,
+    "lost": 11,
+    "points": 8,
+    "runsFor": 0,
+    "ballsFor": 0,
+    "runsAgainst": 0,
+    "ballsAgainst": 0,
+    "last5": [
+      "L",
+      "L",
+      "L",
+      "L",
+      "L"
+    ],
+    "rank": 9
+  },
+  {
+    "team": "RR",
+    "played": 14,
+    "won": 2,
+    "lost": 12,
+    "points": 4,
+    "runsFor": 0,
+    "ballsFor": 0,
+    "runsAgainst": 0,
+    "ballsAgainst": 0,
+    "last5": [
+      "L",
+      "W",
+      "L",
+      "L",
+      "L"
+    ],
+    "rank": 10
+  }
+]

@@ -1,0 +1,212 @@
+[
+  {
+    "id": "202501",
+    "venue": "Eden Gardens, Kolkata",
+    "season": "2025",
+    "team1": "KKR",
+    "team2": "RCB"
+  },
+  {
+    "id": "202502",
+    "venue": "Rajiv Gandhi International Stadium, Hyderabad",
+    "season": "2025",
+    "team1": "SRH",
+    "team2": "RR"
+  },
+  {
+    "id": "202503",
+    "venue": "MA Chidambaram Stadium, Chennai",
+    "season": "2025",
+    "team1": "MI",
+    "team2": "CSK"
+  },
+  {
+    "id": "202504",
+    "venue": "Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium, Visakhapatnam",
+    "season": "2025",
+    "team1": "LSG",
+    "team2": "DC"
+  },
+  {
+    "id": "202505",
+    "venue": "Narendra Modi Stadium, Ahmedabad",
+    "season": "2025",
+    "team1": "PBKS",
+    "team2": "GT"
+  },
+  {
+    "id": "202506",
+    "venue": "Barsapara Cricket Stadium, Guwahati",
+    "season": "2025",
+    "team1": "RR",
+    "team2": "KKR"
+  },
+  {
+    "id": "202507",
+    "venue": "Rajiv Gandhi International Stadium, Hyderabad",
+    "season": "2025",
+    "team1": "SRH",
+    "team2": "LSG"
+  },
+  {
+    "id": "202508",
+    "venue": "MA Chidambaram Stadium, Chennai",
+    "season": "2025",
+    "team1": "RCB",
+    "team2": "CSK"
+  },
+  {
+    "id": "202509",
+    "venue": "Narendra Modi Stadium, Ahmedabad",
+    "season": "2025",
+    "team1": "GT",
+    "team2": "MI"
+  },
+  {
+    "id": "202510",
+    "venue": "Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium, Visakhapatnam",
+    "season": "2025",
+    "team1": "SRH",
+    "team2": "DC"
+  },
+  {
+    "id": "202511",
+    "venue": "Barsapara Cricket Stadium, Guwahati",
+    "season": "2025",
+    "team1": "RR",
+    "team2": "CSK"
+  },
+  {
+    "id": "202512",
+    "venue": "Wankhede Stadium, Mumbai",
+    "season": "2025",
+    "team1": "KKR",
+    "team2": "MI"
+  },
+  {
+    "id": "202513",
+    "venue": "Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium, Lucknow",
+    "season": "2025",
+    "team1": "LSG",
+    "team2": "PBKS"
+  },
+  {
+    "id": "202514",
+    "venue": "M.Chinnaswamy Stadium, Bengaluru",
+    "season": "2025",
+    "team1": "RCB",
+    "team2": "GT"
+  },
+  {
+    "id": "202515",
+    "venue": "Eden Gardens, Kolkata",
+    "season": "2025",
+    "team1": "KKR",
+    "team2": "SRH"
+  },
+  {
+    "id": "202516",
+    "venue": "Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium, Lucknow",
+    "season": "2025",
+    "team1": "LSG",
+    "team2": "MI"
+  },
+  {
+    "id": "202517",
+    "venue": "MA Chidambaram Stadium, Chennai",
+    "season": "2025",
+    "team1": "DC",
+    "team2": "CSK"
+  },
+  {
+    "id": "202518",
+    "venue": "Maharaja Yadavindra Singh International Cricket Stadium, Mullanpur, Chandigarh",
+    "season": "2025",
+    "team1": "RR",
+    "team2": "PBKS"
+  },
+  {
+    "id": "202519",
+    "venue": "Rajiv Gandhi International Stadium, Hyderabad",
+    "season": "2025",
+    "team1": "SRH",
+    "team2": "GT"
+  },
+  {
+    "id": "202520",
+    "venue": "Wankhede Stadium, Mumbai",
+    "season": "2025",
+    "team1": "RCB",
+    "team2": "MI"
+  },
+  {
+    "id": "202521",
+    "venue": "Eden Gardens, Kolkata",
+    "season": "2025",
+    "team1": "LSG",
+    "team2": "KKR"
+  },
+  {
+    "id": "202522",
+    "venue": "Maharaja Yadavindra Singh International Cricket Stadium, Mullanpur, Chandigarh",
+    "season": "2025",
+    "team1": "PBKS",
+    "team2": "CSK"
+  },
+  {
+    "id": "202523",
+    "venue": "Narendra Modi Stadium, Ahmedabad",
+    "season": "2025",
+    "team1": "GT",
+    "team2": "RR"
+  },
+  {
+    "id": "202524",
+    "venue": "M.Chinnaswamy Stadium, Bengaluru",
+    "season": "2025",
+    "team1": "RCB",
+    "team2": "DC"
+  },
+  {
+    "id": "202525",
+    "venue": "MA Chidambaram Stadium, Chennai",
+    "season": "2025",
+    "team1": "CSK",
+    "team2": "KKR"
+  },
+  {
+    "id": "202526",
+    "venue": "Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium, Lucknow",
+    "season": "2025",
+    "team1": "GT",
+    "team2": "LSG"
+  },
+  {
+    "id": "202527",
+    "venue": "Rajiv Gandhi International Stadium, Hyderabad",
+    "season": "2025",
+    "team1": "PBKS",
+    "team2": "SRH"
+  },
+  {
+    "id": "202528",
+    "venue": "Sawai Mansingh Stadium, Jaipur",
+    "season": "2025",
+    "team1": "RR",
+    "team2": "RCB"
+  },
+  {
+    "id": "202529",
+    "venue": "Arun Jaitley Stadium, Delhi",
+    "season": "2025",
+    "team1": "MI",
+    "team2": "DC"
+  },
+  {
+    "id": "202530",
+    "venue": "Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium, Lucknow",
+    "season": "2025",
+    "team1": "LSG",
+    "team2": "CSK"
+  }
+]
