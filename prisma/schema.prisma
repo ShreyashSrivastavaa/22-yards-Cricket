@@ -75,6 +75,7 @@ model InternationalMatch {
   venue      String?
   team1      String?
   team2      String?
+  winner     String?
   format     String?
   createdAt  DateTime @default(now()) @map("created_at")
 
